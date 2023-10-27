@@ -18,21 +18,37 @@ generate the boilerplate code for new C++ files.
 
 For this the following software needs to be installed:
 1. [Git](https://git-scm.com/downloads) as source control software.
-2. [Git LFS](https://git-lfs.com/) to separately handles large files in source control.  
-    Once the plugin is installed, execute `git lfs install` to setup Git LFS.
+2. [Git LFS](https://git-lfs.com/) to separately handles large files in source control.\
+	Once the plugin is installed, execute `git lfs install` to setup Git LFS.
 3. Unreal Engine 5.3.1 via the Epic Games Launcher.
 
 ### 1.2 Unreal Editor and C++
 
-Additionally, if you want to program in C++, a few more things need to be setup, since the
-Visual Studio project files will be generate by the Unreal Engine:
-1. Install the `Visual Studio Integration Tool` via the Unreal Engine Marketplace.
-2. Install `Microsoft Visual Studio 2022` (the Communtiy version is free). Under `Workloads`,
-  select at least `Game development with C++`.
-3. Once the installation is done, open the project in the file explorer. Right-click the
-  `.uproject` file and select `Generate Visual Studio project files`.
+Additionally, if you want to program in C++, a few more things need to be setup. C++ code should
+be used when performance is key, as it is more performant than code created in the blueprint
+editor. Furthermore, the use of C++ enables a more advanced architecture than blueprints and
+possibilities that are not available for use in the Unreal Editor. For expample, a few features
+like multidimensional/nested arrays or a broader access to the Unreal Enginge's API, general
+C++ language features or libraries may only be used in C++. Using C++ also allows us to encapsulate
+these features for use in blueprints or create base classes that may be expanded by blueprints.
 
-Source: [Install Visual Studio Tools for Unreal Engine](https://learn.microsoft.com/en-us/visualstudio/gamedev/unreal/get-started/vs-tools-unreal-install)
+As recommended by Epic Games, this project will use Microsoft Visual Studio for creating code in
+C++. Thus this guide will only target MS Visual Studio:
+1. Install the `Visual Studio Integration Tool` via the Unreal Engine Marketplace.
+2. Install `Microsoft Visual Studio 2022` (the Communtiy version is free) or modify an existing
+	installation.
+	1. Under `Workloads` tab, select at least `Game development with C++`.
+	2. In the Installations details pane, ensure that under Game development with C++ > Optional
+	that IDE support for Unreal Engine is selected.\
+	This installs what this article refers to as the Visual Studio Tools for Unreal Engine. If you
+	work with the High-Level Shader Language, ensure that HLSL Tools is also selected.
+	3. Select the Individual components tab at the top of the dialog.
+	4. Under Installation details, expand Desktop development with C++.
+	5. Ensure that under Optional that Windows 10 SDK 10.0.18362.0, or higher, is selected.
+3. Once the installation is done, to generate the Visual Studo files, open the project in the
+	file explorer. Right-click the `.uproject` file and select `Generate Visual Studio project files`.
+
+Source: [Install Visual Studio Tools for Unreal Engine](https://learn.microsoft.com/en-us/visualstudio/gamedev/unreal/get-started/vs-tools-unreal-install), last accessed: 2023.10.27.
 
 ## 2 Style and coding conventions
 
