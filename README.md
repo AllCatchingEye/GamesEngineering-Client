@@ -11,9 +11,14 @@ used when performance is key. For more information see the respective setup step
 
 ### 1.1 Unreal Editor only
 
-This initial setup allows you to program in the Unreal Engine editor via the blueprint system:
+This initial setup allows you to program in the Unreal Engine editor via the blueprint system.
+The editor is for example needed for configuring the project's standard settings, creating
+levels/maps and importing 3D objects and other resources. It is also needed to create UIs or
+generate the boilerplate code for new C++ files.
+
+For this the following software needs to be installed:
 1. [Git](https://git-scm.com/downloads) as source control software.
-2. [Git LFS](https://git-lfs.com/) to handles large files.  
+2. [Git LFS](https://git-lfs.com/) to separately handles large files in source control.  
     Once the plugin is installed, execute `git lfs install` to setup Git LFS.
 3. Unreal Engine 5.3.1 via the Epic Games Launcher.
 
