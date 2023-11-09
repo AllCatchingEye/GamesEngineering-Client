@@ -12,7 +12,11 @@
 #include "SchafkopfGameInstance.generated.h"
 
 /**
+ * The SchafkopfGameInstance class.
  * 
+ * The SchafkopfGameInstance represents the instance of the running game.
+ * It is spawned at game creation and not destroyed until the game instance
+ * is shut down. There can only be one game instance present.
  */
 UCLASS()
 class SCHAFKOPF_API USchafkopfGameInstance : public UGameInstance
