@@ -3,19 +3,23 @@
 
 #include "SchafkopfGameInstance.h"
 
+const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
+const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://ADD_IP_ADDRESS_HERE:AND_PORT";
+const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
+
 void USchafkopfGameInstance::Shutdown() {
 	WebSocketDisconnect();
 	Super::Shutdown();
 }
 
 void USchafkopfGameInstance::WebSocketConnect() {
-	if (!FModuleManager::Get().IsModuleLoaded("WebSockets")) {
-		FModuleManager::Get().LoadModule("WebSockets");
+	if (!FModuleManager::Get().IsModuleLoaded(WEB_SOCKET_MODULE)) {
+		FModuleManager::Get().LoadModule(WEB_SOCKET_MODULE);
 	}
 
 	//TODO: Change to `wss` protocol in Production.
 	//The current protocol is unencrypted.
-	WebSocket = FWebSocketsModule::Get().CreateWebSocket("ws://ADD_IP_ADDRESS_HERE");
+	WebSocket = FWebSocketsModule::Get().CreateWebSocket(WEB_SOCKET_ADDRESS, WEB_SOCKET_PROTOCOL);
 
 	//Register event handlers.
 	WebSocket->OnConnected().AddUFunction(this, FName("OnWebSocketConnected"));

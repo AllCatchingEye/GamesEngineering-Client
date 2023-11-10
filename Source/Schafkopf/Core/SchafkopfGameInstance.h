@@ -24,6 +24,13 @@ class SCHAFKOPF_API USchafkopfGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 private:
+	/** The name of the WebSocket module. */
+	static const char* WEB_SOCKET_MODULE;
+	/** The address of the WebSocket. */
+	static const char* WEB_SOCKET_ADDRESS;
+	/** The protocol of the WebSocket. */
+	static const char* WEB_SOCKET_PROTOCOL;
+
 	/** The pointer to the WebSocket. */
 	TSharedPtr<IWebSocket> WebSocket = nullptr;
 
