@@ -13,7 +13,7 @@ void USchafkopfGameInstance::WebSocketConnect() {
 		FModuleManager::Get().LoadModule("WebSockets");
 	}
 
-	//TODO: Change to `wss` protocol in Development.
+	//TODO: Change to `wss` protocol in Production.
 	//The current protocol is unencrypted.
 	WebSocket = FWebSocketsModule::Get().CreateWebSocket("ws://ADD_IP_ADDRESS_HERE");
 
