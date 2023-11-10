@@ -50,6 +50,18 @@ C++. Thus this guide will only target MS Visual Studio:
 
 Source: [Install Visual Studio Tools for Unreal Engine](https://learn.microsoft.com/en-us/visualstudio/gamedev/unreal/get-started/vs-tools-unreal-install), last accessed: 2023.10.27.
 
+Additionally, it is recommended to make a few adjustments to the editor preferences, to ease
+coding with the editor and C++:
+1. Disable `Automatically Compile Newly Added C++ Classes`:\
+	Under `Edit > Editor Preferences > Miscellaneous > Hot Reload` disable said setting.
+	This will ensure that when creating a new C++ class through the Editor, only the
+	necessary files will be generated. This prevents the Editor from automatically initiating
+	a recompilation of the entire project, simply because a relatively empty file was added
+	to the project. Otherwise prepare yourself for waiting multiple minutes for a process
+	that will likely fail.
+2. Disable `Enable Live Coding`:\
+	Under `Edit > Editor Preferences > Live Coding > General` disable said setting.
+
 ## 2 Style and coding conventions
 
 Unreal Engine 5 has its own style and coding conventions, to which we too shall adhere to.
