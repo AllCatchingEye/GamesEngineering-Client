@@ -37,4 +37,32 @@ public:
 	/** Closes a WebSocket connection to the server. */
 	UFUNCTION()
 	void WebSocketDisconnect();
+
+protected:
+	/** Called when a WebSocket connection has been established successfully. */
+	UFUNCTION()
+	void OnWebSocketConnected();
+	/**
+	 * Called when a WebSocket connection could not be established.
+	 * 
+	 * @param Error The error message.
+	 */
+	UFUNCTION()
+	void OnWebSocketConnectionError(const FString& Error);
+	/**
+	 * Called when a WebSocket connection has been closed.
+	 * 
+	 * @param StatusCode The status code.
+	 * @param Reason The reason why the connection was closed.
+	 * @param bWasClean Whether the connection was closed cleanly.
+	 */
+	UFUNCTION()
+	void OnWebSocketClosed(int32 StatusCode, const FString& Reason, bool bWasClean);
+	/**
+	 * Called when a WebSocket has received a text message.
+	 * 
+	 * @param Message The received text message.
+	 */
+	UFUNCTION()
+	void OnWebSocketMessageReceived(const FString& Message);
 };
