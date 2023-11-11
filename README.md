@@ -68,5 +68,6 @@ Unreal Engine 5 has its own style and coding conventions, to which we too shall 
 Strictly, as if it were the law. The following sources give an overview of the Unreal Engine's
 style and coding conventions and project structure:
 
+- [UE5 coding standard] (https://docs.unrealengine.com/5.3/en-US/epic-cplusplus-coding-standard-for-unreal-engine)
 - [UE5 style guide](https://github.com/Allar/ue5-style-guide)
 - [UE5 gitignore](https://github.com/MOZGIII/ue5-gitignore)
