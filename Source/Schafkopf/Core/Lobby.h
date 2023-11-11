@@ -28,11 +28,11 @@ private:
 	
 public:
 	/**
-	 * Returns the ID of the lobby.
+	 * Returns the ID of the Lobby.
 	 * 
 	 * The ID of the Lobby is immutable.
 	 * 
-	 * @return The ID of the lobby.
+	 * @return The ID of the Lobby.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	FName GetId();
@@ -40,7 +40,7 @@ public:
 	/**
 	 * Creates a new Lobby.
 	 * 
-	 * @param Id - The ID of the lobby.
+	 * @param Id - The ID of the Lobby.
 	 * @return A new Lobby object.
 	 */
 	UFUNCTION(BlueprintCallable)
