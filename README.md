@@ -71,3 +71,50 @@ style and coding conventions and project structure:
 - [UE5 coding standard] (https://docs.unrealengine.com/5.3/en-US/epic-cplusplus-coding-standard-for-unreal-engine)
 - [UE5 style guide](https://github.com/Allar/ue5-style-guide)
 - [UE5 gitignore](https://github.com/MOZGIII/ue5-gitignore)
+
+## 3 Programming tips and tricks
+
+Furthermore the are a few tips and tricks, that ease the flow of programming for both C++ and the
+Editor.
+
+### 3.1 Refactoring C++ code or Blueprint assets
+
+The refactoring of C++ code inside an Unreal Engine project is quite different from refactoring code
+normally. Simply renaming a file, class, function, etc. will cause severe incompatibilities.
+
+Before refactoring, make sure to commit all changes, so that you can easily make a rollback. And do
+forget to rebuild the project afterwards. Now to the actual refactoring:
+
+#### 3.1.1 Refactoring of C++ files that are not used in the editor
+
+1. Delete, rename or move the `.h` and `.cpp` files. Do not forget to adapt the includes.\
+	In case of renameing the file, change the corresponding classname too. Respect UE conventions.
+2. Close Visual Studio
+3. Generate the project files by right clicking the `.uproject` file and selecting `Generate Visual Studio project files`.\
+	Optionally, delete the `Binaries`, `DerivedDataCache` and `Intermediate` folders for a clean regeneration.
+
+#### 3.1.2 Refactoring of C++ files that are used in the editor
+
+In case of files/objects that are used inside the editor, but were deleted, moved or renamed, the
+editor will no longer find the new file or object under the old name. This will result in either the
+blueprint code, C++ code or both, failing compilation. To address this issue, Unreal Engine uses
+[Core Redirects](https://docs.unrealengine.com/5.3/en-US/core-redirects-in-unreal-engine). Also see
+[Core Redirects - Community Wiki](https://unrealcommunity.wiki/core-redirects/jwjn8ogt).
+
+If you intend to delete the file do these steps first:
+1. In the editor's content browser navigate to the file you want to delete.
+2. Right click the file and select `References > Reference Viewer...`.
+3. Remove all references in your maps and assets to the file you want to delete.
+4. Remove all references in your C++ code.
+5. Delete the file/object.
+
+If you wish to change the filename/classname, complete the following steps either manually or through
+a refactoring tool:
+1. Change the filename of the `.h` and `.cpp` files. Do not forget to adapt the includes.
+2. Change the classname to correspond to the new filename. Respect UE conventions.
+3. Open the `Config/DefaultEngine.ini` file and add the necessary redirects.
+
+Now, whichever path you followed to get here (delete/refactor), the rest is the same for both:
+1. Close Visual Studio
+2. Generate the project files by right clicking the `.uproject` file and selecting `Generate Visual Studio project files`.\
+	Optionally, delete the `Binaries`, `DerivedDataCache` and `Intermediate` folders for a clean regeneration.
