@@ -118,3 +118,10 @@ Now, whichever path you followed to get here (delete/refactor), the rest is the 
 1. Close Visual Studio
 2. Generate the project files by right clicking the `.uproject` file and selecting `Generate Visual Studio project files`.\
 	Optionally, delete the `Binaries`, `DerivedDataCache` and `Intermediate` folders for a clean regeneration.
+
+### 3.2 Error and exception handling
+
+Unreal Engine does not support exceptions, even though the `try`/`catch` keywords are a C++ language
+feature. UE instead uses [Asserts](https://docs.unrealengine.com/5.3/en-US/asserts-in-unreal-engine).
+These asserts are more performant, as for example, `check`-asserts are only executed in production builds.
+Using exceptions with Unreal Engine is considered bad practice.
