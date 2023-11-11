@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "Lobby.generated.h"
+#include "SchafkopfLobby.generated.h"
 
 /**
- * The Lobby class.
+ * The SchafkopfLobby class.
  * 
  * The Lobby represents the game room that the player is part of. A player can only
  * be part of one Lobby at a time, thus there can only be one Lobby object.
@@ -18,7 +18,7 @@
  * //TODO: Add singleton pattern logic.
  */
 UCLASS()
-class SCHAFKOPF_API ULobby : public UObject
+class SCHAFKOPF_API USchafkopfLobby : public UObject
 {
 	GENERATED_BODY()
 
@@ -44,5 +44,5 @@ public:
 	 * @return A new Lobby object.
 	 */
 	UFUNCTION(BlueprintCallable)
-	static ULobby* Make(const FName Id);
+	static USchafkopfLobby* Make(const FName Id);
 };
