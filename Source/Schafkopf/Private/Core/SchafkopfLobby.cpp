@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SchafkopfLobby.h"
+#include "Core/SchafkopfLobby.h"
 
 FName USchafkopfLobby::GetId() const {
 	return this->Id;

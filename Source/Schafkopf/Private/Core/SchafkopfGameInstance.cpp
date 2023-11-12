@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SchafkopfGameInstance.h"
+#include "Core/SchafkopfGameInstance.h"
 
 const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
 const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://ADD_IP_ADDRESS_HERE:AND_PORT";
