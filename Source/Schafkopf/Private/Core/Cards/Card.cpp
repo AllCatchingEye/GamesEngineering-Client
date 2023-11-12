@@ -3,10 +3,12 @@
 
 #include "Core/Cards/Card.h"
 
-ECardSuit UCard::getSuit() const {
+ECardSuit UCard::getSuit() const
+{
 	return this->Suit;
 }
 
-ECardRank UCard::getRank() const {
+ECardRank UCard::getRank() const
+{
 	return this->Rank;
 }
