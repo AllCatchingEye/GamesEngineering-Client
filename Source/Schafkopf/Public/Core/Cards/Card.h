@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "GameFramework/Actor.h"
 #include "Card.generated.h"
 
 /**
@@ -39,23 +39,19 @@ enum class ECardRank : uint8
 };
 
 /**
- * The card class.
+ * The Card class.
  */
 UCLASS(BlueprintType)
-class SCHAFKOPF_API UCard : public UObject
+class SCHAFKOPF_API ACard : public AActor
 {
 	GENERATED_BODY()
-	
-private:
-	/** The suit of the card. */
-	ECardSuit Suit;
-	/** The rank of the card. */
-	ECardRank Rank;
 
 public:
+	ACard();
+
 	/**
 	 * Returns the suit of the card.
-	 * 
+	 *
 	 * @return The suit of the card.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -67,4 +63,17 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ECardRank getRank() const;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
+	/** The suit of the card. */
+	ECardSuit Suit;
+	/** The rank of the card. */
+	ECardRank Rank;
 };
