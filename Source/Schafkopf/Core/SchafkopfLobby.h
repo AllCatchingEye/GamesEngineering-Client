@@ -51,7 +51,7 @@ public:
 	 * @return The ID of the Lobby.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	FName GetId();
+	FName GetId() const;
 
 	/**
 	 * Returns the amount of players in the Lobby.

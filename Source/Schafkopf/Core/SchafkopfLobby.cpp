@@ -3,7 +3,7 @@
 
 #include "SchafkopfLobby.h"
 
-FName USchafkopfLobby::GetId() {
+FName USchafkopfLobby::GetId() const {
 	return this->Id;
 }
 
