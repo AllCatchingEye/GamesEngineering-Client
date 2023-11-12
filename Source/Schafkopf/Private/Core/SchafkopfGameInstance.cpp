@@ -7,13 +7,16 @@ const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
 const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://ADD_IP_ADDRESS_HERE:AND_PORT";
 const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
 
-void USchafkopfGameInstance::Shutdown() {
+void USchafkopfGameInstance::Shutdown()
+{
 	WebSocketDisconnect();
 	Super::Shutdown();
 }
 
-void USchafkopfGameInstance::WebSocketConnect() {
-	if (!FModuleManager::Get().IsModuleLoaded(WEB_SOCKET_MODULE)) {
+void USchafkopfGameInstance::WebSocketConnect()
+{
+	if (!FModuleManager::Get().IsModuleLoaded(WEB_SOCKET_MODULE))
+	{
 		FModuleManager::Get().LoadModule(WEB_SOCKET_MODULE);
 	}
 
@@ -30,24 +33,30 @@ void USchafkopfGameInstance::WebSocketConnect() {
 	WebSocket->Connect();
 }
 
-void USchafkopfGameInstance::WebSocketDisconnect() {
-	if (WebSocket && WebSocket->IsConnected()) {
+void USchafkopfGameInstance::WebSocketDisconnect()
+{
+	if (WebSocket && WebSocket->IsConnected())
+	{
 		WebSocket->Close();
 	}
 }
 
-void USchafkopfGameInstance::OnWebSocketConnected() {
+void USchafkopfGameInstance::OnWebSocketConnected()
+{
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Green, "Successfully connected.");
 }
 
-void USchafkopfGameInstance::OnWebSocketConnectionError(const FString& Error) {
+void USchafkopfGameInstance::OnWebSocketConnectionError(const FString& Error)
+{
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Red, Error);
 }
 
-void USchafkopfGameInstance::OnWebSocketClosed(int32 StatusCode, const FString& Reason, bool bWasClean) {
+void USchafkopfGameInstance::OnWebSocketClosed(int32 StatusCode, const FString& Reason, bool bWasClean)
+{
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, bWasClean ? FColor::Green : FColor::Red, Reason);
 }
 
-void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message) {
+void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
+{
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Yellow, Message);
 }

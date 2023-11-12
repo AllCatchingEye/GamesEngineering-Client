@@ -3,11 +3,13 @@
 
 #include "Core/SchafkopfPlayer.h"
 
-FName USchafkopfPlayer::GetId() {
+FName USchafkopfPlayer::GetId()
+{
 	return this->Id;
 }
 
-USchafkopfPlayer* USchafkopfPlayer::Make(const FName Id) {
+USchafkopfPlayer* USchafkopfPlayer::Make(const FName Id)
+{
 	USchafkopfPlayer* NewPlayer = NewObject<USchafkopfPlayer>(nullptr, USchafkopfPlayer::StaticClass());
 	NewPlayer->Id = Id;
 
