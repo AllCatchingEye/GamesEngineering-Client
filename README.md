@@ -145,3 +145,5 @@ For example, the following constructs do not exist in Blueprints:
 	code. Using unsupported primitives at least fails with a helpful error message:
 	"Type 'int8' is not supported by blueprint. (...)"
 3. Nested/multidimensional arrays aren't supported either.
+4. Static member variables cannot be exposed to Blueprints. This can however be worked around by creating
+	static methods that return the static variable.
