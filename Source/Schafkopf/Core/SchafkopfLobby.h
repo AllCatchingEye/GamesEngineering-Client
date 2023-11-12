@@ -66,22 +66,22 @@ public:
 	/**
 	 * Returns the player specified by the ID.
 	 * 
-	 * @param Id - The ID of the player.
+	 * @param PlayerId - The ID of the player.
 	 * @return A pointer to the player or a nullptr if no player could be
 	 *		found by the specified ID.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	USchafkopfPlayer* GetPlayer(const FName Id) const;
+	USchafkopfPlayer* GetPlayer(const FName PlayerId) const;
 
 	/**
 	 * Returns the order of the player specified by the ID.
 	 *
-	 * @param Id - The ID of the player.
+	 * @param PlayerId - The ID of the player.
 	 * @return The order of the player or `-1` if no player could be
 	 *		found by the specified ID.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	int8 GetPlayerOrder(const FName Id) const;
+	int32 GetPlayerOrder(const FName PlayerId) const;
 
 	/**
 	 * Returns whether a player can be added to the Lobby.
@@ -97,7 +97,7 @@ public:
 	 * @param Player - The new player to add.
 	 */
 	UFUNCTION(BlueprintCallable)
-	void AddPlayer(USchafkopfPlayer& Player);
+	void AddPlayer(USchafkopfPlayer* Player);
 
 	/**
 	 * Removes a player from the Lobby.
@@ -105,7 +105,7 @@ public:
 	 * @param Player - The player to remove.
 	 */
 	UFUNCTION(BlueprintCallable)
-	void RemovePlayer(USchafkopfPlayer& Player);
+	void RemovePlayer(USchafkopfPlayer* Player);
 
 	/**
 	 * Creates a new Lobby.
