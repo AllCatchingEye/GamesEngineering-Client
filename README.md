@@ -125,3 +125,23 @@ Unreal Engine does not support exceptions, even though the `try`/`catch` keyword
 feature. UE instead uses [Asserts](https://docs.unrealengine.com/5.3/en-US/asserts-in-unreal-engine).
 These asserts are more performant, as for example, `check`-asserts are only executed in production builds.
 Using exceptions with Unreal Engine is considered bad practice.
+
+### 3.3 C++ features and Blueprint support
+
+Another thing to keep in mind is, that not all C++ language features have an equivalent counterpart in the
+Blueprint-system. This is a design choice by Unreal Engine, as it was too difficult to implement full support
+for such features for Blueprints, at least at the moment. Using them in C++ code while exposinge said features
+to the Blueprint-system via macros like `UFUNCTION` or `UPROPERTY` will result in the project no longer
+compiling and instead throwing errors when building. Sometimes even with very obscure error messages.
+Sadly there is no offical list of in Blueprints unsupported features on the Unreal Engine documentation.
+The only related information may be obtained by looking at what types are available for
+[Blueprint Variables](https://docs.unrealengine.com/5.3/en-US/blueprint-variables-in-unreal-engine).
+
+For example, the following constructs do not exist in Blueprints:
+1. References (`&`) are not available for Blueprints. It even fails with quite the obscure error message:
+	`Found '&' when expecting '*'.`, not even mentioning the missing support in Blueprints.
+2. Some primitives are not supported. This seems to stem from legacy code of UE3, in which only `uint8`,
+	`int32` and `float` were supported. All other numerical data types were only fully available in C++
+	code. Using unsupported primitives at least fails with a helpful error message:
+	"Type 'int8' is not supported by blueprint. (...)"
+3. Nested/multidimensional arrays aren't supported either.
