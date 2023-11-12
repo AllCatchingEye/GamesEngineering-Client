@@ -3,12 +3,29 @@
 
 #include "Core/Cards/Card.h"
 
-ECardSuit UCard::getSuit() const
+ACard::ACard()
+{
+	PrimaryActorTick.bCanEverTick = false;
+}
+
+ECardSuit ACard::getSuit() const
 {
 	return this->Suit;
 }
 
-ECardRank UCard::getRank() const
+ECardRank ACard::getRank() const
 {
 	return this->Rank;
+}
+
+void ACard::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
+void ACard::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
 }
