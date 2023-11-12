@@ -7,7 +7,7 @@ FName USchafkopfLobby::GetId() const {
 	return this->Id;
 }
 
-uint8 USchafkopfLobby::GetPlayerCount() const {
+int32 USchafkopfLobby::GetPlayerCount() const {
 	return this->PlayerCount;
 }
 
@@ -15,7 +15,7 @@ USchafkopfPlayer* USchafkopfLobby::GetPlayer(const FName PlayerId) const {
 	USchafkopfPlayer* PlayerCurr = nullptr;
 	USchafkopfPlayer* Player = nullptr;
 
-	for (int32 i = 0; i < 4; i++) {
+	for (int32 i = 0; i < USchafkopfLobby::PLAYER_COUNT_MAX; i++) {
 		PlayerCurr = this->Players[i];
 
 		if (PlayerCurr && PlayerCurr->GetId() == PlayerId) {
@@ -28,9 +28,9 @@ USchafkopfPlayer* USchafkopfLobby::GetPlayer(const FName PlayerId) const {
 
 int32 USchafkopfLobby::GetPlayerOrder(const FName PlayerId) const {
 	USchafkopfPlayer* PlayerCurr = nullptr;
-	int32 PlayerOrder = -1;
+	int32 PlayerOrder = USchafkopfLobby::PLAYER_NOT_PRESENT;
 
-	for (int32 i = 0; i < 4; i++) {
+	for (int32 i = 0; i < USchafkopfLobby::PLAYER_COUNT_MAX; i++) {
 		PlayerCurr = this->Players[i];
 
 		if (PlayerCurr && PlayerCurr->GetId() == PlayerId) {
@@ -42,7 +42,7 @@ int32 USchafkopfLobby::GetPlayerOrder(const FName PlayerId) const {
 }
 
 bool USchafkopfLobby::CanAddPlayer() const {
-	return this->PlayerCount < 4;
+	return this->PlayerCount < USchafkopfLobby::PLAYER_COUNT_MAX;
 }
 
 void USchafkopfLobby::AddPlayer(USchafkopfPlayer* Player) {
@@ -50,7 +50,7 @@ void USchafkopfLobby::AddPlayer(USchafkopfPlayer* Player) {
 
 	const int32 PlayerOrder = this->GetPlayerOrder(Player->GetId());
 
-	if (PlayerOrder == -1) {
+	if (PlayerOrder == USchafkopfLobby::PLAYER_NOT_PRESENT) {
 		//The player is not in the Lobby.
 		this->Players[this->PlayerCount] = Player;
 		this->PlayerCount++;
@@ -60,12 +60,12 @@ void USchafkopfLobby::AddPlayer(USchafkopfPlayer* Player) {
 void USchafkopfLobby::RemovePlayer(USchafkopfPlayer* Player) {
 	const int32 PlayerOrder = this->GetPlayerOrder(Player->GetId());
 
-	if (PlayerOrder != -1) {
+	if (PlayerOrder != USchafkopfLobby::PLAYER_NOT_PRESENT) {
 		//The player exists and needs to be removed.
 		//We also need to reorder the players, so
 		//that the empty slots are at the end.
 		int32 i = PlayerOrder;
-		for (; i < 4 - 1; i++) {
+		for (; i < USchafkopfLobby::PLAYER_COUNT_MAX - 1; i++) {
 			this->Players[i] = this->Players[i + 1];
 		}
 
@@ -76,6 +76,10 @@ void USchafkopfLobby::RemovePlayer(USchafkopfPlayer* Player) {
 
 		//TODO: Add logic to handle an empty Lobby.
 	}
+}
+
+int32 USchafkopfLobby::GetPlayerCountMax() {
+	return USchafkopfLobby::PLAYER_COUNT_MAX;
 }
 
 USchafkopfLobby* USchafkopfLobby::Make(const FName Id) {

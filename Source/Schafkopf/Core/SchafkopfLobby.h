@@ -25,6 +25,12 @@ class SCHAFKOPF_API USchafkopfLobby : public UObject
 {
 	GENERATED_BODY()
 
+public:
+	/** The maximum amount of players of a Lobby. */
+	inline static const int32 PLAYER_COUNT_MAX = 4;
+	/** The integer indicating that a player is not present. */
+	inline static const int32 PLAYER_NOT_PRESENT = -1;
+
 private:
 	/** The ID of the Lobby. The ID is immutable. */
 	FName Id;
@@ -40,7 +46,7 @@ private:
 	 * 
 	 * There is at least 1 player and a maximum of 4 players in the Lobby.
 	 */
-	uint8 PlayerCount;
+	int32 PlayerCount;
 	
 public:
 	/**
@@ -61,7 +67,7 @@ public:
 	 * @return The amount of players in the Lobby.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	uint8 GetPlayerCount() const;
+	int32 GetPlayerCount() const;
 
 	/**
 	 * Returns the player specified by the ID.
@@ -106,6 +112,14 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable)
 	void RemovePlayer(USchafkopfPlayer* Player);
+
+	/**
+	 * Retruns the maximum player count of a Lobby.
+	 * 
+	 * @return The maximum player count of a Lobby.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	static int32 GetPlayerCountMax();
 
 	/**
 	 * Creates a new Lobby.
