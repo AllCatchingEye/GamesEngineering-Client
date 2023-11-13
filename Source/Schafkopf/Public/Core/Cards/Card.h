@@ -90,4 +90,7 @@ private:
 	ECardSuit Suit;
 	/** The rank of the card. */
 	ECardRank Rank;
+
+	/** The static mesh of the card. */
+	UStaticMeshComponent* CardMesh;
 };
