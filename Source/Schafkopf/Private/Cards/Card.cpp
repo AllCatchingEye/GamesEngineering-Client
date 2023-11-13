@@ -11,7 +11,7 @@ ACard::ACard()
 	this->CardMesh->SetupAttachment(this->RootComponent);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CardAsset(
-		TEXT("/Game/Schafkopf/Core/Cards/SM_Card.SM_Card")
+		TEXT("/Game/Schafkopf/Cards/SM_Card.SM_Card")
 	);
 
 	if (CardAsset.Succeeded())
