@@ -87,10 +87,14 @@ protected:
 
 private:
 	/** The suit of the card. */
-	ECardSuit Suit;
+	ECardSuit Suit = ECardSuit::NONE;
 	/** The rank of the card. */
-	ECardRank Rank;
+	ECardRank Rank = ECardRank::NONE;
 
 	/** The static mesh of the card. */
-	UStaticMeshComponent* CardMesh;
+	UStaticMeshComponent* CardMesh = nullptr;
+	/** The front material of the card's static mesh. */
+	UMaterialInterface* CardMaterialFront = nullptr;
+	/** The dynamic material instance of the card's front material. */
+	UMaterialInstanceDynamic* CardMaterialFrontDynamic = nullptr;
 };
