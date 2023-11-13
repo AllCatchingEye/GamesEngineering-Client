@@ -10,32 +10,46 @@
  * The CardSuit enum.
  * 
  * Provides a list of all available suits, that a card may have.
+ * 
+ * The value of `NONE` is used exclusively in cases where a client
+ * should not be aware of the actual card. For example: Any cards
+ * that are in the hand of another player should not be known to
+ * the current player. The server obviously always knows about all
+ * cards, and thus does not need the `NONE` value.
  */
 UENUM(BlueprintType)
 enum class ECardSuit : uint8
 {
-	EICHEL = 0		UMETA(DispalyName = "EICHEL"),
-	GRAS = 1		UMETA(DispalyName = "GRAS"),
-	HERZ = 2		UMETA(DispalyName = "HERZ"),
-	SCHELLEN = 3	UMETA(DispalyName = "SCHELLEN")
+	NONE = 0		UMETA(DisplayName = "NONE"),
+	EICHEL = 1		UMETA(DispalyName = "EICHEL"),
+	GRAS = 2		UMETA(DispalyName = "GRAS"),
+	HERZ = 3		UMETA(DispalyName = "HERZ"),
+	SCHELLEN = 4	UMETA(DispalyName = "SCHELLEN")
 };
 
 /**
  * The CardRank enum.
  * 
  * Provides a list of all available ranks, that a card may have.
+ * 
+ * The value of `NONE` is used exclusively in cases where a client
+ * should not be aware of the actual card. For example: Any cards
+ * that are in the hand of another player should not be known to
+ * the current player. The server obviously always knows about all
+ * cards, and thus does not need the `NONE` value.
  */
 UENUM(BlueprintType)
 enum class ECardRank : uint8
 {
-	SIEBEN = 0		UMETA(DisplayName = "SIEBEN"),
-	ACHT = 1		UMETA(DisplayName = "ACHT"),
-	NEUN = 2		UMETA(DisplayName = "NEUN"),
-	UNTER = 3		UMETA(DisplayName = "UNTER"),
-	OBER = 4		UMETA(DisplayName = "OBER"),
-	KOENIG = 5		UMETA(DisplayName = "KOENIG"),
-	ZEHN = 6		UMETA(DisplayName = "ZEHN"),
-	ASS = 7			UMETA(DisplayName = "ASS")
+	NONE = 0		UMETA(DisplayName = "NONE"),
+	SIEBEN = 1		UMETA(DisplayName = "SIEBEN"),
+	ACHT = 2		UMETA(DisplayName = "ACHT"),
+	NEUN = 3		UMETA(DisplayName = "NEUN"),
+	UNTER = 4		UMETA(DisplayName = "UNTER"),
+	OBER = 5		UMETA(DisplayName = "OBER"),
+	KOENIG = 6		UMETA(DisplayName = "KOENIG"),
+	ZEHN = 7		UMETA(DisplayName = "ZEHN"),
+	ASS = 8			UMETA(DisplayName = "ASS")
 };
 
 /**
