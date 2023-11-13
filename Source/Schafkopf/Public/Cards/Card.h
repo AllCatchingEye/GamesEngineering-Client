@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Cards/CardSuit.h"
-#include "Cards/CardRank.h"
+#include "CardSuit.h"
+#include "CardRank.h"
 #include "Card.generated.h"
 
 /**
