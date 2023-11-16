@@ -84,4 +84,7 @@ private:
 
 	/** The spline along which the cards will be arranged. */
 	USplineComponent* CardSpline;
+
+	/** Rearranges the hand cards along the spline. */
+	void RearrangeHandCards();
 };
