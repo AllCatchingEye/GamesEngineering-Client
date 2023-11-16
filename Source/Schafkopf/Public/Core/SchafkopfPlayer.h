@@ -14,10 +14,6 @@ class SCHAFKOPF_API USchafkopfPlayer : public UObject
 {
 	GENERATED_BODY()
 
-private:
-	/** The ID of the Player. The ID is immutable. */
-	FName Id;
-
 public:
 	/**
 	 * Returns the ID of the Player.
@@ -37,4 +33,8 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable)
 	static USchafkopfPlayer* Make(const FName Id);
+
+private:
+	/** The ID of the Player. The ID is immutable. */
+	FName Id;
 };
