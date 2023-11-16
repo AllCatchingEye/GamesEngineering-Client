@@ -53,4 +53,9 @@ private:
 	UMaterialInterface* CardMaterialFront = nullptr;
 	/** The dynamic material instance of the card's front material. */
 	UMaterialInstanceDynamic* CardMaterialFrontDynamic = nullptr;
+
+	/** The amount of statically loaded card textures. */
+	static const int32 CARD_TEXTURES_AMOUNT = 33;
+	/** A list of all statically loaded card textures. */
+	static const TStaticArray<UTexture2D*, CARD_TEXTURES_AMOUNT> CARD_TEXTURES;
 };
