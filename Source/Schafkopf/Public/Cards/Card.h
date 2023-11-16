@@ -56,6 +56,17 @@ private:
 
 	/** The amount of statically loaded card textures. */
 	static const int32 CARD_TEXTURES_AMOUNT = 33;
-	/** A list of all statically loaded card textures. */
+	/**
+	 * A list of all statically loaded card textures.
+	 * 
+	 * This array contains 33 textures. The first one is the texture that will be
+	 * used for cards that are not known to the client. This applies to for example:
+	 * 1. The initial card stack. A stack of cards that has yet to be distributed
+	 *    the players. Serves a client-only role for animation purposes.
+	 * 2. The hand cards of oppenents, which's card value is not visible to this
+	 *    client.
+	 * 
+	 * The other 32 cards (from index 1 to 33) are the actual card textures.
+	 */
 	static const TStaticArray<UTexture2D*, CARD_TEXTURES_AMOUNT> CARD_TEXTURES;
 };
