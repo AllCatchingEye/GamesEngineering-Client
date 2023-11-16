@@ -61,6 +61,9 @@ void ACard::Tick(float DeltaTime)
 
 }
 
+
+const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURES = TStaticArray<UTexture2D*, 33>();
+/*
 const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURES = []() -> TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT>
 {
 	TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> Textures;
@@ -120,6 +123,7 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 
 	return Textures;
 }();
+*/
 
 void ACard::UpdateFrontTexture()
 {
