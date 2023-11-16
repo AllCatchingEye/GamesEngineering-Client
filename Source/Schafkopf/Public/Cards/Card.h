@@ -25,7 +25,7 @@ public:
 	 * @return The suit of the card.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	ECardSuit getSuit() const;
+	ECardSuit GetSuit() const;
 
 	/**
 	 * Returns the rank of the card.
@@ -33,7 +33,7 @@ public:
 	 * @return The rank of the card.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	ECardRank getRank() const;
+	ECardRank GetRank() const;
 
 	/**
 	 * Updates the card.
