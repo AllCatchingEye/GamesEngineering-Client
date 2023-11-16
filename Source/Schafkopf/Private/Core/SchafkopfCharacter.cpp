@@ -13,6 +13,15 @@ ASchafkopfCharacter::ASchafkopfCharacter()
 
 	this->CardSpline = CreateDefaultSubobject<USplineComponent>(TEXT("Card Spline"));
 	this->CardSpline->SetupAttachment(this->RootComponent);
+	this->CardSpline->SetRelativeLocation(FVector(0.0f, -50.0f, 0.0f));
+	this->CardSpline->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+	this->CardSpline->bDrawDebug = true;
+
+	this->CardSpline->ClearSplinePoints();
+	this->CardSpline->AddPoint(FSplinePoint(0.0f, FVector(0.0f, 0.0f, 0.0f)));
+	this->CardSpline->AddPoint(FSplinePoint(0.5f, FVector(50.0f, 0.0f, 20.0f)));
+	this->CardSpline->AddPoint(FSplinePoint(1.0f, FVector(100.0f, 0.0f, 0.0f)));
+	this->CardSpline->UpdateSpline();
 }
 
 USchafkopfPlayer* ASchafkopfCharacter::GetPlayer()
@@ -59,5 +68,4 @@ void ASchafkopfCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 void ASchafkopfCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
