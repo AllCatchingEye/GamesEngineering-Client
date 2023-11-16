@@ -21,12 +21,12 @@ ACard::ACard()
 	}
 }
 
-ECardSuit ACard::getSuit() const
+ECardSuit ACard::GetSuit() const
 {
 	return this->Suit;
 }
 
-ECardRank ACard::getRank() const
+ECardRank ACard::GetRank() const
 {
 	return this->Rank;
 }
