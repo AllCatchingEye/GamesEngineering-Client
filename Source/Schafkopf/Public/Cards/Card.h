@@ -26,6 +26,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ECardSuit getSuit() const;
+
 	/**
 	 * Returns the rank of the card.
 	 *
@@ -69,4 +70,7 @@ private:
 	 * The other 32 cards (from index 1 to 33) are the actual card textures.
 	 */
 	static const TStaticArray<UTexture2D*, CARD_TEXTURES_AMOUNT> CARD_TEXTURES;
+
+	/** Updates the front texture of the card. */
+	void UpdateFrontTexture();
 };

@@ -40,7 +40,7 @@ void ACard::BeginPlay()
 	this->CardMaterialFrontDynamic = UMaterialInstanceDynamic::Create(this->CardMaterialFront, this);
 	this->CardMesh->SetMaterial(0, this->CardMaterialFrontDynamic);
 
-	// TODO: Create a method that loads/binds the texture to the dynamic material.
+	this->UpdateFrontTexture();
 }
 
 void ACard::Tick(float DeltaTime)
@@ -108,3 +108,12 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 
 	return Textures;
 }();
+
+void ACard::UpdateFrontTexture()
+{
+	// Bind the card texture based on the rank and suit enum.
+	const uint8 EnumValueSuit = (uint8)this->Suit;
+	const uint8 EnumValueRank = (uint8)this->Rank;
+	UTexture2D* CardTexture = ACard::CARD_TEXTURES[EnumValueSuit * EnumValueRank];
+	this->CardMaterialFrontDynamic->SetTextureParameterValue(TEXT("Texture"), CardTexture);
+}
