@@ -35,12 +35,12 @@ void ACard::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//Get the front material and create a dynamic material instance for it.
+	// Get the front material and create a dynamic material instance for it.
 	this->CardMaterialFront = this->CardMesh->GetMaterial(0);
 	this->CardMaterialFrontDynamic = UMaterialInstanceDynamic::Create(this->CardMaterialFront, this);
 	this->CardMesh->SetMaterial(0, this->CardMaterialFrontDynamic);
 
-	//TODO: Create a method that loads/binds the texture to the dynamic material.
+	// TODO: Create a method that loads/binds the texture to the dynamic material.
 }
 
 void ACard::Tick(float DeltaTime)
