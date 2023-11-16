@@ -35,6 +35,17 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ECardRank getRank() const;
 
+	/**
+	 * Updates the card.
+	 * 
+	 * Ensures that both `NewSuit` and `NewRank` are either `NONE` or none `NONE`.
+	 * 
+	 * @param NewSuit - The new suit of the card.
+	 * @param NewRank - The new rank of the card.
+	 */
+	UFUNCTION(BlueprintCallable)
+	void Update(const ECardSuit NewSuit, const ECardRank NewRank);
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

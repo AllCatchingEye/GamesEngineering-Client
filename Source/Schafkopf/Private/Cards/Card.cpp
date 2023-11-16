@@ -31,6 +31,18 @@ ECardRank ACard::getRank() const
 	return this->Rank;
 }
 
+void ACard::Update(const ECardSuit NewSuit, const ECardRank NewRank)
+{
+	const bool bIsNone = NewSuit == ECardSuit::NONE && NewRank == ECardRank::NONE;
+	const bool bIsValid = NewSuit != ECardSuit::NONE && NewRank != ECardRank::NONE;
+	if (ensureAlwaysMsgf(bIsNone || bIsValid, TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE."))	)
+	{
+		this->Suit = NewSuit;
+		this->Rank = NewRank;
+		this->UpdateFrontTexture();
+	}
+}
+
 void ACard::BeginPlay()
 {
 	Super::BeginPlay();
