@@ -29,3 +29,5 @@ enum class ECardRank : uint8
 	ZEHN = 7		UMETA(DisplayName = "ZEHN"),
 	ASS = 8			UMETA(DisplayName = "ASS")
 };
+
+ENUM_RANGE_BY_FIRST_AND_LAST(ECardRank, ECardRank::SIEBEN, ECardRank::ASS);
