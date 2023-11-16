@@ -25,3 +25,5 @@ enum class ECardSuit : uint8
 	HERZ = 3		UMETA(DispalyName = "HERZ"),
 	SCHELLEN = 4	UMETA(DispalyName = "SCHELLEN")
 };
+
+ENUM_RANGE_BY_FIRST_AND_LAST(ECardSuit, ECardSuit::EICHEL, ECardSuit::SCHELLEN);
