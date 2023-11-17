@@ -12,7 +12,7 @@ ACard::ACard()
 	this->CardMesh->SetMobility(EComponentMobility::Movable);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CardAsset(
-		TEXT("/Game/Schafkopf/Cards/SM_Card.SM_Card")
+		TEXT("StaticMesh'/Game/Schafkopf/Cards/SM_Card.SM_Card'")
 	);
 
 	if (CardAsset.Succeeded())
