@@ -147,3 +147,11 @@ For example, the following constructs do not exist in Blueprints:
 3. Nested/multidimensional arrays aren't supported either.
 4. Static member variables cannot be exposed to Blueprints. This can however be worked around by creating
 	static methods that return the static variable.
+
+### 3.4 Changes to C++ and testing
+
+When making changes to C++ code, the Unreal Editor provides a feature called "Hot Reload", which allows the
+new compiled changes to (more or less) be effective immediatly. This works perfectly for "simple" changes to
+functions/methods. Edits to a the constructor or static variable initialization of a class however, will
+require the Unreal Editor to be restarted. If not, those changes won't take effect and may lead to unexpected
+or undefined behaviour.
