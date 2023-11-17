@@ -9,6 +9,7 @@ ACard::ACard()
 
 	this->CardMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Card Mesh"));
 	this->CardMesh->SetupAttachment(this->RootComponent);
+	this->CardMesh->SetMobility(EComponentMobility::Movable);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CardAsset(
 		TEXT("/Game/Schafkopf/Cards/SM_Card.SM_Card")
@@ -58,31 +59,20 @@ void ACard::BeginPlay()
 void ACard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-
-const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURES = TStaticArray<UTexture2D*, 33>();
-/*
 const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURES = []() -> TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT>
 {
 	TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> Textures;
 
 	// Fetch the base card texture.
 	// This texture is used for unknown cards.
-	ConstructorHelpers::FObjectFinder<UTexture2D> TextureUnknown(
-		TEXT("Texture2D'/Game/Cards/T_CardBack.T_CardBack'")
-	);
-
-	if (TextureUnknown.Succeeded())
-	{
-		Textures[0] = TextureUnknown.Object;
-	}
+	Textures[0] = LoadObject<UTexture2D>(ACard::StaticClass(), TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardBack.T_CardBack'"));
 
 	// Fetch all actual card textures.
 	// The texture location string has the following form:
-	// "Texture2D'/Game/FOLDER/SUB_FOLDER/.../TEXTURE_NAME.TEXTURE_NAME'"
-	const FString CardTextureLocationStart = TEXT("Texture2D'/Game/Cards/");
+	// "Texture2D'/Game/GAME_NAME/FOLDER/SUB_FOLDER/.../TEXTURE_NAME.TEXTURE_NAME'"
+	const FString CardTextureLocationStart = TEXT("Texture2D'/Game/Schafkopf/Cards/");
 	const FString CardTextureLocationConcatenator = TEXT(".");
 	const FString CardTextureLocationEnd = TEXT("'");
 	const FString CardTextureNameBase = TEXT("T_CardFront_");
@@ -100,9 +90,9 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 			// Construct the card texture name.
 			EnumValueRank = (uint8)CardRank;
 			CardTextureNameFull = CardTextureNameBase;
-			CardTextureNameFull += FString::FromInt(EnumValueSuit);
+			CardTextureNameFull += FString::FromInt(EnumValueSuit - 1);
 			CardTextureNameFull += CardTextureNameSeparator;
-			CardTextureNameFull += FString::FromInt(EnumValueRank);
+			CardTextureNameFull += FString::FromInt(EnumValueRank - 1);
 
 			// Construct the card texture location.
 			CardTextureLocationFull = CardTextureLocationStart;
@@ -112,18 +102,13 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 			CardTextureLocationFull += CardTextureLocationEnd;
 
 			// Fetch the card texture.
-			ConstructorHelpers::FObjectFinder<UTexture2D> Texture(*CardTextureLocationFull);
-
-			if (Texture.Succeeded())
-			{
-				Textures[EnumValueSuit * EnumValueRank] = Texture.Object;
-			}
+			Textures[EnumValueSuit * EnumValueRank] = LoadObject<UTexture2D>(ACard::StaticClass(), *CardTextureLocationFull);
 		}
 	}
 
 	return Textures;
 }();
-*/
+
 
 void ACard::UpdateFrontTexture()
 {
@@ -131,5 +116,7 @@ void ACard::UpdateFrontTexture()
 	const uint8 EnumValueSuit = (uint8)this->Suit;
 	const uint8 EnumValueRank = (uint8)this->Rank;
 	UTexture2D* CardTexture = ACard::CARD_TEXTURES[EnumValueSuit * EnumValueRank];
+
+	ensureMsgf(CardTexture != nullptr, TEXT("Card texture [ %d, %d ] was null."), EnumValueSuit, EnumValueRank);
 	this->CardMaterialFrontDynamic->SetTextureParameterValue(TEXT("Texture"), CardTexture);
 }
