@@ -3,9 +3,72 @@
 
 #include "Core/SchafkopfGameInstance.h"
 
+#include "JsonUtilities.h"
+
 const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
-const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://ADD_IP_ADDRESS_HERE:AND_PORT";
+const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://localhost:8765";
 const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
+
+/* 
+* Serialize a WebSocket message struct to a JSON string.
+*/
+template<typename T = FWsMessage>
+FString StructToJsonString(const T& Struct)
+{
+	FString OutputString;
+	FJsonObjectConverter::UStructToJsonObjectString(Struct, OutputString, 0, 0, 0);
+	return OutputString;
+}
+
+/*
+* Returns the message id from a JSON string.
+*/
+FString GetJsonMessageId(const FString& JsonString)
+{
+	TSharedPtr<FJsonObject> JsonObject;
+	TSharedRef<TJsonReader<>> JsonReader = TJsonReaderFactory<>::Create(JsonString);
+	FString MessageId;
+
+	if (FJsonSerializer::Deserialize(JsonReader, JsonObject))
+	{
+		JsonObject->TryGetStringField(TEXT("id"), MessageId);
+	}
+
+	return MessageId;
+}
+
+
+/* 
+* Deserialize a JSON string to a WebSocket message struct.
+*/
+template<typename T = FWsMessage>
+T JsonStringToStruct(const FString& JsonString)
+{
+	TSharedPtr<FJsonObject> JsonObject;
+	TSharedRef<TJsonReader<>> JsonReader = TJsonReaderFactory<>::Create(JsonString);
+	T OutputStruct;
+
+	if (FJsonSerializer::Deserialize(JsonReader, JsonObject))
+	{
+		FJsonObjectConverter::JsonObjectToUStruct(JsonObject.ToSharedRef(), T::StaticStruct(), &OutputStruct, 0, 0);
+	}
+
+	return OutputStruct;
+}
+
+
+void USchafkopfGameInstance::Init()
+{
+	WebSocketConnect();
+
+	// First we create the lobby type
+	auto LobbyHost = FWsLobbyHost();
+	LobbyHost.id = TEXT("lobby_host");
+	LobbyHost.lobby_type = TEXT("single");
+	auto Message = StructToJsonString(LobbyHost);
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Green, Message);
+	WebSocket->Send(Message);
+}
 
 void USchafkopfGameInstance::Shutdown()
 {
@@ -48,7 +111,7 @@ void USchafkopfGameInstance::OnWebSocketConnected()
 
 void USchafkopfGameInstance::OnWebSocketConnectionError(const FString& Error)
 {
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Red, Error);
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 0.0f, FColor::Red, Error);
 }
 
 void USchafkopfGameInstance::OnWebSocketClosed(int32 StatusCode, const FString& Reason, bool bWasClean)
@@ -58,5 +121,18 @@ void USchafkopfGameInstance::OnWebSocketClosed(int32 StatusCode, const FString& 
 
 void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 {
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Yellow, Message);
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, Message);
+
+	auto MessageId = GetJsonMessageId(Message);
+
+	if (MessageId == TEXT("GameStartUpdate"))
+	{
+		auto GameStartUpdate = JsonStringToStruct<FWsGameStartUpdate>(Message);
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, GameStartUpdate.player);
+		auto cardAmount = GameStartUpdate.hand.Num();
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, FString::FromInt(cardAmount));
+	} else {
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, TEXT("Unknown message"));
+	}
 }
+
