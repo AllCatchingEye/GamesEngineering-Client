@@ -127,11 +127,57 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 
 	if (MessageId == TEXT("GameStartUpdate"))
 	{
-		auto GameStartUpdate = JsonStringToStruct<FWsGameStartUpdate>(Message);
-		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, GameStartUpdate.player);
-		auto cardAmount = GameStartUpdate.hand.Num();
-		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, FString::FromInt(cardAmount));
-	} else {
+		auto GameStartUpdate = JsonStringToStruct<FWsMessageGameStartUpdate>(Message);
+	} 
+	else if (MessageId == TEXT("PlayDecisionUpdate"))
+	{
+			auto PlayDecisionUpdate = JsonStringToStruct<FWsMessagePlayDecisionUpdate>(Message);
+	} 
+	else if (MessageId == TEXT("GametypeDeterminedUpdate"))
+	{
+		auto PlayUpdate = JsonStringToStruct<FWsMessageGametypeDeterminedUpdate>(Message);
+	}
+	else if (MessageId == TEXT("CardPlayedUpdate"))
+	{
+		auto GameEndUpdate = JsonStringToStruct<FWsMessageCardPlayedUpdate>(Message);
+	}
+	else if (MessageId == TEXT("RoundResultUpdate"))
+	{
+		auto GameEndUpdate = JsonStringToStruct<FWsMessageRoundResultUpdate>(Message);
+	}
+	else if (MessageId == TEXT("GameEndUpdate"))
+	{
+		auto GameEndUpdate = JsonStringToStruct<FWsMessageGameEndUpdate>(Message);
+	} // TODO FWsMessageAnnouncePlayPartyUpdate
+	else if (MessageId == TEXT("GameGroupChosenUpdate"))
+	{
+		auto AnnouncePlayPartyUpdate = JsonStringToStruct<FWsMessageGameGroupChosenUpdate>(Message);
+	}
+	else if (MessageId == TEXT("MoneyUpdate")) 
+	{
+		auto MoneyUpdate = JsonStringToStruct<FWsMessageMoneyUpdate>(Message);
+	}
+	else if (MessageId == TEXT("PlayOrderUpdate"))
+	{
+		auto PlayOrderUpdate = JsonStringToStruct<FWsMessagePlayOrderUpdate>(Message);
+	}
+	// --- Queries - Action is required ---
+	else if (MessageId == TEXT("PlayerWantsToPlayQuery"))
+	{
+		auto PlayerWantsToPlayQuery = JsonStringToStruct<FWsMessagePlayerWantsToPlayQuery>(Message);
+	}
+	else if (MessageId == TEXT("PlayerSelectGameTypeQuery"))
+	{
+		auto PlayerSelectGameTypeQuery = JsonStringToStruct<FWsMessagePlayerSelectGameTypeQuery>(Message);
+	}
+	else if (MessageId == TEXT("PlayerChooseGameGroupQuery"))
+	{
+		auto PlayerChooseGameGroupQuery = JsonStringToStruct<FWsMessagePlayerChooseGameGroupQuery>(Message);
+	}
+	else if (MessageId == TEXT("PlayerPlayCardQuery")) {
+		auto PlayerPlayCardQuery = JsonStringToStruct<FWsMessagePlayerPlayCardQuery>(Message);
+	}
+	else {
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, TEXT("Unknown message"));
 	}
 }
