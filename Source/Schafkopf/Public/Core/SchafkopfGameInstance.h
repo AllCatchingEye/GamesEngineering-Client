@@ -9,6 +9,8 @@
 #include "IWebSocketsManager.h"
 #include "WebSocketsModule.h"
 
+#include "WsMessage.h"
+
 #include "SchafkopfGameInstance.generated.h"
 
 /**
@@ -35,6 +37,9 @@ private:
 	TSharedPtr<IWebSocket> WebSocket = nullptr;
 
 public:
+	//Called upon start of the game. Handle initial setup here.
+	virtual void Init() override;
+
 	//Called upon shutdown of the game. Handle final cleanup here.
 	virtual void Shutdown() override;
 
