@@ -16,7 +16,11 @@ template<typename T = FWsMessage>
 FString StructToJsonString(const T& Struct)
 {
 	FString OutputString;
-	FJsonObjectConverter::UStructToJsonObjectString(Struct, OutputString, 0, 0, 0);
+	auto result = FJsonObjectConverter::UStructToJsonObjectString(Struct, OutputString, 0, 0, 0);
+	if (!result)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to serialize struct to JSON string."));
+	}
 	return OutputString;
 }
 
@@ -32,6 +36,11 @@ FString GetJsonMessageId(const FString& JsonString)
 	if (FJsonSerializer::Deserialize(JsonReader, JsonObject))
 	{
 		JsonObject->TryGetStringField(TEXT("id"), MessageId);
+	}
+
+	if (MessageId.IsEmpty())
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get message id from JSON string."));
 	}
 
 	return MessageId;
@@ -50,7 +59,12 @@ T JsonStringToStruct(const FString& JsonString)
 
 	if (FJsonSerializer::Deserialize(JsonReader, JsonObject))
 	{
-		FJsonObjectConverter::JsonObjectToUStruct(JsonObject.ToSharedRef(), T::StaticStruct(), &OutputStruct, 0, 0);
+		auto result = FJsonObjectConverter::JsonObjectToUStruct(JsonObject.ToSharedRef(), T::StaticStruct(), &OutputStruct, 0, 0);
+
+		if (!result)
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to deserialize JSON string to struct."));
+		}
 	}
 
 	return OutputStruct;
@@ -121,7 +135,7 @@ void USchafkopfGameInstance::OnWebSocketClosed(int32 StatusCode, const FString& 
 
 void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 {
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, Message);
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 
 	auto MessageId = GetJsonMessageId(Message);
 
@@ -131,7 +145,7 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	} 
 	else if (MessageId == TEXT("PlayDecisionUpdate"))
 	{
-			auto PlayDecisionUpdate = JsonStringToStruct<FWsMessagePlayDecisionUpdate>(Message);
+		auto PlayDecisionUpdate = JsonStringToStruct<FWsMessagePlayDecisionUpdate>(Message);
 	} 
 	else if (MessageId == TEXT("GametypeDeterminedUpdate"))
 	{
@@ -165,20 +179,54 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	else if (MessageId == TEXT("PlayerWantsToPlayQuery"))
 	{
 		auto PlayerWantsToPlayQuery = JsonStringToStruct<FWsMessagePlayerWantsToPlayQuery>(Message);
+		// randomly choose yes or no
+		auto PlayerWantsToPlayResponse = FWsMessagePlayerWantsToPlayAnswer();
+		PlayerWantsToPlayResponse.id = TEXT("PlayerWantsToPlayAnswer");
+		PlayerWantsToPlayResponse.decision = FMath::RandBool();
+
+		auto Message = StructToJsonString(PlayerWantsToPlayResponse);
+		WebSocket->Send(Message);
 	}
 	else if (MessageId == TEXT("PlayerSelectGameTypeQuery"))
 	{
 		auto PlayerSelectGameTypeQuery = JsonStringToStruct<FWsMessagePlayerSelectGameTypeQuery>(Message);
+
+		// randomly choose one of the game types
+		auto PlayerSelectGameTypeResponse = FWsMessagePlayerSelectGameTypeAnswer();
+		PlayerSelectGameTypeResponse.id = TEXT("PlayerSelectGameTypeAnswer");
+		auto index = FMath::RandRange(0, PlayerSelectGameTypeQuery.choosable_gametypes.Num() - 1);
+		PlayerSelectGameTypeResponse.gametype_index = index;
+
+		auto Message = StructToJsonString(PlayerSelectGameTypeResponse);
+		WebSocket->Send(Message);
 	}
 	else if (MessageId == TEXT("PlayerChooseGameGroupQuery"))
 	{
 		auto PlayerChooseGameGroupQuery = JsonStringToStruct<FWsMessagePlayerChooseGameGroupQuery>(Message);
+
+		// randomly choose one of the game groups
+		auto PlayerChooseGameGroupResponse = FWsMessagePlayerChooseGameGroupAnswer();
+		PlayerChooseGameGroupResponse.id = TEXT("PlayerChooseGameGroupAnswer");
+		auto index = FMath::RandRange(0, PlayerChooseGameGroupQuery.available_groups.Num() - 1);
+		PlayerChooseGameGroupResponse.gamegroup_index = index;
+
+		auto Message = StructToJsonString(PlayerChooseGameGroupResponse);
+		WebSocket->Send(Message);
 	}
 	else if (MessageId == TEXT("PlayerPlayCardQuery")) {
 		auto PlayerPlayCardQuery = JsonStringToStruct<FWsMessagePlayerPlayCardQuery>(Message);
+
+		// randomly choose one of the cards
+		auto PlayerPlayCardResponse = FWsMessagePlayerPlayCardAnswer();
+		PlayerPlayCardResponse.id = TEXT("PlayerPlayCardAnswer");
+		auto index = FMath::RandRange(0, PlayerPlayCardQuery.playable_cards.Num() - 1);
+		PlayerPlayCardResponse.card_index = index;
+
+		auto Message = StructToJsonString(PlayerPlayCardResponse);
+		WebSocket->Send(Message);
 	}
 	else {
-		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Yellow, TEXT("Unknown message"));
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Unknown message"));
 	}
 }
 
