@@ -96,6 +96,9 @@ protected:
 	UFUNCTION()
 	void OnWebSocketMessageReceived(const FString& Message);
 
+	void CreateHand(TArray<FWsCard>& FwHand, ASchafkopfCharacter* Character);
+	ACard* GetCardFromStruct(FWsCard FwCard);
+
 	/**  */
 	UFUNCTION()
 	void OnGameStart();
