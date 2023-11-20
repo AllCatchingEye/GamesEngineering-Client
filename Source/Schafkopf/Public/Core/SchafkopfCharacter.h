@@ -8,6 +8,7 @@
 
 #include "Core/SchafkopfPlayer.h"
 #include "Cards/Card.h"
+#include "Cards/CardHand.h"
 
 #include "SchafkopfCharacter.generated.h"
 
@@ -27,41 +28,10 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	USchafkopfPlayer* GetPlayer();
 
-	/**
-	 * Returns whether a new card can be added to the player's hand.
-	 *
-	 * @return `true` if and only if a new card can be added.
-	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	bool CanAddHandCard();
+	ACardHand* GetCardHand() const;
 
-	/**
-	 * Returns the amount of hand cards.
-	 *
-	 * @return The amount of hand cards.
-	 */
-	UFUNCTION(BlueprintCallable, BlueprintPure)
-	int32 GetHandCardAmount();
-
-	/**
-	 * Adds a new card to the player's hand.
-	 * 
-	 * Does not accept `nullptr`.
-	 * 
-	 * @param ToAdd - The new card to add.
-	 */
-	UFUNCTION(BlueprintCallable)
-	void AddHandCard(ACard* ToAdd);
-
-	/**
-	 * Removes a card from the player's hand.
-	 * 
-	 * Does not accept `nullptr`.
-	 *
-	 * @param ToRemove - The new card to remove.
-	 */
-	UFUNCTION(BlueprintCallable)
-	void RemoveHandCard(ACard* ToRemove);
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -74,17 +44,8 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	/** The maximum amount of hand cards. */
-	static const int32 HAND_CARDS_MAX = 8;
-
 	/** The backing player. */
 	USchafkopfPlayer* Player;
-	/** The list of hand cards. */
-	TArray<ACard*> HandCards;
-
-	/** The spline along which the cards will be arranged. */
-	USplineComponent* CardSpline;
-
-	/** Rearranges the hand cards along the spline. */
-	void RearrangeHandCards();
+	/** The hand cards of the player. */
+	ACardHand* CardHand;
 };
