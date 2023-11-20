@@ -205,16 +205,16 @@ public:
 };
 
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct SCHAFKOPF_API FWSGameTypeWithSuit
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Schafkopf")
 	FString gametype;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	FString suit;
 };
 
