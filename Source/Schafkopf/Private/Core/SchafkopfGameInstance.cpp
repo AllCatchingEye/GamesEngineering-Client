@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Core/SchafkopfGameInstance.h"
+
 #include "JsonUtilities.h"
 #include "Kismet/GameplayStatics.h"
-
-#include "Core/SchafkopfGameInstance.h"
 
 const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
 const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://localhost:8765";

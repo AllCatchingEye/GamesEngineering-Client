@@ -22,7 +22,7 @@ public:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="UI")
-	TSubclassOf<UUserWidget> WidgetTemplate;
+	TSubclassOf<UUserWidget> WidgetClass;
 
 	UPROPERTY()
 	UUserWidget* WidgetInstance;
