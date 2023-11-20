@@ -5,10 +5,17 @@
 
 #include "JsonUtilities.h"
 
+#include "Cards/Card.h"
+#include "Cards/CardHand.h"
+#include "Cards/CardTrick.h"
+#include "Core/SchafkopfCharacter.h"
+
 const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
 const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://localhost:8765";
 const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
 
+ASchafkopfCharacter* Character = nullptr;
+ACardStack* Stack = nullptr;
 /* 
 * Serialize a WebSocket message struct to a JSON string.
 */
@@ -143,21 +150,22 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	{
 		auto GameStartUpdate = JsonStringToStruct<FWsMessageGameStartUpdate>(Message);
 
-		// Extract cards and player from event
-		auto hand = GameStartUpdate.hand;
-		auto players = GameStartUpdate.player;
+		ASchafkopfCharacter* NewCharacter = GetWorld()->SpawnActor<ASchafkopfCharacter>(ASchafkopfCharacter::StaticClass());
+		CreateHand(GameStartUpdate.hand, NewCharacter);
+		Character = NewCharacter;
 
-		// Display hand
+		Stack = GetWorld()->SpawnActor<ACardStack>(ACardStack::StaticClass());
 	} 
 	else if (MessageId == TEXT("PlayDecisionUpdate"))
 	{
 		auto PlayDecisionUpdate = JsonStringToStruct<FWsMessagePlayDecisionUpdate>(Message);
 
 		// Extract decisions from event
+		auto player = PlayDecisionUpdate.player;
+		bool wants_to_play = PlayDecisionUpdate.wants_to_play;
 
-		// Display decisions
+		// Display if the player wants to play or not
 
-		// Ask player which decision he wants to select
 	} 
 	else if (MessageId == TEXT("GametypeDeterminedUpdate"))
 	{
@@ -171,9 +179,13 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	{
 		auto GameEndUpdate = JsonStringToStruct<FWsMessageCardPlayedUpdate>(Message);
 
+		ACard* Card = GetCardFromStruct(GameEndUpdate.card);
+
 		// Put Card on stack
+		Stack->AddCard_Implementation(Card);
 
 		// Update hand
+		Character->GetCardHand()->RemoveCard_Implementation(Card);
 	}
 	else if (MessageId == TEXT("RoundResultUpdate"))
 	{
@@ -182,6 +194,9 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 		// Extract winner and points of the round
 
 		// Display winner with points received
+
+		// Reset stack
+		Stack = GetWorld()->SpawnActor<ACardStack>(ACardStack::StaticClass());
 	}
 	else if (MessageId == TEXT("GameEndUpdate"))
 	{
@@ -258,3 +273,22 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	}
 }
 
+void USchafkopfGameInstance::CreateHand(TArray<FWsCard>& FwHand, ASchafkopfCharacter* Character)
+{
+	for (FWsCard FwCard : FwHand)
+	{
+		ACard* Card = GetCardFromStruct(FwCard);
+		Character->GetCardHand()->AddCard_Implementation(Card);
+	}
+}
+
+ACard* USchafkopfGameInstance::GetCardFromStruct(FWsCard FwCard)
+{
+	ACard* Card = GetWorld()->SpawnActor<ACard>(ACard::StaticClass());
+
+	ECardSuit suit = GetCardSuitFromString(FwCard.suit);
+	ECardRank rank = GetCardRankFromString(FwCard.rank);
+	Card->Update(suit, rank);
+
+	return Card;
+}
