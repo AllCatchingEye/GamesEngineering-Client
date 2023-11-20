@@ -2,6 +2,7 @@
 
 
 #include "Core/SchafkopfPlayerController.h"
+#include "Blueprint/UserWidget.h"
 
 ASchafkopfPlayerController::ASchafkopfPlayerController() : APlayerController()
 {
@@ -17,4 +18,12 @@ void ASchafkopfPlayerController::BeginPlay()
 	this->PosessedPawn = Cast<ASchafkopfCharacter>(this->GetPawn());
 
 	this->SetInputMode(FInputModeGameAndUI());
+
+	// Create the HUD widget.
+	if (this->WidgetClass && !this->WidgetInstance)
+	{
+		this->WidgetInstance = CreateWidget(this, this->WidgetClass);
+		this->WidgetInstance->AddToViewport();
+		this->bShowMouseCursor = true;
+	}
 }
