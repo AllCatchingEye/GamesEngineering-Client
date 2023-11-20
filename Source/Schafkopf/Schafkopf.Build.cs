@@ -14,6 +14,8 @@ public class Schafkopf : ModuleRules
 			"Engine",
 			"InputCore",
 
+			"UMG",
+
 			"Json",
 			"JsonUtilities",
 			"WebSockets"
