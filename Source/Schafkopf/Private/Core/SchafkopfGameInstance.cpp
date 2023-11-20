@@ -142,26 +142,54 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	if (MessageId == TEXT("GameStartUpdate"))
 	{
 		auto GameStartUpdate = JsonStringToStruct<FWsMessageGameStartUpdate>(Message);
+
+		// Extract cards and player from event
+		auto hand = GameStartUpdate.hand;
+		auto players = GameStartUpdate.player;
+
+		// Display hand
 	} 
 	else if (MessageId == TEXT("PlayDecisionUpdate"))
 	{
 		auto PlayDecisionUpdate = JsonStringToStruct<FWsMessagePlayDecisionUpdate>(Message);
+
+		// Extract decisions from event
+
+		// Display decisions
+
+		// Ask player which decision he wants to select
 	} 
 	else if (MessageId == TEXT("GametypeDeterminedUpdate"))
 	{
 		auto PlayUpdate = JsonStringToStruct<FWsMessageGametypeDeterminedUpdate>(Message);
+
+		// Extract gametype from event
+
+		// Do something with the gametype here
 	}
 	else if (MessageId == TEXT("CardPlayedUpdate"))
 	{
 		auto GameEndUpdate = JsonStringToStruct<FWsMessageCardPlayedUpdate>(Message);
+
+		// Put Card on stack
+
+		// Update hand
 	}
 	else if (MessageId == TEXT("RoundResultUpdate"))
 	{
 		auto GameEndUpdate = JsonStringToStruct<FWsMessageRoundResultUpdate>(Message);
+
+		// Extract winner and points of the round
+
+		// Display winner with points received
 	}
 	else if (MessageId == TEXT("GameEndUpdate"))
 	{
 		auto GameEndUpdate = JsonStringToStruct<FWsMessageGameEndUpdate>(Message);
+
+		// Extract winner / team and their points
+
+		// Display winner / team with points received
 	} // TODO FWsMessageAnnouncePlayPartyUpdate
 	else if (MessageId == TEXT("GameGroupChosenUpdate"))
 	{
