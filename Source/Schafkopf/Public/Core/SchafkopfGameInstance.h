@@ -104,4 +104,16 @@ protected:
 	/**  */
 	UFUNCTION()
 	void OnGameStart();
+
+	UFUNCTION(BlueprintCallable)
+	void SendWantsToPlay(const bool WantsToPlay);
+
+	UFUNCTION(BlueprintCallable)
+	void SendGameGroupSelect(const int32 GameGroupIndex);
+
+	UFUNCTION(BlueprintCallable)
+	void SendGameTypeSelect(const int32 GameTypeIndex);
+
+	UFUNCTION(BlueprintCallable)
+	void SendCardPlay(const int32 CardIndex);
 };

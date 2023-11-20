@@ -11,6 +11,30 @@ const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
 const wchar_t* USchafkopfGameInstance::LEVEL_NAME_MAINMENU = TEXT("MainMenuLevel");
 const wchar_t* USchafkopfGameInstance::LEVEL_NAME_INGAME = TEXT("GameLevel");
 
+ECardSuit GetCardSuitFromString(const FString& SuitString)
+{
+	UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ECardSuit"), true);
+	if (!EnumPtr)
+	{
+		// Handle error: Unable to find the enum
+		return ECardSuit::NONE;
+	}
+
+	return (ECardSuit)EnumPtr->GetValueByNameString(*SuitString);
+}
+
+ECardRank GetCardRankFromString(const FString& RankString)
+{
+	UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ECardSuit"), true);
+	if (!EnumPtr)
+	{
+		// Handle error: Unable to find the enum
+		return ECardRank::NONE;
+	}
+
+	return (ECardRank)EnumPtr->GetValueByNameString(*RankString);
+}
+
 /* 
 * Serialize a WebSocket message struct to a JSON string.
 */
@@ -282,4 +306,45 @@ void USchafkopfGameInstance::OnGameStart()
 		this->GameModeActive = this->GameModeSelected;
 		UGameplayStatics::OpenLevel(USchafkopfGameInstance::GetWorld(), USchafkopfGameInstance::LEVEL_NAME_INGAME);
 	}
+}
+
+void USchafkopfGameInstance::SendWantsToPlay(const bool WantsToPlay)
+{
+	auto PlayerWantsToPlay = FWsMessagePlayerWantsToPlayAnswer();
+	PlayerWantsToPlay.id = TEXT("PlayerWantsToPlayAnswer");
+	PlayerWantsToPlay.decision = WantsToPlay;
+
+	auto Message = StructToJsonString(PlayerWantsToPlay);
+	WebSocket->Send(Message);
+}
+
+
+void USchafkopfGameInstance::SendGameGroupSelect(const int32 GameGroupIndex)
+{
+	auto PlayerChooseGameGroupResponse = FWsMessagePlayerChooseGameGroupAnswer();
+	PlayerChooseGameGroupResponse.id = TEXT("PlayerChooseGameGroupAnswer");
+	PlayerChooseGameGroupResponse.gamegroup_index = GameGroupIndex;
+
+	auto Message = StructToJsonString(PlayerChooseGameGroupResponse);
+	WebSocket->Send(Message);
+}
+
+void USchafkopfGameInstance::SendGameTypeSelect(const int32 GameTypeIndex)
+{
+	auto PlayerSelectGameTypeResponse = FWsMessagePlayerSelectGameTypeAnswer();
+	PlayerSelectGameTypeResponse.id = TEXT("PlayerSelectGameTypeAnswer");
+	PlayerSelectGameTypeResponse.gametype_index = GameTypeIndex;
+
+	auto Message = StructToJsonString(PlayerSelectGameTypeResponse);
+	WebSocket->Send(Message);
+}
+
+void USchafkopfGameInstance::SendCardPlay(const int32 CardIndex)
+{
+	auto PlayerPlayCardResponse = FWsMessagePlayerPlayCardAnswer();
+	PlayerPlayCardResponse.id = TEXT("PlayerPlayCardAnswer");
+	PlayerPlayCardResponse.card_index = CardIndex;
+
+	auto Message = StructToJsonString(PlayerPlayCardResponse);
+	WebSocket->Send(Message);
 }

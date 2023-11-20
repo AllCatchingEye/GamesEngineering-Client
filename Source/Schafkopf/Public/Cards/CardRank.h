@@ -30,16 +30,4 @@ enum class ECardRank : uint8
 	ASS = 8			UMETA(DisplayName = "ASS")
 };
 
-ECardRank GetCardRankFromString(const FString& RankString)
-{
-	UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ECardSuit"), true);
-	if (!EnumPtr)
-	{
-		// Handle error: Unable to find the enum
-		return ECardRank::NONE;
-	}
-
-	return (ECardRank)EnumPtr->GetValueByNameString(*RankString);
-}
-
 ENUM_RANGE_BY_FIRST_AND_LAST(ECardRank, ECardRank::SIEBEN, ECardRank::ASS);
