@@ -1,8 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "JsonUtilities.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "Core/SchafkopfGameInstance.h"
 
+<<<<<<< HEAD
 #include "JsonUtilities.h"
 
 #include "Cards/Card.h"
@@ -10,9 +13,13 @@
 #include "Cards/CardTrick.h"
 #include "Core/SchafkopfCharacter.h"
 
+=======
+>>>>>>> 62360f4bde4f952cb8abbdc9a21dc1d8a23b4b40
 const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
 const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://localhost:8765";
 const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
+const wchar_t* USchafkopfGameInstance::LEVEL_NAME_MAINMENU = TEXT("MainMenuLevel");
+const wchar_t* USchafkopfGameInstance::LEVEL_NAME_INGAME = TEXT("GameLevel");
 
 ASchafkopfCharacter* Character = nullptr;
 ACardStack* Stack = nullptr;
@@ -291,4 +298,28 @@ ACard* USchafkopfGameInstance::GetCardFromStruct(FWsCard FwCard)
 	Card->Update(suit, rank);
 
 	return Card;
+}
+
+void USchafkopfGameInstance::SelectGameMode(ESchafkopfGameModes NewGameMode)
+{
+	if (NewGameMode != ESchafkopfGameModes::NONE)
+	{
+		this->GameModeSelected = NewGameMode;
+
+		// TODO: Change game start logic.
+		// For test purposes for the 2nd milestone, the game will be started
+		// directly. There is no lobby yet.
+		this->OnGameStart();
+	}
+}
+
+void USchafkopfGameInstance::OnGameStart()
+{
+	//ensure(this->GameModeSelected != ESchafkopfGameModes::NONE);
+
+	if (this->GameModeSelected != ESchafkopfGameModes::NONE)
+	{
+		this->GameModeActive = this->GameModeSelected;
+		UGameplayStatics::OpenLevel(USchafkopfGameInstance::GetWorld(), USchafkopfGameInstance::LEVEL_NAME_INGAME);
+	}
 }

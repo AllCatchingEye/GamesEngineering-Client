@@ -26,4 +26,16 @@ enum class ECardSuit : uint8
 	SCHELLEN = 4	UMETA(DispalyName = "SCHELLEN")
 };
 
+ECardSuit GetCardSuitFromString(const FString& SuitString)
+{
+    UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ECardSuit"), true);
+    if (!EnumPtr)
+    {
+        // Handle error: Unable to find the enum
+        return ECardSuit::NONE;
+    }
+
+    return (ECardSuit)EnumPtr->GetValueByNameString(*SuitString);
+}
+
 ENUM_RANGE_BY_FIRST_AND_LAST(ECardSuit, ECardSuit::EICHEL, ECardSuit::SCHELLEN);

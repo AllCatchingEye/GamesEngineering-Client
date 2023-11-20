@@ -10,6 +10,7 @@
 #include "WebSocketsModule.h"
 
 #include "WsMessage.h"
+#include "Core/SchafkopfGameModes.h"
 
 #include "SchafkopfGameInstance.generated.h"
 
@@ -32,9 +33,18 @@ private:
 	static const char* WEB_SOCKET_ADDRESS;
 	/** The protocol of the WebSocket. */
 	static const char* WEB_SOCKET_PROTOCOL;
+	/** Teh name of the main menu level. */
+	static const wchar_t* LEVEL_NAME_MAINMENU;
+	/** The name of the ingame level. */
+	static const wchar_t* LEVEL_NAME_INGAME;
 
 	/** The pointer to the WebSocket. */
 	TSharedPtr<IWebSocket> WebSocket = nullptr;
+
+	/** The currently selected game mode. */
+	ESchafkopfGameModes GameModeSelected = ESchafkopfGameModes::NONE;
+	/** The currently active game mode. */
+	ESchafkopfGameModes GameModeActive = ESchafkopfGameModes::NONE;
 
 public:
 	//Called upon start of the game. Handle initial setup here.
@@ -49,6 +59,14 @@ public:
 	/** Closes a WebSocket connection to the server. */
 	UFUNCTION()
 	void WebSocketDisconnect();
+
+	/**
+	 * Select a new game mode.
+	 * 
+	 * @param NewGameMode - The new game mode.
+	 */
+	UFUNCTION(BlueprintCallable)
+	void SelectGameMode(ESchafkopfGameModes NewGameMode);
 
 protected:
 	/** Called when a WebSocket connection has been established successfully. */
@@ -77,6 +95,11 @@ protected:
 	 */
 	UFUNCTION()
 	void OnWebSocketMessageReceived(const FString& Message);
+
 	void CreateHand(TArray<FWsCard>& FwHand, ASchafkopfCharacter* Character);
 	ACard* GetCardFromStruct(FWsCard FwCard);
+
+	/**  */
+	UFUNCTION()
+	void OnGameStart();
 };
