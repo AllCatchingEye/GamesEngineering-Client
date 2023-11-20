@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Core/SchafkopfGameInstance.h"
+#include "Core/SchafkopfPlayerController.h"
 
 #include "JsonUtilities.h"
 #include "Kismet/GameplayStatics.h"
@@ -234,12 +235,18 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 	{
 		auto PlayerWantsToPlayQuery = JsonStringToStruct<FWsMessagePlayerWantsToPlayQuery>(Message);
 
+		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+		controller->ShowWidgetWantsToPlay();
+
 		// FMath::RandBool()
 		SendWantsToPlay(true);
 	}
 	else if (MessageId == TEXT("PlayerSelectGameTypeQuery"))
 	{
 		auto PlayerSelectGameTypeQuery = JsonStringToStruct<FWsMessagePlayerSelectGameTypeQuery>(Message);
+
+		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+		controller->ShowWidgetGameTypeSelect(PlayerSelectGameTypeQuery.choosable_gametypes);
 
 		// randomly choose one of the game types
 		SendGameTypeSelect(FMath::RandRange(0, PlayerSelectGameTypeQuery.choosable_gametypes.Num() - 1));

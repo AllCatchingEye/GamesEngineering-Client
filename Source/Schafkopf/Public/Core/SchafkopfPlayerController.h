@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "WsMessage.h"
 
 #include "Core/SchafkopfCharacter.h"
 #include "SchafkopfPlayerController.generated.h"
@@ -60,7 +61,7 @@ public:
 	 *
 	 * @param Types - The available types.
 	 */
-	void ShowWidgetGameTypeSelect(const TArray<FString> Types);
+	void ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types);
 
 private:
 	ASchafkopfCharacter* PosessedPawn;
