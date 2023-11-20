@@ -1,13 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "JsonUtilities.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "Core/SchafkopfGameInstance.h"
-
-#include "JsonUtilities.h"
 
 const char* USchafkopfGameInstance::WEB_SOCKET_MODULE = "WebSockets";
 const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://localhost:8765";
 const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
+const wchar_t* USchafkopfGameInstance::LEVEL_NAME_MAINMENU = TEXT("MainMenuLevel");
+const wchar_t* USchafkopfGameInstance::LEVEL_NAME_INGAME = TEXT("GameLevel");
 
 /* 
 * Serialize a WebSocket message struct to a JSON string.
@@ -230,3 +232,26 @@ void USchafkopfGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	}
 }
 
+void USchafkopfGameInstance::SelectGameMode(ESchafkopfGameModes NewGameMode)
+{
+	if (NewGameMode != ESchafkopfGameModes::NONE)
+	{
+		this->GameModeSelected = NewGameMode;
+
+		// TODO: Change game start logic.
+		// For test purposes for the 2nd milestone, the game will be started
+		// directly. There is no lobby yet.
+		this->OnGameStart();
+	}
+}
+
+void USchafkopfGameInstance::OnGameStart()
+{
+	//ensure(this->GameModeSelected != ESchafkopfGameModes::NONE);
+
+	if (this->GameModeSelected != ESchafkopfGameModes::NONE)
+	{
+		this->GameModeActive = this->GameModeSelected;
+		UGameplayStatics::OpenLevel(USchafkopfGameInstance::GetWorld(), USchafkopfGameInstance::LEVEL_NAME_INGAME);
+	}
+}
