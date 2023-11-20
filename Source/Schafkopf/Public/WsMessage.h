@@ -206,13 +206,26 @@ public:
 
 
 USTRUCT()
+struct SCHAFKOPF_API FWSGameTypeWithSuit
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY()
+	FString gametype;
+
+	UPROPERTY()
+	FString suit;
+};
+
+USTRUCT()
 struct SCHAFKOPF_API FWsMessagePlayerSelectGameTypeQuery : public FWsMessage
 {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY()
-	TArray<FString> choosable_gametypes;
+	TArray<FWSGameTypeWithSuit> choosable_gametypes;
 };
 
 USTRUCT()
