@@ -42,7 +42,7 @@ void ASchafkopfPlayerController::ShowWidgetGameGroupSelect(const TArray<FString>
 
 }
 
-void ASchafkopfPlayerController::ShowWidgetGameTypeSelect(const TArray<FString> Types)
+void ASchafkopfPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types)
 {
 
 }
