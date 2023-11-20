@@ -10,6 +10,8 @@
 #include "WebSocketsModule.h"
 
 #include "WsMessage.h"
+#include "Cards/Card.h"
+#include "Core/SchafkopfCharacter.h"
 #include "Core/SchafkopfGameModes.h"
 
 #include "SchafkopfGameInstance.generated.h"
