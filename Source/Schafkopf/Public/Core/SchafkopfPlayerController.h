@@ -58,12 +58,16 @@ public:
 	 */
 	void ShowWidgetGameGroupSelect(const TArray<FString> Groups);
 
+	void HideWidgetGameGroupSelect();
+
 	/**
 	 * Shows the GameTypeSelect widget.
 	 *
 	 * @param Types - The available types.
 	 */
 	void ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types);
+
+	void HideWidgetGameTypeSelect();
 
 private:
 	ASchafkopfCharacter* PosessedPawn;
