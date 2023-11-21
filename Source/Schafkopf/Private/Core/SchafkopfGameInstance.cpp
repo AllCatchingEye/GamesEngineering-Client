@@ -261,9 +261,11 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 	{
 		auto RoundResultUpdate = JsonStringToStruct<FWsMessageRoundResultUpdate>(Message);
 
-		Stack = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
+		// Before we destroy, move the cards to the origin, TODO: dirty fix
+		Stack->MoveToOrigin();
+		//Stack->Destroy();
 
-		Stack->Destroy();
+		Stack = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 	}
 	else if (MessageId == TEXT("GameEndUpdate"))
 	{
@@ -299,9 +301,6 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 		{
 			controller->ShowWidgetWantsToPlay();
 		}
-
-		// FMath::RandBool()
-		// SendWantsToPlay(true);
 	}
 	else if (MessageId == TEXT("PlayerSelectGameTypeQuery"))
 	{
@@ -316,9 +315,6 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 		{
 			controller->ShowWidgetGameTypeSelect(PlayerSelectGameTypeQuery.choosable_gametypes);
 		}
-
-		// randomly choose one of the game types
-		// SendGameTypeSelect(FMath::RandRange(0, PlayerSelectGameTypeQuery.choosable_gametypes.Num() - 1));
 	}
 	else if (MessageId == TEXT("PlayerChooseGameGroupQuery"))
 	{
@@ -330,8 +326,15 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 	else if (MessageId == TEXT("PlayerPlayCardQuery")) {
 		auto PlayerPlayCardQuery = JsonStringToStruct<FWsMessagePlayerPlayCardQuery>(Message);
 
-		// randomly choose one of the cards
-		SendCardPlay(FMath::RandRange(0, PlayerPlayCardQuery.playable_cards.Num() - 1));
+		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (controller == nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+		}
+		else
+		{
+			controller->ShowWidgetCardSelect(PlayerPlayCardQuery.playable_cards);
+		}
 	}
 	else {
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Unknown message"));
@@ -431,4 +434,6 @@ void USchafkopfGameInstance::SendCardPlay(const int32 CardIndex)
 
 	auto Message = StructToJsonString(PlayerPlayCardResponse);
 	WebSocket->Send(Message);
+
+	// TODO: Hide
 }

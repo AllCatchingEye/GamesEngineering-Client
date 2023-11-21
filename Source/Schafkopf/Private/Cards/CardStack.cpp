@@ -54,3 +54,18 @@ void ACardStack::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ACardStack::MoveToOrigin()
+{
+	FVector Origin = FVector(0.0f, 0.0f, 0.0f);
+	FRotator Rotation = FRotator(0.0f, 0.0f, 0.0f);
+	FVector Scale = FVector(1.0f, 1.0f, 1.0f);
+
+	this->SetActorLocationAndRotation(Origin, Rotation);
+	this->SetActorScale3D(Scale);
+
+	for (ACard* Card : this->Cards)
+	{
+		Card->SetActorLocationAndRotation(Origin, Rotation);
+		Card->SetActorScale3D(Scale);
+	}
+}
