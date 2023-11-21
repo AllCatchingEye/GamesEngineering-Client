@@ -73,6 +73,8 @@ public:
 
 	void HideWidgetGameTypeSelect();
 
+	ASchafkopfCharacter* GetPosessedPawn();
+
 private:
 	ASchafkopfCharacter* PosessedPawn;
 };

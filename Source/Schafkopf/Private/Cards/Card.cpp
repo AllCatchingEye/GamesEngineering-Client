@@ -102,7 +102,7 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 			CardTextureLocationFull += CardTextureLocationEnd;
 
 			// Fetch the card texture.
-			Textures[EnumValueSuit * EnumValueRank] = LoadObject<UTexture2D>(ACard::StaticClass(), *CardTextureLocationFull);
+			Textures[((EnumValueSuit - 1) * 8) + EnumValueRank] = LoadObject<UTexture2D>(ACard::StaticClass(), *CardTextureLocationFull);
 		}
 	}
 
@@ -112,11 +112,22 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 
 void ACard::UpdateFrontTexture()
 {
-	// Bind the card texture based on the rank and suit enum.
+
+	int32 CardTextureIndex = 0;
+
 	const uint8 EnumValueSuit = (uint8)this->Suit;
 	const uint8 EnumValueRank = (uint8)this->Rank;
-	UTexture2D* CardTexture = ACard::CARD_TEXTURES[EnumValueSuit * EnumValueRank];
 
-	ensureMsgf(CardTexture != nullptr, TEXT("Card texture [ %d, %d ] was null."), EnumValueSuit, EnumValueRank);
+	const bool bIsNone = this->Suit == ECardSuit::NONE && this->Rank == ECardRank::NONE;
+	if (ensureAlwaysMsgf(!bIsNone, TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE.")))
+	{
+		// Bind the card texture based on the rank and suit enum.
+
+		CardTextureIndex = ((EnumValueSuit - 1) * 8) + EnumValueRank;
+	}
+
+	UTexture2D* CardTexture = ACard::CARD_TEXTURES[CardTextureIndex];
+	checkf(CardTexture != nullptr, TEXT("Card texture [ %d ] was null."), EnumValueSuit, EnumValueRank)
+
 	this->CardMaterialFrontDynamic->SetTextureParameterValue(TEXT("Texture"), CardTexture);
 }
