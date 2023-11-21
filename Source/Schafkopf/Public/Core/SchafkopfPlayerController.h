@@ -49,6 +49,8 @@ public:
 	/** Shows the WantsToPlay widget. */
 	void ShowWidgetWantsToPlay();
 
+	void HideWidgetWantsToPlay();
+
 	/**
 	 * Shows the GameGroupSelect widget.
 	 * 

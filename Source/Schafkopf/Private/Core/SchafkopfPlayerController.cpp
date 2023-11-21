@@ -54,6 +54,14 @@ void ASchafkopfPlayerController::ShowWidgetWantsToPlay()
 	}
 }
 
+void ASchafkopfPlayerController::HideWidgetWantsToPlay()
+{
+	if (this->WidgetInstanceWantsToPlay)
+	{
+		this->WidgetInstanceWantsToPlay->RemoveFromViewport();
+	}
+}
+
 void ASchafkopfPlayerController::ShowWidgetGameGroupSelect(const TArray<FString> Groups)
 {
 	if (this->WidgetInstanceGameGroupSelect)
