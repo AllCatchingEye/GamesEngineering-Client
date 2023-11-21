@@ -26,7 +26,7 @@ ECardSuit GetCardSuitFromString(const FString& SuitString)
 
 ECardRank GetCardRankFromString(const FString& RankString)
 {
-	UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ECardSuit"), true);
+	UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ECardRank"), true);
 	if (!EnumPtr)
 	{
 		// Handle error: Unable to find the enum
@@ -175,6 +175,37 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 		auto players = GameStartUpdate.player;
 
 		// Display hand
+
+		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (controller == nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+		}
+		else
+		{
+			controller->HideWidgetGameGroupSelect();
+		}
+
+		auto cardHand = controller->GetPosessedPawn()->GetCardHand();
+
+		auto world = GetWorld();
+
+		// iterate over hand
+		for (FWsCard card : hand)
+		{
+			// create card actor
+			auto cardActor = world->SpawnActor<ACard>(ACard::StaticClass(), FVector(0, 0, 0), FRotator(0, 0, 0));
+
+			ECardSuit suit = GetCardSuitFromString(card.suit);
+			ECardRank rank = GetCardRankFromString(card.rank);
+			cardActor->Update(suit, rank);
+
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Card: %s %s"), *card.suit, *card.rank));
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Card: %d %d"), (int)suit, (int)rank));
+
+			// add card to hand
+			cardHand->AddCard_Implementation(cardActor);
+		}
 	} 
 	else if (MessageId == TEXT("PlayDecisionUpdate"))
 	{
