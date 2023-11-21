@@ -27,7 +27,13 @@ public:
 
 	virtual int32 GetCardMaximum_Implementation() const final;
 
+	virtual void AddCard_Implementation(ACard* ToAdd) final;
+
 private:
 	/** The maximum number of cards. */
 	static const int32 CARD_COUNT_MAX = 4;
+
+	/** Rearranges the hand cards along the spline. */
+	void RearrangeCards();
 };
+
