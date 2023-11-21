@@ -70,11 +70,27 @@ void ASchafkopfPlayerController::ShowWidgetGameGroupSelect(const TArray<FString>
 	}
 }
 
+void ASchafkopfPlayerController::HideWidgetGameGroupSelect()
+{
+	if (this->WidgetInstanceGameGroupSelect)
+	{
+		this->WidgetInstanceGameGroupSelect->RemoveFromViewport();
+	}
+}
+
 void ASchafkopfPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types)
 {
 	if (this->WidgetInstanceGameTypeSelect)
 	{
 		this->WidgetInstanceGameTypeSelect->AddToViewport();
+	}
+}
+
+void ASchafkopfPlayerController::HideWidgetGameTypeSelect()
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameTypeSelect->RemoveFromViewport();
 	}
 }
 

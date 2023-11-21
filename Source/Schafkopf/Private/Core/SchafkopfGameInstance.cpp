@@ -336,6 +336,16 @@ void USchafkopfGameInstance::SendGameGroupSelect(const int32 GameGroupIndex)
 
 	auto Message = StructToJsonString(PlayerChooseGameGroupResponse);
 	WebSocket->Send(Message);
+
+	auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+	if (controller == nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+	}
+	else
+	{
+		controller->HideWidgetGameGroupSelect();
+	}
 }
 
 void USchafkopfGameInstance::SendGameTypeSelect(const int32 GameTypeIndex)
@@ -346,6 +356,16 @@ void USchafkopfGameInstance::SendGameTypeSelect(const int32 GameTypeIndex)
 
 	auto Message = StructToJsonString(PlayerSelectGameTypeResponse);
 	WebSocket->Send(Message);
+
+	auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+	if (controller == nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+	}
+	else
+	{
+		controller->HideWidgetGameTypeSelect();
+	}
 }
 
 void USchafkopfGameInstance::SendCardPlay(const int32 CardIndex)
