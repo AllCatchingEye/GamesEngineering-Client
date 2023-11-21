@@ -236,20 +236,34 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 		auto PlayerWantsToPlayQuery = JsonStringToStruct<FWsMessagePlayerWantsToPlayQuery>(Message);
 
 		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
-		controller->ShowWidgetWantsToPlay();
+		if (controller == nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+		} 
+		else 
+		{
+			controller->ShowWidgetWantsToPlay();
+		}
 
 		// FMath::RandBool()
-		SendWantsToPlay(true);
+		// SendWantsToPlay(true);
 	}
 	else if (MessageId == TEXT("PlayerSelectGameTypeQuery"))
 	{
 		auto PlayerSelectGameTypeQuery = JsonStringToStruct<FWsMessagePlayerSelectGameTypeQuery>(Message);
 
 		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
-		controller->ShowWidgetGameTypeSelect(PlayerSelectGameTypeQuery.choosable_gametypes);
+		if (controller == nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+		}
+		else
+		{
+			controller->ShowWidgetGameTypeSelect(PlayerSelectGameTypeQuery.choosable_gametypes);
+		}
 
 		// randomly choose one of the game types
-		SendGameTypeSelect(FMath::RandRange(0, PlayerSelectGameTypeQuery.choosable_gametypes.Num() - 1));
+		// SendGameTypeSelect(FMath::RandRange(0, PlayerSelectGameTypeQuery.choosable_gametypes.Num() - 1));
 	}
 	else if (MessageId == TEXT("PlayerChooseGameGroupQuery"))
 	{
