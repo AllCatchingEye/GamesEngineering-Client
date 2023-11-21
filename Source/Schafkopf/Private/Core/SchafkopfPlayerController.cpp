@@ -34,11 +34,11 @@ void ASchafkopfPlayerController::BeginPlay()
 	}
 	if (this->WidgetClassGameGroupSelect && !this->WidgetInstanceGameGroupSelect)
 	{
-		this->WidgetInstanceGameGroupSelect = CreateWidget(this, this->WidgetClassGameGroupSelect);
+		this->WidgetInstanceGameGroupSelect = Cast<UGameGroupSelectWidget>(CreateWidget(this, this->WidgetClassGameGroupSelect));
 	}
 	if (this->WidgetClassGameTypeSelect && !this->WidgetInstanceGameTypeSelect)
 	{
-		this->WidgetInstanceGameTypeSelect = CreateWidget(this, this->WidgetClassGameTypeSelect);
+		this->WidgetInstanceGameTypeSelect = Cast<UGameTypeSelectWidget>(CreateWidget(this, this->WidgetClassGameTypeSelect));
 	}
 }
 
@@ -67,6 +67,7 @@ void ASchafkopfPlayerController::ShowWidgetGameGroupSelect(const TArray<FString>
 	if (this->WidgetInstanceGameGroupSelect)
 	{
 		this->WidgetInstanceGameGroupSelect->AddToViewport();
+		// this->WidgetInstanceGameGroupSelect->UpdateFields(&Groups);
 	}
 }
 
@@ -83,6 +84,7 @@ void ASchafkopfPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTy
 	if (this->WidgetInstanceGameTypeSelect)
 	{
 		this->WidgetInstanceGameTypeSelect->AddToViewport();
+		this->WidgetInstanceGameTypeSelect->UpdateFields(Types);
 	}
 }
 
