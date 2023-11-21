@@ -315,6 +315,16 @@ void USchafkopfGameInstance::SendWantsToPlay(const bool WantsToPlay)
 
 	auto Message = StructToJsonString(PlayerWantsToPlay);
 	WebSocket->Send(Message);
+
+	auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+	if (controller == nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+	}
+	else
+	{
+		controller->HideWidgetWantsToPlay();
+	}
 }
 
 
