@@ -20,11 +20,25 @@ void ASchafkopfPlayerController::BeginPlay()
 	this->SetInputMode(FInputModeGameAndUI());
 
 	// Create the HUD widget.
-	if (this->WidgetClass && !this->WidgetInstance)
+	/*if (this->WidgetClass && !this->WidgetInstance)
 	{
 		this->WidgetInstance = CreateWidget(this, this->WidgetClass);
 		this->WidgetInstance->AddToViewport();
-		this->bShowMouseCursor = true;
+		//this->bShowMouseCursor = true;
+	}
+	*/
+
+	if (this->WidgetClassWantsToPlay && !this->WidgetInstanceWantsToPlay)
+	{
+		this->WidgetInstanceWantsToPlay = CreateWidget(this, this->WidgetClassWantsToPlay);
+	}
+	if (this->WidgetClassGameGroupSelect && !this->WidgetInstanceGameGroupSelect)
+	{
+		this->WidgetInstanceGameGroupSelect = CreateWidget(this, this->WidgetClassGameGroupSelect);
+	}
+	if (this->WidgetClassGameTypeSelect && !this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameTypeSelect = CreateWidget(this, this->WidgetClassGameTypeSelect);
 	}
 }
 
@@ -34,17 +48,26 @@ void ASchafkopfPlayerController::BeginPlay()
 
 void ASchafkopfPlayerController::ShowWidgetWantsToPlay()
 {
-
+	if (this->WidgetInstanceWantsToPlay)
+	{
+		this->WidgetInstanceWantsToPlay->AddToViewport();
+	}
 }
 
 void ASchafkopfPlayerController::ShowWidgetGameGroupSelect(const TArray<FString> Groups)
 {
-
+	if (this->WidgetInstanceGameGroupSelect)
+	{
+		this->WidgetInstanceGameGroupSelect->AddToViewport();
+	}
 }
 
 void ASchafkopfPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types)
 {
-
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameTypeSelect->AddToViewport();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////
