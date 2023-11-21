@@ -28,4 +28,6 @@ public:
 	virtual bool CanRemoveCard_Implementation(ACard* ToRemove) const final;
 
 	virtual void RemoveCard_Implementation(ACard* ToRemove) override;
+
+	virtual void RemoveCardByRankAndSuit_Implementation(ECardRank rank, ECardSuit suit) override;
 };

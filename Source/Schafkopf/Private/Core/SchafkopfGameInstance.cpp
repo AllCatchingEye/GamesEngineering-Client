@@ -14,6 +14,7 @@ const wchar_t* USchafkopfGameInstance::LEVEL_NAME_MAINMENU = TEXT("MainMenuLevel
 const wchar_t* USchafkopfGameInstance::LEVEL_NAME_INGAME = TEXT("GameLevel");
 
 ACardTrick* Stack = nullptr;
+FString PlayerId = FString(TEXT(""));
 
 ECardSuit GetCardSuitFromString(const FString& SuitString)
 {
@@ -175,7 +176,7 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 
 		// Extract cards and player from event
 		auto hand = GameStartUpdate.hand;
-		auto players = GameStartUpdate.player;
+		PlayerId = GameStartUpdate.player;
 
 		// Display hand
 
@@ -243,17 +244,26 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 		Stack->AddCard_Implementation(card);
 
 		// Update hand
-		//auto character = Cast<ASchafkopfCharacter>(GetWorld()->GetFirstPlayerController());
-		//character->GetCardHand()->RemoveCard_Implementation(card);
+		if (PlayerId.Equals(CardPlayedUpdate.player))
+		{
+			auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+			if (controller == nullptr)
+			{
+				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+			}
+			else
+			{
+				controller->GetPosessedPawn()->GetCardHand()->RemoveCardByRankAndSuit_Implementation(rank, suit);
+			}
+		}
 	}
 	else if (MessageId == TEXT("RoundResultUpdate"))
 	{
 		auto RoundResultUpdate = JsonStringToStruct<FWsMessageRoundResultUpdate>(Message);
 
-		// Extract winner and points of the round
 		Stack = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 
-		// Display winner with points received
+		Stack->Destroy();
 	}
 	else if (MessageId == TEXT("GameEndUpdate"))
 	{

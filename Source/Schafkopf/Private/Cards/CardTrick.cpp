@@ -19,7 +19,6 @@ void ACardTrick::AddCard_Implementation(ACard* ToAdd)
 {
 	
 	Super::AddCard_Implementation(ToAdd);
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, "Card was played, rearranging cards...");
 	this->RearrangeCards();
 }
 
@@ -47,5 +46,4 @@ void ACardTrick::RearrangeCards()
 		Card->SetActorRelativeLocation(CardLocation);
 		Card->SetActorRelativeRotation(CardRotation);
 	}
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, "Rearranged Cards.");
 }
