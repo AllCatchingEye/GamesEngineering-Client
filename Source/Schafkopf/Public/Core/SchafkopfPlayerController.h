@@ -6,6 +6,10 @@
 #include "GameFramework/PlayerController.h"
 #include "WsMessage.h"
 
+#include "UI/GameGroupSelectWidget.h"
+#include "UI/GameTypeSelectWidget.h"
+
+
 #include "Core/SchafkopfCharacter.h"
 #include "SchafkopfPlayerController.generated.h"
 
@@ -29,10 +33,10 @@ public:
 	TSubclassOf<UUserWidget> WidgetClassWantsToPlay;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UUserWidget> WidgetClassGameGroupSelect;
+	TSubclassOf<UGameGroupSelectWidget> WidgetClassGameGroupSelect;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UUserWidget> WidgetClassGameTypeSelect;
+	TSubclassOf<UGameTypeSelectWidget> WidgetClassGameTypeSelect;
 
 	UPROPERTY()
 	UUserWidget* WidgetInstance;
@@ -41,10 +45,10 @@ public:
 	UUserWidget* WidgetInstanceWantsToPlay;
 
 	UPROPERTY()
-	UUserWidget* WidgetInstanceGameGroupSelect;
+	UGameGroupSelectWidget* WidgetInstanceGameGroupSelect;
 
 	UPROPERTY()
-	UUserWidget* WidgetInstanceGameTypeSelect;
+	UGameTypeSelectWidget* WidgetInstanceGameTypeSelect;
 
 	/** Shows the WantsToPlay widget. */
 	void ShowWidgetWantsToPlay();
