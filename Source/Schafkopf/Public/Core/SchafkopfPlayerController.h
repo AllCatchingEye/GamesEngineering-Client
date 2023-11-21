@@ -8,6 +8,7 @@
 
 #include "UI/GameGroupSelectWidget.h"
 #include "UI/GameTypeSelectWidget.h"
+#include "UI/CardSelectWidget.h"
 
 
 #include "Core/SchafkopfCharacter.h"
@@ -38,6 +39,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UGameTypeSelectWidget> WidgetClassGameTypeSelect;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UCardSelectWidget> WidgetClassCardSelect;
+
 	UPROPERTY()
 	UUserWidget* WidgetInstance;
 
@@ -49,6 +53,9 @@ public:
 
 	UPROPERTY()
 	UGameTypeSelectWidget* WidgetInstanceGameTypeSelect;
+
+	UPROPERTY()
+	UCardSelectWidget* WidgetInstanceCardSelect;
 
 	/** Shows the WantsToPlay widget. */
 	void ShowWidgetWantsToPlay();
@@ -72,6 +79,13 @@ public:
 	void ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types);
 
 	void HideWidgetGameTypeSelect();
+
+	/**
+	 * Shows the CardSelect widget.
+	 *
+	 * @param Cards - The available cards.
+	 */
+	void ShowWidgetCardSelect(const TArray<FWsCard> Cards);
 
 	ASchafkopfCharacter* GetPosessedPawn();
 
