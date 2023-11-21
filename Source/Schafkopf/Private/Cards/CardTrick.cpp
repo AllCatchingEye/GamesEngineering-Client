@@ -37,7 +37,7 @@ void ACardTrick::RearrangeCards()
 		// Reset card position:
 		//Card->SetActorRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 
-		CardLocation = FVector(-80.0, 20.0f * i, 175.0f);
+		CardLocation = FVector(-80.0, (25.0f * i) - 50.0f, 175.0f);
 		CardRotation = FRotator(0.0f, 0.0f, 0.0f);
 		// Correct the card position.
 		// TODO: Reimport the static mesh, so that the rotation does not have to be changed manually.
