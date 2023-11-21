@@ -40,6 +40,10 @@ void ASchafkopfPlayerController::BeginPlay()
 	{
 		this->WidgetInstanceGameTypeSelect = Cast<UGameTypeSelectWidget>(CreateWidget(this, this->WidgetClassGameTypeSelect));
 	}
+	if (this->WidgetClassCardSelect && !this->WidgetInstanceCardSelect)
+	{
+		this->WidgetInstanceCardSelect = Cast<UCardSelectWidget>(CreateWidget(this, this->WidgetClassCardSelect));
+	}
 }
 
 ASchafkopfCharacter* ASchafkopfPlayerController::GetPosessedPawn()
@@ -98,6 +102,15 @@ void ASchafkopfPlayerController::HideWidgetGameTypeSelect()
 	if (this->WidgetInstanceGameTypeSelect)
 	{
 		this->WidgetInstanceGameTypeSelect->RemoveFromViewport();
+	}
+}
+
+void ASchafkopfPlayerController::ShowWidgetCardSelect(const TArray<FWsCard> Cards)
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceCardSelect->AddToViewport();
+		this->WidgetInstanceCardSelect->UpdateFields(Cards);
 	}
 }
 
