@@ -26,16 +26,16 @@ public:
 };
 
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct SCHAFKOPF_API FWsCard
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	FString suit; // TODO: Enum value?
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	FString rank; // TODO: Enum value?
 };
 
@@ -258,13 +258,13 @@ public:
 	int gamegroup_index;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct SCHAFKOPF_API FWsMessagePlayerPlayCardQuery : public FWsMessage
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	TArray<FWsCard> playable_cards;
 };
 
