@@ -2,6 +2,7 @@
 
 #include "Core/SchafkopfGameInstance.h"
 #include "Core/SchafkopfPlayerController.h"
+#include "Cards/CardTrick.h"
 
 #include "JsonUtilities.h"
 #include "Kismet/GameplayStatics.h"
@@ -11,6 +12,8 @@ const char* USchafkopfGameInstance::WEB_SOCKET_ADDRESS = "ws://localhost:8765";
 const char* USchafkopfGameInstance::WEB_SOCKET_PROTOCOL = "ws";
 const wchar_t* USchafkopfGameInstance::LEVEL_NAME_MAINMENU = TEXT("MainMenuLevel");
 const wchar_t* USchafkopfGameInstance::LEVEL_NAME_INGAME = TEXT("GameLevel");
+
+ACardTrick* Stack = nullptr;
 
 ECardSuit GetCardSuitFromString(const FString& SuitString)
 {
@@ -206,6 +209,8 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 			// add card to hand
 			cardHand->AddCard_Implementation(cardActor);
 		}
+
+		Stack = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 	} 
 	else if (MessageId == TEXT("PlayDecisionUpdate"))
 	{
@@ -227,17 +232,26 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 	}
 	else if (MessageId == TEXT("CardPlayedUpdate"))
 	{
-		auto GameEndUpdate = JsonStringToStruct<FWsMessageCardPlayedUpdate>(Message);
+		auto CardPlayedUpdate = JsonStringToStruct<FWsMessageCardPlayedUpdate>(Message);
+
+		ECardSuit suit = GetCardSuitFromString(CardPlayedUpdate.card.suit);
+		ECardRank rank = GetCardRankFromString(CardPlayedUpdate.card.rank);
+		auto card = GetWorld()->SpawnActor<ACard>(ACard::StaticClass());
+		card->Update(suit, rank);
 
 		// Put Card on stack
+		Stack->AddCard_Implementation(card);
 
 		// Update hand
+		//auto character = Cast<ASchafkopfCharacter>(GetWorld()->GetFirstPlayerController());
+		//character->GetCardHand()->RemoveCard_Implementation(card);
 	}
 	else if (MessageId == TEXT("RoundResultUpdate"))
 	{
-		auto GameEndUpdate = JsonStringToStruct<FWsMessageRoundResultUpdate>(Message);
+		auto RoundResultUpdate = JsonStringToStruct<FWsMessageRoundResultUpdate>(Message);
 
 		// Extract winner and points of the round
+		Stack = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 
 		// Display winner with points received
 	}
