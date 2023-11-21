@@ -53,4 +53,8 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cards")
 	void RemoveCard(ACard* ToRemove);
+
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cards")
+	void RemoveCardByRankAndSuit(ECardRank rank, ECardSuit suit);
 };

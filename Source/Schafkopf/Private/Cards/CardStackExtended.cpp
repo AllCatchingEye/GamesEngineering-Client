@@ -20,3 +20,20 @@ void ACardStackExtended::RemoveCard_Implementation(ACard* ToRemove)
 	ToRemove->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	this->Cards.Remove(ToRemove);
 }
+
+void ACardStackExtended::RemoveCardByRankAndSuit_Implementation(ECardRank Rank, ECardSuit Suit)
+{
+	ACard* card = nullptr;
+
+	for (int32 i = 0; i < this->Cards.Num(); i++)
+	{
+		if (this->Cards[i]->GetRank() == Rank && this->Cards[i]->GetSuit() == Suit)
+		{
+			card = this->Cards[i];
+			this->RemoveCard_Implementation(this->Cards[i]);
+			break;
+		}
+	}
+
+	card->Destroy();
+}
