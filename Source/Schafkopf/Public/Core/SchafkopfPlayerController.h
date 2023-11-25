@@ -9,7 +9,7 @@
 #include "UI/GameGroupSelectWidget.h"
 #include "UI/GameTypeSelectWidget.h"
 #include "UI/CardSelectWidget.h"
-
+#include "UI/GameMoney.h"
 
 #include "Core/SchafkopfCharacter.h"
 #include "SchafkopfPlayerController.generated.h"
@@ -57,6 +57,9 @@ public:
 	UPROPERTY()
 	UCardSelectWidget* WidgetInstanceCardSelect;
 
+	UPROPERTY()
+	UGameMoney* GameMoneyInstance;
+
 	/** Shows the WantsToPlay widget. */
 	void ShowWidgetWantsToPlay();
 
@@ -86,6 +89,8 @@ public:
 	 * @param Cards - The available cards.
 	 */
 	void ShowWidgetCardSelect(const TArray<FWsCard> Cards);
+
+	void UpdateGameMoneyWidget();
 
 	ASchafkopfCharacter* GetPosessedPawn();
 

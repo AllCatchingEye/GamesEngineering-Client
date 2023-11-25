@@ -294,6 +294,7 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 			else
 			{
 				controller->GetPosessedPawn()->SetMoney(MoneyUpdate.money.cents);
+
 			}
 		}
 	}
@@ -328,6 +329,7 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 		else
 		{
 			controller->ShowWidgetGameTypeSelect(PlayerSelectGameTypeQuery.choosable_gametypes);
+			controller->UpdateGameMoneyWidget();
 		}
 	}
 	else if (MessageId == TEXT("PlayerChooseGameGroupQuery"))

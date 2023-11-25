@@ -16,7 +16,8 @@ class SCHAFKOPF_API UGameMoney : public UUserWidget
 
 public:
 	void UpdateMoneyUI();
-	
-private:
-	int moneyUI;
+
+protected:
+	UPROPERTY(BlueprintReadOnly)
+	FString moneyUI;	
 };

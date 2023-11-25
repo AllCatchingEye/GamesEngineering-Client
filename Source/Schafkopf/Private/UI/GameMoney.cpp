@@ -9,5 +9,8 @@ void UGameMoney::UpdateMoneyUI()
 	auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
 	
 	int money = controller->GetPosessedPawn()->GetMoney();
-	this->moneyUI = money;
+
+	int euro = money / 100;
+	int cents = money % 100;
+	this->moneyUI = FString::Printf(TEXT("%d euros and %d cents"), euro, cents);
 }
