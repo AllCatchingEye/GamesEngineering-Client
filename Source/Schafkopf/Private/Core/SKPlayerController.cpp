@@ -101,6 +101,14 @@ void ASKPlayerController::ShowWidgetCardSelect(const TArray<FWSCard> Cards)
 	}
 }
 
+void ASchafkopfPlayerController::UpdateGameMoneyWidget()
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->GameMoneyInstance->UpdateMoneyUI();
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 // END - Widgets																//
 //////////////////////////////////////////////////////////////////////////////////
