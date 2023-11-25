@@ -282,6 +282,20 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 	else if (MessageId == TEXT("MoneyUpdate")) 
 	{
 		auto MoneyUpdate = JsonStringToStruct<FWsMessageMoneyUpdate>(Message);
+
+		// Update hand
+		if (PlayerId.Equals(MoneyUpdate.player))
+		{
+			auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+			if (controller == nullptr)
+			{
+				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+			}
+			else
+			{
+				controller->GetPosessedPawn()->SetMoney(MoneyUpdate.money.cents);
+			}
+		}
 	}
 	else if (MessageId == TEXT("PlayOrderUpdate"))
 	{

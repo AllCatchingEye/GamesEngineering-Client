@@ -43,3 +43,13 @@ void ASchafkopfCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+void ASchafkopfCharacter::SetMoney(int newMoney)
+{
+	this->money = newMoney;
+}
+
+int ASchafkopfCharacter::GetMoney()
+{
+	return this->money;
+}
