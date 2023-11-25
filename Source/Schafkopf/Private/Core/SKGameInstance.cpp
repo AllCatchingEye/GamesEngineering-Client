@@ -189,6 +189,27 @@ void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
 	const FWSMessagePlayOrderUpdate Update = JsonStringToStruct<FWSMessagePlayOrderUpdate>(Message);
 }
 
+void USKGameInstance::GameMoneyUpdate(const FString& Message)
+{
+	// TODO: Implement functionality.
+	const FWSMessagePlayOrderUpdate Update = JsonStringToStruct<FWSMessagePlayOrderUpdate>(Message);
+	const FWSMessageMoneyUpdate Update = JsonStringToStruct<FWsMessageMoneyUpdate>(Message);
+
+	// Update hand
+	if (PlayerId.Equals(Update.player))
+	{
+		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (controller == nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+		}
+		else
+		{
+			controller->GetPosessedPawn()->SetMoney(Update.money.cents);
+		}
+	}
+}
+
 void USKGameInstance::OnRoundResultUpdate(const FString& Message)
 {
 	const FWSMessageRoundResultUpdate Update = JsonStringToStruct<FWSMessageRoundResultUpdate>(Message);

@@ -29,10 +29,16 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void SetMoney(int newMoney);
+
+	int GetMoney();
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
 	/** The hand cards of the player. */
 	class ACardHand* CardHand;
+
+	int money;
 };

@@ -38,3 +38,13 @@ void ASKCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+void ASKCharacter::SetMoney(int newMoney)
+{
+	this->money = newMoney;
+}
+
+int ASKCharacter::GetMoney()
+{
+	return this->money;
+}
