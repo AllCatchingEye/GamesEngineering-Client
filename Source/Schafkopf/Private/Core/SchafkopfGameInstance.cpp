@@ -14,7 +14,7 @@ const wchar_t* USchafkopfGameInstance::LEVEL_NAME_MAINMENU = TEXT("MainMenuLevel
 const wchar_t* USchafkopfGameInstance::LEVEL_NAME_INGAME = TEXT("GameLevel");
 
 ACardTrick* Stack = nullptr;
-FString PlayerId = FString(TEXT(""));
+static FString PlayerId = FString(TEXT(""));
 
 ECardSuit GetCardSuitFromString(const FString& SuitString)
 {
