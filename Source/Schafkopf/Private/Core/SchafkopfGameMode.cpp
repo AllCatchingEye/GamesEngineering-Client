@@ -2,11 +2,11 @@
 
 
 #include "Core/SchafkopfGameMode.h"
-#include "Core/SchafkopfCharacter.h"
-#include "Core/SchafkopfPlayerController.h"
+#include "Core/SKCharacter.h"
+#include "Core/SKPlayerController.h"
 
 ASchafkopfGameMode::ASchafkopfGameMode() : AGameModeBase()
 {
-	this->DefaultPawnClass = ASchafkopfCharacter::StaticClass();
-	this->PlayerControllerClass = ASchafkopfPlayerController::StaticClass();
+	this->DefaultPawnClass = ASKCharacter::StaticClass();
+	this->PlayerControllerClass = ASKPlayerController::StaticClass();
 }

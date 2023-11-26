@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/LevelScriptActor.h"
 
-#include "Core/SchafkopfGameInstance.h"
+#include "Core/SKGameInstance.h"
 #include "MainMenuLevel.generated.h"
 
 /**
@@ -25,5 +25,5 @@ protected:
 
 private:
 	/** The GameInstance. */
-	USchafkopfGameInstance* GameInstance;
+	USKGameInstance* GameInstance;
 };
