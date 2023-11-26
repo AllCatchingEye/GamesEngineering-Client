@@ -12,5 +12,5 @@ void AMainMenuLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->GameInstance = (USchafkopfGameInstance*) GetGameInstance();
+	this->GameInstance = Cast<USKGameInstance>(GetGameInstance());
 }

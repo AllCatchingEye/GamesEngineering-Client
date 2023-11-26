@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 
-#include "WsMessage.h"
 #include "CardSelectWidget.generated.h"
 
 /**
@@ -18,5 +17,5 @@ class SCHAFKOPF_API UCardSelectWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateFields(const TArray<FWsCard>& Cards);
+	void UpdateFields(const TArray<struct FWSCard>& Cards);
 };

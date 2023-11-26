@@ -1,25 +1,36 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Core/SchafkopfPlayerController.h"
+#include "Core/SKPlayerController.h"
+
+#include "Core/WSMessage.h"
+#include "Core/SKCharacter.h"
+#include "UI/GameGroupSelectWidget.h"
+#include "UI/GameTypeSelectWidget.h"
+#include "UI/CardSelectWidget.h"
+
 #include "Blueprint/UserWidget.h"
 
-ASchafkopfPlayerController::ASchafkopfPlayerController() : APlayerController()
+ASKPlayerController::ASKPlayerController() : APlayerController()
 {
 	this->PosessedPawn = nullptr;
 
 	this->WidgetInstance = nullptr;
+	this->WidgetInstanceWantsToPlay = nullptr;
+	this->WidgetInstanceGameGroupSelect = nullptr;
+	this->WidgetInstanceGameTypeSelect = nullptr;
+	this->WidgetInstanceCardSelect = nullptr;
 }
 
-void ASchafkopfPlayerController::BeginPlay()
+void ASKPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->PosessedPawn = Cast<ASchafkopfCharacter>(this->GetPawn());
+	this->PosessedPawn = Cast<ASKCharacter>(this->GetPawn());
 
 	this->SetInputMode(FInputModeGameAndUI());
 
-	// Create the HUD widget.
+	// TODO: Create the HUD widget.
 	/*if (this->WidgetClass && !this->WidgetInstance)
 	{
 		this->WidgetInstance = CreateWidget(this, this->WidgetClass);
@@ -46,7 +57,7 @@ void ASchafkopfPlayerController::BeginPlay()
 	}
 }
 
-ASchafkopfCharacter* ASchafkopfPlayerController::GetPosessedPawn()
+ASKCharacter* ASKPlayerController::GetPosessedPawn()
 {
 	return this->PosessedPawn;
 }
@@ -55,7 +66,7 @@ ASchafkopfCharacter* ASchafkopfPlayerController::GetPosessedPawn()
 // START - Widgets																//
 //////////////////////////////////////////////////////////////////////////////////
 
-void ASchafkopfPlayerController::ShowWidgetWantsToPlay()
+void ASKPlayerController::ShowWidgetWantsToPlay()
 {
 	if (this->WidgetInstanceWantsToPlay)
 	{
@@ -63,32 +74,16 @@ void ASchafkopfPlayerController::ShowWidgetWantsToPlay()
 	}
 }
 
-void ASchafkopfPlayerController::HideWidgetWantsToPlay()
-{
-	if (this->WidgetInstanceWantsToPlay)
-	{
-		this->WidgetInstanceWantsToPlay->RemoveFromViewport();
-	}
-}
-
-void ASchafkopfPlayerController::ShowWidgetGameGroupSelect(const TArray<FString> Groups)
+void ASKPlayerController::ShowWidgetGameGroupSelect(const TArray<FString> Groups)
 {
 	if (this->WidgetInstanceGameGroupSelect)
 	{
 		this->WidgetInstanceGameGroupSelect->AddToViewport();
-		// this->WidgetInstanceGameGroupSelect->UpdateFields(&Groups);
+		this->WidgetInstanceGameGroupSelect->UpdateFields(Groups);
 	}
 }
 
-void ASchafkopfPlayerController::HideWidgetGameGroupSelect()
-{
-	if (this->WidgetInstanceGameGroupSelect)
-	{
-		this->WidgetInstanceGameGroupSelect->RemoveFromViewport();
-	}
-}
-
-void ASchafkopfPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types)
+void ASKPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types)
 {
 	if (this->WidgetInstanceGameTypeSelect)
 	{
@@ -97,15 +92,7 @@ void ASchafkopfPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTy
 	}
 }
 
-void ASchafkopfPlayerController::HideWidgetGameTypeSelect()
-{
-	if (this->WidgetInstanceGameTypeSelect)
-	{
-		this->WidgetInstanceGameTypeSelect->RemoveFromViewport();
-	}
-}
-
-void ASchafkopfPlayerController::ShowWidgetCardSelect(const TArray<FWsCard> Cards)
+void ASKPlayerController::ShowWidgetCardSelect(const TArray<FWSCard> Cards)
 {
 	if (this->WidgetInstanceGameTypeSelect)
 	{
