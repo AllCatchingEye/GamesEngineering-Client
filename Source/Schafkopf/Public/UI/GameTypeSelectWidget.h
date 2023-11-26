@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 
-#include "WsMessage.h"
 #include "GameTypeSelectWidget.generated.h"
 
 /**
@@ -18,5 +17,5 @@ class SCHAFKOPF_API UGameTypeSelectWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateFields(const TArray<FWSGameTypeWithSuit>& Groups);
+	void UpdateFields(const TArray<struct FWSGameTypeWithSuit>& Groups);
 };

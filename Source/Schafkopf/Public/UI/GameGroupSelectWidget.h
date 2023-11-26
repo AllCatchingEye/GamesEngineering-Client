@@ -7,7 +7,6 @@
 #include "Blueprint/WidgetTree.h"
 #include "Components/VerticalBox.h"
 
-#include "WsMessage.h"
 #include "GameGroupSelectWidget.generated.h"
 
 /**
@@ -22,7 +21,7 @@ public:
 	virtual void NativeConstruct() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateFields(const TArray<FWSGameTypeWithSuit>& Groups);
+	void UpdateFields(const TArray<FString>& Groups);
 
 protected:
 	UPROPERTY(BlueprintReadOnly)

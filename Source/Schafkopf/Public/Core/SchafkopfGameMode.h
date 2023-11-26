@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+
+#include "Cards/CardTrick.h"
 #include "SchafkopfGameMode.generated.h"
 
 /**
@@ -16,4 +18,11 @@ class SCHAFKOPF_API ASchafkopfGameMode : public AGameModeBase
 	
 public:
 	ASchafkopfGameMode();
+
+	ACardTrick* GetTickCurrent();
+	// 15:15 - 16:50
+
+private:
+	/** The current trick. */
+	ACardTrick* TrickCurrent;
 };
