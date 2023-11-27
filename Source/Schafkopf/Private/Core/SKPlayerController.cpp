@@ -55,6 +55,11 @@ void ASKPlayerController::BeginPlay()
 	{
 		this->WidgetInstanceCardSelect = Cast<UCardSelectWidget>(CreateWidget(this, this->WidgetClassCardSelect));
 	}
+	if (this->WidgetClassGameMoney && !this->WidgetInstanceGameMoney)
+	{
+		this->WidgetInstanceGameMoney = Cast<UGameMoney>(CreateWidget(this, this->WidgetClassGameMoney));
+		this->ShowGameMoneyWidget();
+	}
 }
 
 ASKCharacter* ASKPlayerController::GetPosessedPawn()
@@ -101,11 +106,19 @@ void ASKPlayerController::ShowWidgetCardSelect(const TArray<FWSCard> Cards)
 	}
 }
 
+void ASchafkopfPlayerController::ShowGameMoneyWidget()
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameMoney->AddToViewport();
+	}
+}
+
 void ASchafkopfPlayerController::UpdateGameMoneyWidget()
 {
 	if (this->WidgetInstanceGameTypeSelect)
 	{
-		this->GameMoneyInstance->UpdateMoneyUI();
+		this->WidgetInstanceGameMoney->UpdateMoneyUI();
 	}
 }
 
