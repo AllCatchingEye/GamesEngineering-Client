@@ -8,6 +8,7 @@
 #include "UI/GameGroupSelectWidget.h"
 #include "UI/GameTypeSelectWidget.h"
 #include "UI/CardSelectWidget.h"
+#include "UI/GameMoney.h"
 
 #include "Blueprint/UserWidget.h"
 
@@ -20,6 +21,7 @@ ASKPlayerController::ASKPlayerController() : APlayerController()
 	this->WidgetInstanceGameGroupSelect = nullptr;
 	this->WidgetInstanceGameTypeSelect = nullptr;
 	this->WidgetInstanceCardSelect = nullptr;
+	this->WidgetInstanceGameMoney= nullptr;
 }
 
 void ASKPlayerController::BeginPlay()
@@ -114,11 +116,11 @@ void ASKPlayerController::ShowGameMoneyWidget()
 	}
 }
 
-void ASKPlayerController::UpdateGameMoneyWidget()
+void ASKPlayerController::UpdateGameMoneyWidget(int money)
 {
 	if (this->WidgetInstanceGameTypeSelect)
 	{
-		this->WidgetInstanceGameMoney->UpdateMoneyUI();
+		this->WidgetInstanceGameMoney->UpdateMoneyUI(money);
 	}
 }
 

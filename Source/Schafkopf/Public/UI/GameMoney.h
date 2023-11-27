@@ -15,7 +15,7 @@ class SCHAFKOPF_API UGameMoney : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void UpdateMoneyUI();
+	void UpdateMoneyUI(int money);
 
 protected:
 	UPROPERTY(BlueprintReadOnly)

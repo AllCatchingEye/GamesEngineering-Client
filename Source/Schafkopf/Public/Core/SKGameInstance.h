@@ -29,6 +29,8 @@ public:
 
 	// Called upon shutdown of the game. Handle final cleanup here.
 	virtual void Shutdown() override;
+
+	class ASKPlayerController* GetController();
 	
 private:
 	/** The name of the WebSocket module. */
@@ -159,7 +161,7 @@ private:
 	void OnCardPlayedUpdate(const FString& Message);
 
 	/**  */
-	void OnGameMoneyUpdate(const FString& Message)
+	void OnGameMoneyUpdate(const FString& Message);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// END - Ingame - Query Updates																//

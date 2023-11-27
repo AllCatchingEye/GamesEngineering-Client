@@ -38,6 +38,10 @@ void USKGameInstance::Shutdown()
 	Super::Shutdown();
 }
 
+ASKPlayerController* USKGameInstance::GetController() {
+	return this->PlayerController;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // END - GameInstance																			//
 //																								//
@@ -191,21 +195,21 @@ void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
 
 void USKGameInstance::OnGameMoneyUpdate(const FString& Message)
 {
-	const FWSMessageMoneyUpdate Update = JsonStringToStruct<FWsMessageMoneyUpdate>(Message);
+	const FWSMessageMoneyUpdate Update = JsonStringToStruct<FWSMessageMoneyUpdate>(Message);
 
 	// Update Money
 	if (PlayerId.Equals(Update.player))
 	{
-		auto controller = Cast<ASchafkopfPlayerController>(GetWorld()->GetFirstPlayerController());
+		auto controller = Cast<ASKPlayerController>(GetWorld()->GetFirstPlayerController());
 		if (controller == nullptr)
 		{
 			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Money in event update: %d"), MoneyUpdate.money.cents));
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Money in event update: %d"), Update.money.cents));
 			controller->GetPosessedPawn()->SetMoney(Update.money.cents);
-			controller->UpdateGameMoneyWidget();
+			controller->UpdateGameMoneyWidget(Update.money.cents);
 		}
 	}
 }
@@ -361,6 +365,8 @@ void USKGameInstance::SendCardPlay(const int32 CardIndex)
 	auto Message = StructToJsonString(PlayerPlayCardResponse);
 	WebSocket->Send(Message);
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // END - Ingame - Notify server																	//

@@ -55,7 +55,7 @@ public:
 	void ShowGameMoneyWidget();
 	
 
-	void UpdateGameMoneyWidget();
+	void UpdateGameMoneyWidget(int money);
 	
 
 protected:
@@ -75,8 +75,8 @@ protected:
 	TSubclassOf<class UCardSelectWidget> WidgetClassCardSelect;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
-	TSubclassOf<class UGameMoney> WidgetClassCardSelect;
-
+	TSubclassOf<class UGameMoney> WidgetClassGameMoney;
+	
 private:
 	/** The pawn that the player posesses and controls. */
 	class ASKCharacter* PosessedPawn;
