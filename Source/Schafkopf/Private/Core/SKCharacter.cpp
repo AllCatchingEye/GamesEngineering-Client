@@ -39,12 +39,12 @@ void ASKCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
-void ASKCharacter::SetMoney(int newMoney)
+void ASKCharacter::SetMoney(int32 newMoney)
 {
 	this->money = newMoney;
 }
 
-int ASKCharacter::GetMoney()
+int32 ASKCharacter::GetMoney()
 {
 	return this->money;
 }

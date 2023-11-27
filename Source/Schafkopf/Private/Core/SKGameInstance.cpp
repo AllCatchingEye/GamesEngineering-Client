@@ -183,6 +183,8 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 		CardHand->AddCard_Implementation(CardActor);
 	}
 
+	this->PlayerController->UpdateGameMoneyWidget(0);
+
 	// Spawn the initial card trick.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 }
@@ -196,6 +198,7 @@ void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
 void USKGameInstance::OnGameMoneyUpdate(const FString& Message)
 {
 	const FWSMessageMoneyUpdate Update = JsonStringToStruct<FWSMessageMoneyUpdate>(Message);
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("MoneyUpdate: " + Message));
 
 	// Update Money
 	if (PlayerId.Equals(Update.player))
@@ -207,9 +210,9 @@ void USKGameInstance::OnGameMoneyUpdate(const FString& Message)
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Money in event update: %d"), Update.money.cents));
-			controller->GetPosessedPawn()->SetMoney(Update.money.cents);
-			controller->UpdateGameMoneyWidget(Update.money.cents);
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Money in event update: %d"), Update.money.cent));
+			controller->GetPosessedPawn()->SetMoney(Update.money.cent);
+			controller->UpdateGameMoneyWidget(Update.money.cent);
 		}
 	}
 }
