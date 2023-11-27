@@ -42,6 +42,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UCardSelectWidget> WidgetClassCardSelect;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UGameMoney> WidgetClassGameMoney;
+
 	UPROPERTY()
 	UUserWidget* WidgetInstance;
 
@@ -58,7 +61,9 @@ public:
 	UCardSelectWidget* WidgetInstanceCardSelect;
 
 	UPROPERTY()
-	UGameMoney* GameMoneyInstance;
+	UGameMoney* WidgetInstanceGameMoney;
+
+	
 
 	/** Shows the WantsToPlay widget. */
 	void ShowWidgetWantsToPlay();
@@ -89,6 +94,8 @@ public:
 	 * @param Cards - The available cards.
 	 */
 	void ShowWidgetCardSelect(const TArray<FWsCard> Cards);
+
+	void ShowGameMoneyWidget();
 
 	void UpdateGameMoneyWidget();
 

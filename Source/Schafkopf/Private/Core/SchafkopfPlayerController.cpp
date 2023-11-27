@@ -44,6 +44,11 @@ void ASchafkopfPlayerController::BeginPlay()
 	{
 		this->WidgetInstanceCardSelect = Cast<UCardSelectWidget>(CreateWidget(this, this->WidgetClassCardSelect));
 	}
+	if (this->WidgetClassGameMoney && !this->WidgetInstanceGameMoney)
+	{
+		this->WidgetInstanceGameMoney = Cast<UGameMoney>(CreateWidget(this, this->WidgetClassGameMoney));
+		this->ShowGameMoneyWidget();
+	}
 }
 
 ASchafkopfCharacter* ASchafkopfPlayerController::GetPosessedPawn()
@@ -114,11 +119,19 @@ void ASchafkopfPlayerController::ShowWidgetCardSelect(const TArray<FWsCard> Card
 	}
 }
 
+void ASchafkopfPlayerController::ShowGameMoneyWidget()
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameMoney->AddToViewport();
+	}
+}
+
 void ASchafkopfPlayerController::UpdateGameMoneyWidget()
 {
 	if (this->WidgetInstanceGameTypeSelect)
 	{
-		this->GameMoneyInstance->UpdateMoneyUI();
+		this->WidgetInstanceGameMoney->UpdateMoneyUI();
 	}
 }
 

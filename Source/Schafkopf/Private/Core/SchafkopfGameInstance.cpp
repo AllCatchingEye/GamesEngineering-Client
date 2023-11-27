@@ -14,7 +14,7 @@ const wchar_t* USchafkopfGameInstance::LEVEL_NAME_MAINMENU = TEXT("MainMenuLevel
 const wchar_t* USchafkopfGameInstance::LEVEL_NAME_INGAME = TEXT("GameLevel");
 
 ACardTrick* Stack = nullptr;
-static FString PlayerId = FString(TEXT(""));
+FString PlayerId = FString(TEXT(""));
 
 ECardSuit GetCardSuitFromString(const FString& SuitString)
 {
@@ -293,8 +293,9 @@ GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, Message);
 			}
 			else
 			{
+				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Money in event update: %d"), MoneyUpdate.money.cents));
 				controller->GetPosessedPawn()->SetMoney(MoneyUpdate.money.cents);
-
+				controller->UpdateGameMoneyWidget();
 			}
 		}
 	}
