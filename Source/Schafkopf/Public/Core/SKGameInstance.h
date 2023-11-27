@@ -158,6 +158,9 @@ private:
 	/**  */
 	void OnCardPlayedUpdate(const FString& Message);
 
+	/**  */
+	void OnGameMoneyUpdate(const FString& Message)
+
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// END - Ingame - Query Updates																//
 	//																							//
