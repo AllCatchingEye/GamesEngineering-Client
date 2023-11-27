@@ -38,6 +38,10 @@ void USKGameInstance::Shutdown()
 	Super::Shutdown();
 }
 
+ASKPlayerController* USKGameInstance::GetController() {
+	return this->PlayerController;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // END - GameInstance																			//
 //																								//
@@ -95,7 +99,7 @@ void USKGameInstance::OnWebSocketMessageReceived(const FString& Message)
 
 	if (MessageId == TEXT("GameStartUpdate")) { this->OnGameStartUpdate(Message); }
 	else if (MessageId == TEXT("PlayDecisionUpdate")) {}
-	else if (MessageId == TEXT("MoneyUpdate")) {}
+	else if (MessageId == TEXT("MoneyUpdate")) { this->OnGameMoneyUpdate(Message); }
 	else if (MessageId == TEXT("PlayOrderUpdate")) { this->OnPlayOrderUpdate(Message); }
 	else if (MessageId == TEXT("RoundResultUpdate")) { this->OnRoundResultUpdate(Message); }
 	else if (MessageId == TEXT("GameEndUpdate")) { this->OnGameEndUpdate(Message); }
@@ -179,6 +183,8 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 		CardHand->AddCard_Implementation(CardActor);
 	}
 
+	this->PlayerController->UpdateGameMoneyWidget(0);
+
 	// Spawn the initial card trick.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 }
@@ -187,6 +193,28 @@ void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
 {
 	// TODO: Implement functionality.
 	const FWSMessagePlayOrderUpdate Update = JsonStringToStruct<FWSMessagePlayOrderUpdate>(Message);
+}
+
+void USKGameInstance::OnGameMoneyUpdate(const FString& Message)
+{
+	const FWSMessageMoneyUpdate Update = JsonStringToStruct<FWSMessageMoneyUpdate>(Message);
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("MoneyUpdate: " + Message));
+
+	// Update Money
+	if (PlayerId.Equals(Update.player))
+	{
+		auto controller = Cast<ASKPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (controller == nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Failed to get player controller."));
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Money in event update: %d"), Update.money.cent));
+			controller->GetPosessedPawn()->SetMoney(Update.money.cent);
+			controller->UpdateGameMoneyWidget(Update.money.cent);
+		}
+	}
 }
 
 void USKGameInstance::OnRoundResultUpdate(const FString& Message)
@@ -340,6 +368,8 @@ void USKGameInstance::SendCardPlay(const int32 CardIndex)
 	auto Message = StructToJsonString(PlayerPlayCardResponse);
 	WebSocket->Send(Message);
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // END - Ingame - Notify server																	//

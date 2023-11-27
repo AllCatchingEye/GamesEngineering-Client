@@ -8,6 +8,7 @@
 #include "UI/GameGroupSelectWidget.h"
 #include "UI/GameTypeSelectWidget.h"
 #include "UI/CardSelectWidget.h"
+#include "UI/GameMoney.h"
 
 #include "Blueprint/UserWidget.h"
 
@@ -20,6 +21,7 @@ ASKPlayerController::ASKPlayerController() : APlayerController()
 	this->WidgetInstanceGameGroupSelect = nullptr;
 	this->WidgetInstanceGameTypeSelect = nullptr;
 	this->WidgetInstanceCardSelect = nullptr;
+	this->WidgetInstanceGameMoney= nullptr;
 }
 
 void ASKPlayerController::BeginPlay()
@@ -54,6 +56,11 @@ void ASKPlayerController::BeginPlay()
 	if (this->WidgetClassCardSelect && !this->WidgetInstanceCardSelect)
 	{
 		this->WidgetInstanceCardSelect = Cast<UCardSelectWidget>(CreateWidget(this, this->WidgetClassCardSelect));
+	}
+	if (this->WidgetClassGameMoney && !this->WidgetInstanceGameMoney)
+	{
+		this->WidgetInstanceGameMoney = Cast<UGameMoney>(CreateWidget(this, this->WidgetClassGameMoney));
+		this->ShowGameMoneyWidget();
 	}
 }
 
@@ -98,6 +105,22 @@ void ASKPlayerController::ShowWidgetCardSelect(const TArray<FWSCard> Cards)
 	{
 		this->WidgetInstanceCardSelect->AddToViewport();
 		this->WidgetInstanceCardSelect->UpdateFields(Cards);
+	}
+}
+
+void ASKPlayerController::ShowGameMoneyWidget()
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameMoney->AddToViewport();
+	}
+}
+
+void ASKPlayerController::UpdateGameMoneyWidget(int money)
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameMoney->UpdateMoneyUI(money);
 	}
 }
 

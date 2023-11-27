@@ -180,7 +180,7 @@ struct SCHAFKOPF_API FWSMoney
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	int cents;
+	int32 cent;
 };
 
 USTRUCT(BlueprintType)
