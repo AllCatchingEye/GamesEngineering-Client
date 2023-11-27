@@ -51,6 +51,13 @@ public:
 	 */
 	void ShowWidgetCardSelect(const TArray<struct FWSCard> Cards);
 
+
+	void ShowGameMoneyWidget();
+	
+
+	void UpdateGameMoneyWidget();
+	
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<UUserWidget> WidgetClass;
@@ -67,6 +74,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UCardSelectWidget> WidgetClassCardSelect;
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
+	TSubclassOf<class UGameMoney> WidgetClassCardSelect;
+
 private:
 	/** The pawn that the player posesses and controls. */
 	class ASKCharacter* PosessedPawn;
@@ -85,4 +95,7 @@ private:
 
 	UPROPERTY()
 	class UCardSelectWidget* WidgetInstanceCardSelect;
+
+	UPROPERTY()
+	class UGameMoney* WidgetInstanceGameMoney;
 };
