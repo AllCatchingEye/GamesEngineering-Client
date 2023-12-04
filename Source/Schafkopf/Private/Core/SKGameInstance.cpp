@@ -231,11 +231,20 @@ void USKGameInstance::OnRoundResultUpdate(const FString& Message)
 
 void USKGameInstance::OnGameEndUpdate(const FString& Message)
 {
-	const FWSMessageGameEndUpdate Update = JsonStringToStruct<FWSMessageGameEndUpdate>(Message);
-	
-	// TODO: Extract winner / team and their points
-	
-	// TODO: Display winner / team with points received
+	const FWSMessageGameEndUpdate Update = ParseGameWinnerUpdate(Message);
+	const TArray<FString> winner_team = Update.winner;
+	for (int i = 0; i < Update.play_party.Num(); i++)
+	{
+		TArray<FString> team = Update.play_party[i];
+		//Check here if the team is the winner team
+		if (team == winner_team) {
+			// Display widget of winner team 
+			checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
+
+			int points = Update.points[i];
+			this->PlayerController->ShowWidgetGameWinner(team, points);
+		}	
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

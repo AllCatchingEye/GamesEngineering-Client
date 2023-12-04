@@ -145,8 +145,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	TArray<FString> winner;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	//TArray<TArray<FString>> play_party; // TODO: Is this needed?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<TArray<FString>> play_party; // TODO: Is this needed?
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	TArray<int> points;
@@ -366,6 +366,8 @@ T JsonStringToStruct(const FString& JsonString)
 
 	return OutputStruct;
 }
+
+FWSMessageGameEndUpdate ParseGameWinnerUpdate(const FString& JsonString);
 
 // Forward declare the card suit and rank enums:
 enum class ECardSuit : uint8;
