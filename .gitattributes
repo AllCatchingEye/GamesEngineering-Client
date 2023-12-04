@@ -1,10 +1,8 @@
 # Template copied from:
 # https://github.com/MOZGIII/ue5-gitignore/blob/master/.gitattributes
-
 # Unreal Engine file types.
 *.uasset filter=lfs diff=lfs merge=lfs -text
 *.umap filter=lfs diff=lfs merge=lfs -text
-
 # Raw Content file types.
 *.fbx filter=lfs diff=lfs merge=lfs -text
 *.3ds filter=lfs diff=lfs merge=lfs -text
@@ -14,6 +12,30 @@
 *.wav filter=lfs diff=lfs merge=lfs -text
 *.xcf filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
-
 # Anything in `/RawContent` dir.
 /RawContent/**/* filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/Small_Concrete_Planter_umdiehu filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/Starter_Music_Cue.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/MetaHumans filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/Peppermint_umsfeaxja filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/SM_Scene_01_SM_Ceiling_05.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/SM_Scene_01_SM_Wall_02.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/M_Walnut_Hrrngbn_02_Mat_Inst.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/M_Walnut_Strp_02_Mat_Inst.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/SM_Pokertable_01a.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/ThirdPerson filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/A_migala_Sound.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/Blueprint_WallSconce.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/SM_Old_Chair.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/SM_Rugs_02a.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/M_Walnut_Vrslls_02_Mat_Inst.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/SM_Lamp_Wall.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf/Assets/blackwood-castle filter=lfs diff=lfs merge=lfs -text
+Content/Collections filter=lfs diff=lfs merge=lfs -text
+Content/Developers filter=lfs diff=lfs merge=lfs -text
+Content/FreeFurniturePack filter=lfs diff=lfs merge=lfs -text
+Content/MSPresets filter=lfs diff=lfs merge=lfs -text
+Content/OldWest filter=lfs diff=lfs merge=lfs -text
+Content/Schafkopf filter=lfs diff=lfs merge=lfs -text
+Content/StarterContent filter=lfs diff=lfs merge=lfs -text
+Content/4K_WoodFlooring_Vol02 filter=lfs diff=lfs merge=lfs -text

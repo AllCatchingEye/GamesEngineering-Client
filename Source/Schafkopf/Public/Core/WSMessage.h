@@ -80,6 +80,8 @@ public:
 	/** The hand cards of the player. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	TArray<FWSCard> hand;
+
+	TArray<FString> playOrder;
 };
 
 USTRUCT(BlueprintType)

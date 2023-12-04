@@ -8,6 +8,7 @@
 #include "Core/SKPlayerController.h"
 #include "Cards/CardHand.h"
 #include "Cards/CardTrick.h"
+#include "Maps/GameLevelScript.h"
 
 #include "IWebSocket.h"
 #include "IWebSocketsManager.h"
@@ -21,7 +22,7 @@
 
 void USKGameInstance::Init()
 {
-	
+
 }
 
 void USKGameInstance::StartSingleplayer()
@@ -52,6 +53,11 @@ ASKPlayerController* USKGameInstance::GetController() {
 //																								//
 // START - WebSockets																			//
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void USKGameInstance::SetServerUrl(FString url)
+{
+	this->WEB_SOCKET_ADDRESS = *url;
+}
 
 void USKGameInstance::WebSocketConnect()
 {
@@ -145,7 +151,7 @@ void USKGameInstance::OnWebSocketMessageReceived(const FString& Message)
 void USKGameInstance::OnGameStartUpdate(const FString& Message)
 {
 	// TODO: Initialize the game; possibly notify the server that this client is ready.
-	
+
 	// Load the ingame level.
 	//UGameplayStatics::OpenLevel(this->GetWorld(), this->LEVEL_NAME_INGAME);
 
@@ -195,6 +201,16 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 
 	// Spawn the initial card trick.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
+
+	// Filter the player from play order
+	TArray<FString> playOrder = GameStartUpdate.playOrder;
+	playOrder.RemoveAll([this](const FString& str) {
+		return str == this->PlayerId;
+	});
+
+	auto level = this->PlayerController->GetLevel();
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(level->GetLevelScriptActor());
+	levelScriptActor->SetPlayerIds(playOrder);
 }
 
 void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
@@ -234,7 +250,11 @@ void USKGameInstance::OnRoundResultUpdate(const FString& Message)
 	//Stack->Destroy();
 
 	// Create a new empty card trick for the next round.
-	this->CardTrick= GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
+	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
+
+	auto level = this->PlayerController->GetLevel();
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(level->GetLevelScriptActor());
+	levelScriptActor->RoundEnd(Update.round_winner);
 }
 
 void USKGameInstance::OnGameEndUpdate(const FString& Message)
@@ -243,7 +263,7 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 	const TArray<FString> winner_team = Update.winner;
 
 	const bool isWinner = winner_team.Contains(this->PlayerId);
-	
+
 	int32 points = 0;
 	FWSMessagePlayParty parties = Update.play_party;
 	if (parties.team0.Contains(this->PlayerId)) {
@@ -260,6 +280,10 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 	}
 
 	this->PlayerController->ShowWidgetGameWinner(isWinner, points);
+
+	auto level = this->PlayerController->GetLevel();
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(level->GetLevelScriptActor());
+	levelScriptActor->GameEnd(Update.winner);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

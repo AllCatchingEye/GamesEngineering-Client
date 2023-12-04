@@ -9,11 +9,11 @@
 
 /**
  * The SKGameInstance class.
- * 
+ *
  * The SKGameInstance represents the instance of the running game. It is spawned at game creation
  * and not destroyed until the game instance is shut down. There can only be one game instance,
  * so it is essentially a singleton.
- * 
+ *
  * The game itself is separate from the Server and mainly exists as a graphical interface for the
  * user. The Client only knows about a limited subset of the actual game state and only implements
  * basic logic, without knowing about the rules of Schafkopf. For mor information visit the wiki.
@@ -35,7 +35,7 @@ public:
 	virtual void StartSingleplayer();
 
 	class ASKPlayerController* GetController();
-	
+
 private:
 	/** The name of the WebSocket module. */
 	const wchar_t* WEB_SOCKET_MODULE = TEXT("WebSockets");
@@ -66,6 +66,9 @@ private:
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 public:
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void SetServerUrl(FString url);
+
 	/** Opens a WebSocket connection to the server. */
 	UFUNCTION()
 	void WebSocketConnect();
@@ -177,7 +180,7 @@ private:
 public:
 	/**
 	 * Notifies the server whether the user wants to play.
-	 * 
+	 *
 	 * @param WantsToPlay - whether the user wants to play
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
@@ -185,7 +188,7 @@ public:
 
 	/**
 	 * Notifies the server what game group the user selected.
-	 * 
+	 *
 	 * @param GameGroupIndex - The index of the game group
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
@@ -193,7 +196,7 @@ public:
 
 	/**
 	 * Notifies the server what game type the user selected.
-	 * 
+	 *
 	 * @param GameTypeIndex - The index of the game type
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
@@ -201,10 +204,10 @@ public:
 
 	/**
 	 * Notifies the server what card the user selected.
-	 * 
+	 *
 	 * @param CardIndex - The index of the card
 	 */
-	UFUNCTION(BlueprintCallable, Category="Schafkopf")
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
 	void SendCardPlay(const int32 CardIndex);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
