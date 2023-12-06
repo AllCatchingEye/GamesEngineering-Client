@@ -137,6 +137,25 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct SCHAFKOPF_API FWSMessagePlayParty : public FWSMessage
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<FString> team0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<FString> team1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<FString> team2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<FString> team3;
+};
+
+USTRUCT(BlueprintType)
 struct SCHAFKOPF_API FWSMessageGameEndUpdate : public FWSMessage
 {
 	GENERATED_BODY()
@@ -146,11 +165,13 @@ public:
 	TArray<FString> winner;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	TArray<TArray<FString>> play_party; // TODO: Is this needed?
+	FWSMessagePlayParty play_party;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	TArray<int> points;
 };
+
+
 
 //USTRUCT()
 //struct SCHAFKOPF_API FWSMessageAnnouncePlayPartyUpdate : public FWSMessage
@@ -366,8 +387,6 @@ T JsonStringToStruct(const FString& JsonString)
 
 	return OutputStruct;
 }
-
-FWSMessageGameEndUpdate ParseGameWinnerUpdate(const FString& JsonString);
 
 // Forward declare the card suit and rank enums:
 enum class ECardSuit : uint8;

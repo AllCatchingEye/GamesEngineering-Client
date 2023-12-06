@@ -9,6 +9,7 @@
 #include "UI/GameTypeSelectWidget.h"
 #include "UI/CardSelectWidget.h"
 #include "UI/GameMoney.h"
+#include "UI/GameWinnerWidget.h"
 
 #include "Blueprint/UserWidget.h"
 
@@ -22,6 +23,7 @@ ASKPlayerController::ASKPlayerController() : APlayerController()
 	this->WidgetInstanceGameTypeSelect = nullptr;
 	this->WidgetInstanceCardSelect = nullptr;
 	this->WidgetInstanceGameMoney= nullptr;
+	this->WidgetInstanceGameWinner = nullptr;
 }
 
 void ASKPlayerController::BeginPlay()
@@ -61,6 +63,10 @@ void ASKPlayerController::BeginPlay()
 	{
 		this->WidgetInstanceGameMoney = Cast<UGameMoney>(CreateWidget(this, this->WidgetClassGameMoney));
 		this->ShowGameMoneyWidget();
+	}
+	if (this->WidgetClassGameWinner && !this->WidgetInstanceGameWinner)
+	{
+		this->WidgetInstanceGameWinner = Cast<UGameWinnerWidget>(CreateWidget(this, this->WidgetClassGameWinner));
 	}
 }
 
@@ -126,6 +132,7 @@ void ASKPlayerController::UpdateGameMoneyWidget(int money)
 
 void ASKPlayerController::ShowWidgetGameWinner(const TArray<FString> Winners, int Points)
 {
+	
 	if (this->WidgetInstanceGameTypeSelect)
 	{
 		this->WidgetInstanceGameWinner->AddToViewport();
