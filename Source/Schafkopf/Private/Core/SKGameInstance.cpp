@@ -234,43 +234,24 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 	const FWSMessageGameEndUpdate Update = JsonStringToStruct<FWSMessageGameEndUpdate>(Message);
 	const TArray<FString> winner_team = Update.winner;
 
-	// If wall of shame
-
-	//Check here if the team is the winner team
-	if (Update.play_party.team0 == winner_team) {
-		// Display widget of winner team 
-		checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
-
-		int points = Update.points[0];
-		this->PlayerController->ShowWidgetGameWinner(Update.play_party.team0, points);
-	}
+	const bool isWinner = winner_team.Contains(this->PlayerId);
 	
-	//Check here if the team is the winner team
-	if (Update.play_party.team1 == winner_team) {
-		// Display widget of winner team 
-		checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
-
-		int points = Update.points[1];
-		this->PlayerController->ShowWidgetGameWinner(Update.play_party.team1, points);
+	int32 points = 0;
+	FWSMessagePlayParty parties = Update.play_party;
+	if (parties.team0.Contains(this->PlayerId)) {
+		points = Update.points[0];
+	}
+	else if (parties.team1.Contains(this->PlayerId)) {
+		points = Update.points[1];
+	}
+	else if (parties.team2.Contains(this->PlayerId)) {
+		points = Update.points[2];
+	}
+	else {
+		points = Update.points[3];
 	}
 
-	//Check here if the team is the winner team
-	if (Update.play_party.team2 == winner_team) {
-		// Display widget of winner team 
-		checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
-
-		int points = Update.points[2];
-		this->PlayerController->ShowWidgetGameWinner(Update.play_party.team2, points);
-	}
-
-	//Check here if the team is the winner team
-	if (Update.play_party.team3 == winner_team) {
-		// Display widget of winner team 
-		checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
-
-		int points = Update.points[3];
-		this->PlayerController->ShowWidgetGameWinner(Update.play_party.team3, points);
-	}
+	this->PlayerController->ShowWidgetGameWinner(isWinner, points);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

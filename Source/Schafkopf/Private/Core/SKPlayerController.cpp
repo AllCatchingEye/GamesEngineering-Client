@@ -130,13 +130,13 @@ void ASKPlayerController::UpdateGameMoneyWidget(int money)
 	}
 }
 
-void ASKPlayerController::ShowWidgetGameWinner(const TArray<FString> Winners, int Points)
+void ASKPlayerController::ShowWidgetGameWinner(bool isWinner, int32 Points)
 {
 	
 	if (this->WidgetInstanceGameTypeSelect)
 	{
 		this->WidgetInstanceGameWinner->AddToViewport();
-		this->WidgetInstanceGameWinner->UpdateFields(Winners, Points);
+		this->WidgetInstanceGameWinner->UpdateFields(isWinner, Points);
 	}
 }
 

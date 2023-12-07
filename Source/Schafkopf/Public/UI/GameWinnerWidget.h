@@ -15,5 +15,5 @@ class SCHAFKOPF_API UGameWinnerWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateFields(const TArray<FString>& Winners, int Points);
+	void UpdateFields(bool isWinner, int32 Points);
 };

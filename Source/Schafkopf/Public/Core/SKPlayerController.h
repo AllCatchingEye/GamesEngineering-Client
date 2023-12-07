@@ -56,7 +56,7 @@ public:
 
 	void UpdateGameMoneyWidget(int money);
 	
-	void ShowWidgetGameWinner(const TArray<FString> Winners, int Points);
+	void ShowWidgetGameWinner(bool isWinner, int32 Points);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
