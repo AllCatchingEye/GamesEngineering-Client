@@ -232,10 +232,26 @@ void USKGameInstance::OnRoundResultUpdate(const FString& Message)
 void USKGameInstance::OnGameEndUpdate(const FString& Message)
 {
 	const FWSMessageGameEndUpdate Update = JsonStringToStruct<FWSMessageGameEndUpdate>(Message);
+	const TArray<FString> winner_team = Update.winner;
+
+	const bool isWinner = winner_team.Contains(this->PlayerId);
 	
-	// TODO: Extract winner / team and their points
-	
-	// TODO: Display winner / team with points received
+	int32 points = 0;
+	FWSMessagePlayParty parties = Update.play_party;
+	if (parties.team0.Contains(this->PlayerId)) {
+		points = Update.points[0];
+	}
+	else if (parties.team1.Contains(this->PlayerId)) {
+		points = Update.points[1];
+	}
+	else if (parties.team2.Contains(this->PlayerId)) {
+		points = Update.points[2];
+	}
+	else {
+		points = Update.points[3];
+	}
+
+	this->PlayerController->ShowWidgetGameWinner(isWinner, points);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

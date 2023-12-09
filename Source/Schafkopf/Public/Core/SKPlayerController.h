@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "UI/GameWinnerWidget.h"
 
 #include "SKPlayerController.generated.h"
 
@@ -51,12 +52,11 @@ public:
 	 */
 	void ShowWidgetCardSelect(const TArray<struct FWSCard> Cards);
 
-
 	void ShowGameMoneyWidget();
-	
 
 	void UpdateGameMoneyWidget(int money);
 	
+	void ShowWidgetGameWinner(bool isWinner, int32 Points);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
@@ -76,6 +76,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UGameMoney> WidgetClassGameMoney;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
+	TSubclassOf<class UGameWinnerWidget> WidgetClassGameWinner;
 	
 private:
 	/** The pawn that the player posesses and controls. */
@@ -98,4 +101,7 @@ private:
 
 	UPROPERTY()
 	class UGameMoney* WidgetInstanceGameMoney;
+
+	UPROPERTY()
+	class UGameWinnerWidget* WidgetInstanceGameWinner;
 };
