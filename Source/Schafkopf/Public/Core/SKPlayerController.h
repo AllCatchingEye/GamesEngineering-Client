@@ -28,6 +28,25 @@ public:
 	 */
 	class ASKCharacter* GetPosessedPawn();
 
+	/** Shows the GameHUD widget. */
+	void ShowWidgetGameHUD();
+
+	/**
+	 * Updates the money of the GameHUD.
+	 * 
+	 * @param NewMoney - The new amount of money.
+	 */
+	void UpdateWidgetGameHUDMoney(int32 NewMoney);
+
+	/**
+	 * Updates the game type of the GameHUD.
+	 *
+	 * @param NewGameType - The new game type.
+	 */
+	void UpdateWidgetGameHUDGameType(FText NewGameType);
+
+
+
 	/** Shows the WantsToPlay widget. */
 	void ShowWidgetWantsToPlay();
 
@@ -51,16 +70,15 @@ public:
 	 * @param Cards - The available cards.
 	 */
 	void ShowWidgetCardSelect(const TArray<struct FWSCard> Cards);
-
-	void ShowGameMoneyWidget();
-
-	void UpdateGameMoneyWidget(int money);
 	
 	void ShowWidgetGameWinner(bool isWinner, int32 Points);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<UUserWidget> WidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
+	TSubclassOf<class UGameHUD> WidgetClassGameHUD;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<UUserWidget> WidgetClassWantsToPlay;
@@ -73,9 +91,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UCardSelectWidget> WidgetClassCardSelect;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
-	TSubclassOf<class UGameMoney> WidgetClassGameMoney;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UGameWinnerWidget> WidgetClassGameWinner;
@@ -88,6 +103,9 @@ private:
 	UUserWidget* WidgetInstance;
 
 	UPROPERTY()
+	class UGameHUD* WidgetInstanceGameHUD;
+
+	UPROPERTY()
 	UUserWidget* WidgetInstanceWantsToPlay;
 
 	UPROPERTY()
@@ -98,9 +116,6 @@ private:
 
 	UPROPERTY()
 	class UCardSelectWidget* WidgetInstanceCardSelect;
-
-	UPROPERTY()
-	class UGameMoney* WidgetInstanceGameMoney;
 
 	UPROPERTY()
 	class UGameWinnerWidget* WidgetInstanceGameWinner;

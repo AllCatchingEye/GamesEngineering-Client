@@ -5,10 +5,10 @@
 
 #include "Core/WSMessage.h"
 #include "Core/SKCharacter.h"
+#include "UI/GameHUD.h"
 #include "UI/GameGroupSelectWidget.h"
 #include "UI/GameTypeSelectWidget.h"
 #include "UI/CardSelectWidget.h"
-#include "UI/GameMoney.h"
 #include "UI/GameWinnerWidget.h"
 
 #include "Blueprint/UserWidget.h"
@@ -18,11 +18,11 @@ ASKPlayerController::ASKPlayerController() : APlayerController()
 	this->PosessedPawn = nullptr;
 
 	this->WidgetInstance = nullptr;
+	this->WidgetInstanceGameHUD = nullptr;
 	this->WidgetInstanceWantsToPlay = nullptr;
 	this->WidgetInstanceGameGroupSelect = nullptr;
 	this->WidgetInstanceGameTypeSelect = nullptr;
 	this->WidgetInstanceCardSelect = nullptr;
-	this->WidgetInstanceGameMoney= nullptr;
 	this->WidgetInstanceGameWinner = nullptr;
 }
 
@@ -43,6 +43,11 @@ void ASKPlayerController::BeginPlay()
 	}
 	*/
 
+	if (this->WidgetClassGameHUD && !this->WidgetInstanceGameHUD)
+	{
+		this->WidgetInstanceGameHUD = Cast<UGameHUD>(CreateWidget(this, this->WidgetClassGameHUD));
+		this->ShowWidgetGameHUD();
+	}
 	if (this->WidgetClassWantsToPlay && !this->WidgetInstanceWantsToPlay)
 	{
 		this->WidgetInstanceWantsToPlay = CreateWidget(this, this->WidgetClassWantsToPlay);
@@ -59,11 +64,6 @@ void ASKPlayerController::BeginPlay()
 	{
 		this->WidgetInstanceCardSelect = Cast<UCardSelectWidget>(CreateWidget(this, this->WidgetClassCardSelect));
 	}
-	if (this->WidgetClassGameMoney && !this->WidgetInstanceGameMoney)
-	{
-		this->WidgetInstanceGameMoney = Cast<UGameMoney>(CreateWidget(this, this->WidgetClassGameMoney));
-		this->ShowGameMoneyWidget();
-	}
 	if (this->WidgetClassGameWinner && !this->WidgetInstanceGameWinner)
 	{
 		this->WidgetInstanceGameWinner = Cast<UGameWinnerWidget>(CreateWidget(this, this->WidgetClassGameWinner));
@@ -78,6 +78,32 @@ ASKCharacter* ASKPlayerController::GetPosessedPawn()
 //////////////////////////////////////////////////////////////////////////////////
 // START - Widgets																//
 //////////////////////////////////////////////////////////////////////////////////
+
+void ASKPlayerController::ShowWidgetGameHUD()
+{
+	if (this->WidgetInstanceGameHUD)
+	{
+		this->WidgetInstanceGameHUD->AddToViewport();
+	}
+}
+
+void ASKPlayerController::UpdateWidgetGameHUDMoney(int32 NewMoney)
+{
+	if (this->WidgetInstanceGameHUD)
+	{
+		this->WidgetInstanceGameHUD->UpdateMoney(NewMoney);
+	}
+}
+
+void ASKPlayerController::UpdateWidgetGameHUDGameType(FText NewGameType)
+{
+	if (this->WidgetInstanceGameHUD)
+	{
+		this->WidgetInstanceGameHUD->UpdateGameType(NewGameType);
+	}
+}
+
+
 
 void ASKPlayerController::ShowWidgetWantsToPlay()
 {
@@ -114,26 +140,10 @@ void ASKPlayerController::ShowWidgetCardSelect(const TArray<FWSCard> Cards)
 	}
 }
 
-void ASKPlayerController::ShowGameMoneyWidget()
-{
-	if (this->WidgetInstanceGameTypeSelect)
-	{
-		this->WidgetInstanceGameMoney->AddToViewport();
-	}
-}
-
-void ASKPlayerController::UpdateGameMoneyWidget(int money)
-{
-	if (this->WidgetInstanceGameTypeSelect)
-	{
-		this->WidgetInstanceGameMoney->UpdateMoneyUI(money);
-	}
-}
-
 void ASKPlayerController::ShowWidgetGameWinner(bool isWinner, int32 Points)
 {
 	
-	if (this->WidgetInstanceGameTypeSelect)
+	if (this->WidgetInstanceGameWinner)
 	{
 		this->WidgetInstanceGameWinner->AddToViewport();
 		this->WidgetInstanceGameWinner->UpdateFields(isWinner, Points);

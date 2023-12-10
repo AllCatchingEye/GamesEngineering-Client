@@ -183,7 +183,10 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 		CardHand->AddCard_Implementation(CardActor);
 	}
 
-	this->PlayerController->UpdateGameMoneyWidget(0);
+	// Initialize HUD values.
+	const FString NoGameTypeYet = FString(TEXT("Not yet selected"));
+	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(NoGameTypeYet));
+	this->PlayerController->UpdateWidgetGameHUDMoney(0);
 
 	// Spawn the initial card trick.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
@@ -212,7 +215,7 @@ void USKGameInstance::OnGameMoneyUpdate(const FString& Message)
 		{
 			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::White, FString::Printf(TEXT("Money in event update: %d"), Update.money.cent));
 			controller->GetPosessedPawn()->SetMoney(Update.money.cent);
-			controller->UpdateGameMoneyWidget(Update.money.cent);
+			controller->UpdateWidgetGameHUDMoney(Update.money.cent);
 		}
 	}
 }
@@ -308,12 +311,16 @@ void USKGameInstance::OnGameGroupSelectedUpdate(const FString& Message)
 
 void USKGameInstance::OnGameTypeSelectedUpdate(const FString& Message)
 {
-	// TODO: Implement functionality.
 	const FWSMessageGametypeDeterminedUpdate Update = JsonStringToStruct<FWSMessageGametypeDeterminedUpdate>(Message);
 
-	// TODO: Extract gametype from event
+	FString CompleteGameType = Update.gametype;
+	if (!Update.suit.Equals("null"))
+	{
+		CompleteGameType.Append(TEXT(" "));
+		CompleteGameType.Append(Update.suit);
+	}
 
-	// TODO: Do something with the gametype here
+	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(CompleteGameType));
 }
 
 void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
