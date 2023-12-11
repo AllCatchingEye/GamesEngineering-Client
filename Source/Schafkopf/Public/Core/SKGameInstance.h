@@ -30,6 +30,10 @@ public:
 	// Called upon shutdown of the game. Handle final cleanup here.
 	virtual void Shutdown() override;
 
+	/* Start a singleplayer level */
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	virtual void StartSingleplayer();
+
 	class ASKPlayerController* GetController();
 	
 private:
@@ -65,6 +69,7 @@ public:
 	/** Opens a WebSocket connection to the server. */
 	UFUNCTION()
 	void WebSocketConnect();
+	
 
 	/** Closes a WebSocket connection to the server. */
 	UFUNCTION()
