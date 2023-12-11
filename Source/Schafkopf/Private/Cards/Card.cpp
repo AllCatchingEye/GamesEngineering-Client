@@ -19,6 +19,7 @@ ACard::ACard()
 	{
 		this->CardMesh->SetStaticMesh(CardAsset.Object);
 		this->CardMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+		this->CardMesh->SetRenderCustomDepth(true);
 	}
 }
 
@@ -54,10 +55,12 @@ void ACard::SetHighlighted_Implementation(bool bShouldBeHighlighted)
 	if (bShouldBeHighlighted)
 	{
 		this->CardMesh->SetOverlayMaterial(ACard::CardMaterialHighlighted);
+		this->CardMesh->SetCustomDepthStencilValue(1);
 	}
 	else
 	{
 		this->CardMesh->SetOverlayMaterial(nullptr);
+		this->CardMesh->SetCustomDepthStencilValue(0);
 	}
 }
 
