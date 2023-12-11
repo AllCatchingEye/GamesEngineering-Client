@@ -21,6 +21,11 @@
 
 void USKGameInstance::Init()
 {
+	
+}
+
+void USKGameInstance::StartSingleplayer()
+{
 	this->WebSocketConnect();
 
 	// First we create the lobby type
