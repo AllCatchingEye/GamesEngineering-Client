@@ -29,6 +29,8 @@ public:
 
 	virtual void RemoveCard_Implementation(ACard* ToRemove) final;
 
+	void HighlightCards(TArray<struct FWSCard>* ToHighlight);
+
 private:
 	/** The maximum number of cards. */
 	static const int32 CARD_COUNT_MAX = 8;
