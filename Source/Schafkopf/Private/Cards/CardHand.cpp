@@ -2,6 +2,8 @@
 
 
 #include "Cards/CardHand.h"
+#include "Core/WSMessage.h"
+
 #include "Kismet/KismetMathLibrary.h"
 
 ACardHand::ACardHand() : ACardStackExtended()
@@ -38,6 +40,41 @@ void ACardHand::RemoveCard_Implementation(ACard* ToRemove)
 {
 	Super::RemoveCard_Implementation(ToRemove);
 	this->RearrangeCards();
+}
+
+void ACardHand::HighlightCards(TArray<FWSCard>* ToHighlight)
+{
+	if (ToHighlight)
+	{
+		bool bIsSameCard = false;
+		ACard* CurrentCard = nullptr;
+		ECardSuit CurrentCardSuit = ECardSuit::NONE;
+		ECardRank CurrentCardRank = ECardRank::NONE;
+		TArray<FWSCard> CardsToHighlight = *ToHighlight;
+		for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
+		{
+			CurrentCard = this->Cards[i];
+
+			for (int32 j = 0; j < CardsToHighlight.Num(); j++)
+			{
+				CurrentCardSuit = GetCardSuitFromString(CardsToHighlight[j].suit);
+				CurrentCardRank = GetCardRankFromString(CardsToHighlight[j].rank);
+				bIsSameCard = CurrentCard->GetSuit() == CurrentCardSuit && CurrentCard->GetRank() == CurrentCardRank;
+
+				if (bIsSameCard)
+				{
+					CurrentCard->SetHighlighted_Implementation(true);
+				}
+			}
+		}
+	}
+	else
+	{
+		for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
+		{
+			this->Cards[i]->SetHighlighted_Implementation(false);
+		}
+	}
 }
 
 void ACardHand::RearrangeCards()

@@ -4,15 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "CardSuit.h"
-#include "CardRank.h"
+
+#include "Cards/HighlightableActor.h"
+#include "Cards/CardSuit.h"
+#include "Cards/CardRank.h"
 #include "Card.generated.h"
 
 /**
  * The Card class.
  */
 UCLASS(BlueprintType)
-class SCHAFKOPF_API ACard : public AActor
+class SCHAFKOPF_API ACard : public AActor, public IHighlightableActor
 {
 	GENERATED_BODY()
 
@@ -45,6 +47,10 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable)
 	void Update(const ECardSuit NewSuit, const ECardRank NewRank);
+
+	virtual bool IsHighlighted_Implementation() const final;
+
+	virtual void SetHighlighted_Implementation(bool bShouldBeHighlighted) final;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -81,6 +87,8 @@ private:
 	 * The other 32 cards (from index 1 to 33) are the actual card textures.
 	 */
 	static const TStaticArray<UTexture2D*, CARD_TEXTURES_AMOUNT> CARD_TEXTURES;
+	/** The material that is used to highlight a card. */
+	static UMaterialInterface* CardMaterialHighlighted;
 
 	/** Updates the front texture of the card. */
 	void UpdateFrontTexture();

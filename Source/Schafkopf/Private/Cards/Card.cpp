@@ -44,6 +44,23 @@ void ACard::Update(const ECardSuit NewSuit, const ECardRank NewRank)
 	}
 }
 
+bool ACard::IsHighlighted_Implementation() const
+{
+	return this->CardMesh->GetOverlayMaterial() == nullptr;
+}
+
+void ACard::SetHighlighted_Implementation(bool bShouldBeHighlighted)
+{
+	if (bShouldBeHighlighted)
+	{
+		this->CardMesh->SetOverlayMaterial(ACard::CardMaterialHighlighted);
+	}
+	else
+	{
+		this->CardMesh->SetOverlayMaterial(nullptr);
+	}
+}
+
 void ACard::BeginPlay()
 {
 	Super::BeginPlay();
@@ -111,6 +128,13 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 	return Textures;
 }();
 
+UMaterialInterface* ACard::CardMaterialHighlighted = []() -> UMaterialInterface*
+{
+	// Fetch material that is used to highlight a card.
+	return LoadObject<UMaterialInterface>(ACard::StaticClass(),
+		TEXT("Material'/Game/Schafkopf/Cards/M_CardHighlight.M_CardHighlight'")
+	);
+}();
 
 void ACard::UpdateFrontTexture()
 {
@@ -124,7 +148,6 @@ void ACard::UpdateFrontTexture()
 	if (ensureAlwaysMsgf(!bIsNone, TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE.")))
 	{
 		// Bind the card texture based on the rank and suit enum.
-
 		CardTextureIndex = ((EnumValueSuit - 1) * 8) + EnumValueRank;
 	}
 
