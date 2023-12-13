@@ -56,7 +56,7 @@ ASKPlayerController* USKGameInstance::GetController() {
 
 void USKGameInstance::SetServerUrl(FString url)
 {
-	this->WEB_SOCKET_ADDRESS = *url;
+	this->WEB_SOCKET_ADDRESS = url;
 }
 
 void USKGameInstance::WebSocketConnect()
