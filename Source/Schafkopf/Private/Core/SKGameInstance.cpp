@@ -366,7 +366,7 @@ void USKGameInstance::OnPlayerPlayCardQuery(const FString& Message)
 	this->PlayerController->ShowWidgetCardSelect(Query.playable_cards);
 
 	TArray<FWSCard> PlayableCards = Query.playable_cards;
-	this->PlayerController->GetPosessedPawn()->GetCardHand()->HighlightCards(&PlayableCards);
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutCards(PlayableCards);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -427,7 +427,7 @@ void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
 		checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
 		this->PlayerController->GetPosessedPawn()->GetCardHand()->RemoveCardByRankAndSuit_Implementation(rank, suit);
 
-		this->PlayerController->GetPosessedPawn()->GetCardHand()->HighlightCards(nullptr);
+		this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
 	}
 	else {
 		AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);

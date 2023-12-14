@@ -45,22 +45,20 @@ void ACard::Update(const ECardSuit NewSuit, const ECardRank NewRank)
 	}
 }
 
-bool ACard::IsHighlighted_Implementation() const
+bool ACard::IsGreyedOut() const
 {
-	return this->CardMesh->GetOverlayMaterial() == nullptr;
+	return this->CardMesh->GetOverlayMaterial() != nullptr;
 }
 
-void ACard::SetHighlighted_Implementation(bool bShouldBeHighlighted)
+void ACard::SetGreyedOut(bool bShouldBeGreyedOut)
 {
-	if (bShouldBeHighlighted)
+	if (bShouldBeGreyedOut)
 	{
-		this->CardMesh->SetOverlayMaterial(ACard::CardMaterialHighlighted);
-		this->CardMesh->SetCustomDepthStencilValue(1);
+		this->CardMesh->SetOverlayMaterial(ACard::CardMaterialGreyedOut);
 	}
 	else
 	{
 		this->CardMesh->SetOverlayMaterial(nullptr);
-		this->CardMesh->SetCustomDepthStencilValue(0);
 	}
 }
 
@@ -131,11 +129,11 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 	return Textures;
 }();
 
-UMaterialInterface* ACard::CardMaterialHighlighted = []() -> UMaterialInterface*
+UMaterialInterface* ACard::CardMaterialGreyedOut = []() -> UMaterialInterface*
 {
-	// Fetch material that is used to highlight a card.
+	// Fetch material that is used to grey out a card.
 	return LoadObject<UMaterialInterface>(ACard::StaticClass(),
-		TEXT("Material'/Game/Schafkopf/Cards/M_CardHighlight.M_CardHighlight'")
+		TEXT("Material'/Game/Schafkopf/Cards/M_CardGreyedOut.M_CardGreyedOut'")
 	);
 }();
 
