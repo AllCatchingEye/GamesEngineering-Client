@@ -49,6 +49,10 @@ private:
 	/** The default protocol of the WebSocket. */
 	const wchar_t* WEB_SOCKET_PROTOCOL = TEXT("ws");
 
+	ALevelScriptActor* LevelScriptActor = nullptr;
+
+	bool hasConnected = false;
+
 	/** The pointer to the WebSocket. */
 	TSharedPtr<class IWebSocket> WebSocket = nullptr;
 
@@ -68,6 +72,12 @@ private:
 public:
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
 	void SetServerUrl(FString url);
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	bool GetConnected();
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void SetLevel(ALevelScriptActor* levelScriptActor);
 
 	/** Opens a WebSocket connection to the server. */
 	UFUNCTION()

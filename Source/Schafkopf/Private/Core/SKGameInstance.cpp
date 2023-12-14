@@ -15,6 +15,8 @@
 #include "WebSocketsModule.h"
 #include "JsonUtilities.h"
 #include "Kismet/GameplayStatics.h"
+#include "valarray"
+#include "Containers/Array.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // START - GameInstance																			//
@@ -36,6 +38,8 @@ void USKGameInstance::StartSingleplayer()
 	auto Message = StructToJsonString(LobbyHost);
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Green, Message);
 	this->WebSocket->Send(Message);
+
+	this->hasConnected = true;
 }
 
 void USKGameInstance::Shutdown()
@@ -57,6 +61,16 @@ ASKPlayerController* USKGameInstance::GetController() {
 void USKGameInstance::SetServerUrl(FString url)
 {
 	this->WEB_SOCKET_ADDRESS = url;
+}
+
+bool USKGameInstance::GetConnected()
+{
+	return this->hasConnected;
+}
+
+void USKGameInstance::SetLevel(ALevelScriptActor* levelScriptActor)
+{
+	this->LevelScriptActor = levelScriptActor;
 }
 
 void USKGameInstance::WebSocketConnect()
@@ -202,15 +216,14 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 	// Spawn the initial card trick.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 
-	// Filter the player from play order
-	TArray<FString> playOrder = GameStartUpdate.playOrder;
-	playOrder.RemoveAll([this](const FString& str) {
-		return str == this->PlayerId;
-	});
+	checkf(this->LevelScriptActor != nullptr, TEXT("The level script actor was null."));
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 
-	auto level = this->PlayerController->GetLevel();
-	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(level->GetLevelScriptActor());
-	levelScriptActor->SetPlayerIds(playOrder);
+	TArray<FString> playerIds = GameStartUpdate.play_order;
+	playerIds.Remove(this->PlayerId);
+
+	levelScriptActor->SetPlayerIDs(playerIds);
+	levelScriptActor->AssignPlayerIDs();
 }
 
 void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
@@ -252,9 +265,12 @@ void USKGameInstance::OnRoundResultUpdate(const FString& Message)
 	// Create a new empty card trick for the next round.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass());
 
-	auto level = this->PlayerController->GetLevel();
-	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(level->GetLevelScriptActor());
-	levelScriptActor->RoundEnd(Update.round_winner);
+	checkf(this->LevelScriptActor != nullptr, TEXT("The level script actor was null."));
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Highlighting Winners: " + Update.round_winner));
+
+	levelScriptActor->SetRoundWinner(Update.round_winner);
+	levelScriptActor->RoundEnd();
 }
 
 void USKGameInstance::OnGameEndUpdate(const FString& Message)
@@ -281,9 +297,12 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 
 	this->PlayerController->ShowWidgetGameWinner(isWinner, points);
 
-	auto level = this->PlayerController->GetLevel();
-	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(level->GetLevelScriptActor());
-	levelScriptActor->GameEnd(Update.winner);
+	checkf(this->LevelScriptActor != nullptr, TEXT("The level script actor was null."));
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+
+	const TArray<FString>& playerIds = Update.winner;
+	levelScriptActor->SetGameWinners(playerIds);
+	levelScriptActor->GameEnd();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

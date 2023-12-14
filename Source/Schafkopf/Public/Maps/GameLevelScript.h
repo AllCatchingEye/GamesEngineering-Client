@@ -15,12 +15,27 @@ class SCHAFKOPF_API AGameLevelScript : public ALevelScriptActor
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintImplementableEvent)
-	void SetPlayerIds(const TArray<FString>& playerIds);
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FString> playerIds;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void RoundEnd(const FString& winnerID);
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FString> gameWinner;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void GameEnd(const TArray<FString>& playerIds);
+	UPROPERTY(BlueprintReadWrite)
+	FString roundWinner;
+
+	void SetPlayerIDs(TArray<FString> playerIds);
+
+	void SetRoundWinner(FString winnerID);
+
+	void SetGameWinners(TArray<FString> playerIds);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void AssignPlayerIDs();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void RoundEnd();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void GameEnd();
 };

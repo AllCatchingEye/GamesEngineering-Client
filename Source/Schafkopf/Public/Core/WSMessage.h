@@ -81,7 +81,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	TArray<FWSCard> hand;
 
-	TArray<FString> playOrder;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<FString> play_order;
 };
 
 USTRUCT(BlueprintType)
