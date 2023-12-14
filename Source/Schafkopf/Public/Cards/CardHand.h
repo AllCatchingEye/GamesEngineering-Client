@@ -29,7 +29,17 @@ public:
 
 	virtual void RemoveCard_Implementation(ACard* ToRemove) final;
 
-	void HighlightCards(TArray<struct FWSCard>* ToHighlight);
+	/**
+	 * Greys out the non-playable cards.
+	 * 
+	 * @param PlayableCards - The cards that the player may select.
+	 */
+	UFUNCTION(BlueprintCallable)
+	void GreyOutCards(TArray<struct FWSCard>& PlayableCards);
+
+	/** Resets the gereyed out cards. */
+	UFUNCTION(BlueprintCallable)
+	void ResetGreyedOutCards();
 
 private:
 	/** The maximum number of cards. */

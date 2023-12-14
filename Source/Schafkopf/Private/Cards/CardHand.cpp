@@ -41,38 +41,40 @@ void ACardHand::RemoveCard_Implementation(ACard* ToRemove)
 	this->RearrangeCards();
 }
 
-void ACardHand::HighlightCards(TArray<FWSCard>* ToHighlight)
+void ACardHand::GreyOutCards(TArray<FWSCard>& PlayableCards)
 {
-	if (ToHighlight)
+	bool bIsPlayable = false;
+	ACard* CurrentCard = nullptr;
+	ECardSuit CurrentCardSuit = ECardSuit::NONE;
+	ECardRank CurrentCardRank = ECardRank::NONE;
+	for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
 	{
-		bool bIsSameCard = false;
-		ACard* CurrentCard = nullptr;
-		ECardSuit CurrentCardSuit = ECardSuit::NONE;
-		ECardRank CurrentCardRank = ECardRank::NONE;
-		TArray<FWSCard> CardsToHighlight = *ToHighlight;
-		for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
+		bIsPlayable = false;
+		CurrentCard = this->Cards[i];
+		for (int32 j = 0; j < PlayableCards.Num(); j++)
 		{
-			CurrentCard = this->Cards[i];
+			CurrentCardSuit = GetCardSuitFromString(PlayableCards[j].suit);
+			CurrentCardRank = GetCardRankFromString(PlayableCards[j].rank);
 
-			for (int32 j = 0; j < CardsToHighlight.Num(); j++)
-			{
-				CurrentCardSuit = GetCardSuitFromString(CardsToHighlight[j].suit);
-				CurrentCardRank = GetCardRankFromString(CardsToHighlight[j].rank);
-				bIsSameCard = CurrentCard->GetSuit() == CurrentCardSuit && CurrentCard->GetRank() == CurrentCardRank;
+			bIsPlayable = bIsPlayable || (
+				CurrentCard->GetSuit() == CurrentCardSuit &&
+				CurrentCard->GetRank() == CurrentCardRank
+			);
+		}
 
-				if (bIsSameCard)
-				{
-					CurrentCard->SetHighlighted_Implementation(true);
-				}
-			}
+		if (!bIsPlayable)
+		{
+			CurrentCard->SetGreyedOut(true);
 		}
 	}
-	else
+}
+
+void ACardHand::ResetGreyedOutCards()
+{
+	// Reset the grey out overlay of all cards.
+	for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
 	{
-		for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
-		{
-			this->Cards[i]->SetHighlighted_Implementation(false);
-		}
+		this->Cards[i]->SetGreyedOut(false);
 	}
 }
 
