@@ -54,6 +54,8 @@ void ACard::BeginPlay()
 	this->CardMesh->SetMaterial(0, this->CardMaterialFrontDynamic);
 
 	this->UpdateFrontTexture();
+
+	this->CardMesh->SetWorldScale3D(FVector(0.25f, 0.25f, 0.25));
 }
 
 void ACard::Tick(float DeltaTime)
