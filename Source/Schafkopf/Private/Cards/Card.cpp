@@ -55,7 +55,7 @@ void ACard::BeginPlay()
 
 	this->UpdateFrontTexture();
 
-	this->CardMesh->SetWorldScale3D(FVector(0.25f, 0.25f, 0.25));
+	this->CardMesh->SetWorldScale3D(FVector(0.4f, 0.4f, 0.4f));
 }
 
 void ACard::Tick(float DeltaTime)
