@@ -37,8 +37,6 @@ public:
 
 	virtual void AddCard_Implementation(ACard* ToAdd) override;
 
-	void MoveToOrigin();
-
 	virtual void Tick(float DeltaTime) override;
 
 protected:
