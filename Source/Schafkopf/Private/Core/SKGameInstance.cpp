@@ -123,7 +123,7 @@ void USKGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	FString MessageId = GetJsonMessageId(Message);
 
 	if (MessageId == TEXT("GameStartUpdate")) { this->OnGameStartUpdate(Message); }
-	else if (MessageId == TEXT("PlayDecisionUpdate")) {}
+	else if (MessageId == TEXT("PlayDecisionUpdate")) { OnPlayDecisionUpdate(Message); }
 	else if (MessageId == TEXT("MoneyUpdate")) { this->OnGameMoneyUpdate(Message); }
 	else if (MessageId == TEXT("PlayOrderUpdate")) { this->OnPlayOrderUpdate(Message); }
 	else if (MessageId == TEXT("RoundResultUpdate")) { this->OnRoundResultUpdate(Message); }
@@ -225,6 +225,23 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 
 	levelScriptActor->SetPlayerIDs(playerIds);
 	levelScriptActor->AssignPlayerIDs();
+}
+
+void USKGameInstance::OnPlayDecisionUpdate(const FString& Message)
+{
+	const FWSMessagePlayDecisionUpdate DecisionUpdate = JsonStringToStruct<FWSMessagePlayDecisionUpdate>(Message);
+
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+	if (DecisionUpdate.wants_to_play)
+	{
+		FString action = FString::Printf(TEXT("I want to play"));
+		levelScriptActor->ShowAction(action, DecisionUpdate.player);
+	}
+	else
+	{
+		FString action = FString::Printf(TEXT("I don't want to play"));
+		levelScriptActor->ShowAction(action, DecisionUpdate.player);
+	}
 }
 
 void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
@@ -364,11 +381,18 @@ void USKGameInstance::OnGameTypeSelectedUpdate(const FString& Message)
 	const FWSMessageGametypeDeterminedUpdate Update = JsonStringToStruct<FWSMessageGametypeDeterminedUpdate>(Message);
 
 	FString CompleteGameType = Update.gametype;
+	FString Action = FString::Printf(TEXT("I want to play %s"), *CompleteGameType);
 	if (!Update.suit.Equals("null"))
 	{
 		CompleteGameType.Append(TEXT(" "));
 		CompleteGameType.Append(Update.suit);
+
+		Action.Append(TEXT(" "));
+		Action.Append(Update.suit);
 	}
+
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+	levelScriptActor->ShowAction(Action, Update.player);
 
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(CompleteGameType));
 }
@@ -392,6 +416,15 @@ void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
 		// Ensure that the player is not null.
 		checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
 		this->PlayerController->GetPosessedPawn()->GetCardHand()->RemoveCardByRankAndSuit_Implementation(rank, suit);
+	}
+	else {
+		AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+
+		FString SuitString = Update.card.suit;
+		FString RankString = Update.card.rank;
+		FString action = FString::Printf(TEXT("I play %s %s"), *SuitString, *RankString);
+
+		levelScriptActor->ShowAction(action, Update.player);
 	}
 }
 

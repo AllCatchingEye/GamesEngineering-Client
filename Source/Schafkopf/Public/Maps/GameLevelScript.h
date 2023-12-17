@@ -38,4 +38,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
 	void GameEnd();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void ShowAction(const FString& action, const FString& playerID);
 };

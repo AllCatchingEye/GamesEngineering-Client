@@ -136,6 +136,8 @@ private:
 	/** Called upon the start of the game. */
 	void OnGameStartUpdate(const FString& Message);
 
+	void OnPlayDecisionUpdate(const FString& Message);
+
 	/** Called upon the start of a round. */
 	void OnPlayOrderUpdate(const FString& Message); // TODO: Rename to OnRoundStartUpdate(...).
 

@@ -25,7 +25,4 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnRoundEnd(const TArray<FString>& winners_list);
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void ShowAction(const FString& action);
 };
