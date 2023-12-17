@@ -29,6 +29,9 @@ public:
 
 	virtual void AddCard_Implementation(ACard* ToAdd) final;
 
+	UFUNCTION(BlueprintCallable, Category = "Cards")
+	static void DisappearCards(ACardTrick* CardTrick);
+
 private:
 	/** The maximum number of cards. */
 	static const int32 CARD_COUNT_MAX = 4;

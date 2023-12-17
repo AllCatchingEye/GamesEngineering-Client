@@ -62,6 +62,10 @@ private:
 	class ASKPlayerController* PlayerController;
 	/** The current card trick. */
 	class ACardTrick* CardTrick;
+
+	/** The current card trick. */
+	class ACardTrick* prevCardTrick = nullptr;
+
 	/** An array of all card tricks. There will be eight in total. */
 	TArray<class ACardTrick*> CardTricks;
 
@@ -75,6 +79,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
 	bool GetConnected();
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	ACardTrick* GetCardTrick();
 
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
 	void SetLevel(ALevelScriptActor* levelScriptActor);
@@ -135,6 +142,8 @@ private:
 private:
 	/** Called upon the start of the game. */
 	void OnGameStartUpdate(const FString& Message);
+
+	void OnPlayDecisionUpdate(const FString& Message);
 
 	/** Called upon the start of a round. */
 	void OnPlayOrderUpdate(const FString& Message); // TODO: Rename to OnRoundStartUpdate(...).
