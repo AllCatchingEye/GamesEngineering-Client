@@ -22,6 +22,14 @@ void ACardTrick::AddCard_Implementation(ACard* ToAdd)
 	this->RearrangeCards();
 }
 
+void ACardTrick::DisappearCards(ACardTrick* CardTrick)
+{
+	for (int32 i = 0; i < CardTrick->Cards.Num(); i++)
+	{
+		CardTrick->Cards[i]->SetActorLocation(FVector(0.0f, 0.0f, 0.0f));
+	}
+}
+
 void ACardTrick::RearrangeCards()
 {
 

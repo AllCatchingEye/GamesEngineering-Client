@@ -41,4 +41,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
 	void ShowAction(const FString& action, const FString& playerID);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void StartDelay(const int32& Seconds);
 };

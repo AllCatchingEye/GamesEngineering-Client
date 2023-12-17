@@ -25,6 +25,7 @@ public:
 
 	virtual int32 GetCardMaximum_Implementation() const PURE_VIRTUAL(ACardStack::GetCardMaximum, return -1;);
 
+	UFUNCTION(BlueprintCallable, Category = "Cards")
 	virtual int32 GetCardCount_Implementation() const final;
 
 	virtual bool IsEmpty_Implementation() const final;

@@ -77,6 +77,9 @@ public:
 	bool GetConnected();
 
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	ACardTrick* GetCardTrick();
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
 	void SetLevel(ALevelScriptActor* levelScriptActor);
 
 	/** Opens a WebSocket connection to the server. */

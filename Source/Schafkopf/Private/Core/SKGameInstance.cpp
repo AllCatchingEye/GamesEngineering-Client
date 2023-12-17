@@ -68,6 +68,11 @@ bool USKGameInstance::GetConnected()
 	return this->hasConnected;
 }
 
+ACardTrick* USKGameInstance::GetCardTrick()
+{
+	return this->CardTrick;
+}
+
 void USKGameInstance::SetLevel(ALevelScriptActor* levelScriptActor)
 {
 	this->LevelScriptActor = levelScriptActor;
@@ -276,18 +281,16 @@ void USKGameInstance::OnRoundResultUpdate(const FString& Message)
 {
 	const FWSMessageRoundResultUpdate Update = JsonStringToStruct<FWSMessageRoundResultUpdate>(Message);
 
-	// Before we destroy, move the cards to the origin, TODO: dirty fix
-	//this->CardTrick->MoveToOrigin();
-	//Stack->Destroy();
+	this->CardTrick->DisappearCards(this->CardTrick);
 
 	// Create a new empty card trick for the next round.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass(), FVector(-52.543781, 319.838132, 3.843386), FRotator(0,0,0));
 	this->CardTrick->SetActorLocation(FVector(-52.543781, 319.838132, 3.843386));
 
 	checkf(this->LevelScriptActor != nullptr, TEXT("The level script actor was null."));
-	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 50.0f, FColor::Red, TEXT("Highlighting Winners: " + Update.round_winner));
 
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 	levelScriptActor->SetRoundWinner(Update.round_winner);
 	levelScriptActor->RoundEnd();
 }
