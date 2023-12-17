@@ -281,9 +281,8 @@ void USKGameInstance::OnRoundResultUpdate(const FString& Message)
 {
 	const FWSMessageRoundResultUpdate Update = JsonStringToStruct<FWSMessageRoundResultUpdate>(Message);
 
-	this->CardTrick->DisappearCards(this->CardTrick);
-
 	// Create a new empty card trick for the next round.
+	this->prevCardTrick = this->CardTrick;
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass(), FVector(-52.543781, 319.838132, 3.843386), FRotator(0,0,0));
 	this->CardTrick->SetActorLocation(FVector(-52.543781, 319.838132, 3.843386));
 
@@ -402,6 +401,11 @@ void USKGameInstance::OnGameTypeSelectedUpdate(const FString& Message)
 
 void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
 {
+	if (this->prevCardTrick != nullptr)
+	{
+		this->prevCardTrick->DisappearCards(this->prevCardTrick);
+	}
+
 	const FWSMessageCardPlayedUpdate Update = JsonStringToStruct<FWSMessageCardPlayedUpdate>(Message);
 
 	ECardSuit suit = GetCardSuitFromString(Update.card.suit);

@@ -62,6 +62,10 @@ private:
 	class ASKPlayerController* PlayerController;
 	/** The current card trick. */
 	class ACardTrick* CardTrick;
+
+	/** The current card trick. */
+	class ACardTrick* prevCardTrick = nullptr;
+
 	/** An array of all card tricks. There will be eight in total. */
 	TArray<class ACardTrick*> CardTricks;
 
