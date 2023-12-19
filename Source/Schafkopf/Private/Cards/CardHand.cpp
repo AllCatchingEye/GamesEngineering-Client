@@ -2,6 +2,8 @@
 
 
 #include "Cards/CardHand.h"
+#include "Core/WSMessage.h"
+
 #include "Kismet/KismetMathLibrary.h"
 
 ACardHand::ACardHand() : ACardStackExtended()
@@ -38,6 +40,43 @@ void ACardHand::RemoveCard_Implementation(ACard* ToRemove)
 {
 	Super::RemoveCard_Implementation(ToRemove);
 	this->RearrangeCards();
+}
+
+void ACardHand::GreyOutCards(TArray<FWSCard>& PlayableCards)
+{
+	bool bIsPlayable = false;
+	ACard* CurrentCard = nullptr;
+	ECardSuit CurrentCardSuit = ECardSuit::NONE;
+	ECardRank CurrentCardRank = ECardRank::NONE;
+	for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
+	{
+		bIsPlayable = false;
+		CurrentCard = this->Cards[i];
+		for (int32 j = 0; j < PlayableCards.Num(); j++)
+		{
+			CurrentCardSuit = GetCardSuitFromString(PlayableCards[j].suit);
+			CurrentCardRank = GetCardRankFromString(PlayableCards[j].rank);
+
+			bIsPlayable = bIsPlayable || (
+				CurrentCard->GetSuit() == CurrentCardSuit &&
+				CurrentCard->GetRank() == CurrentCardRank
+			);
+		}
+
+		if (!bIsPlayable)
+		{
+			CurrentCard->SetGreyedOut(true);
+		}
+	}
+}
+
+void ACardHand::ResetGreyedOutCards()
+{
+	// Reset the grey out overlay of all cards.
+	for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
+	{
+		this->Cards[i]->SetGreyedOut(false);
+	}
 }
 
 void ACardHand::RearrangeCards()

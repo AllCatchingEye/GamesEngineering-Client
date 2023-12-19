@@ -19,6 +19,7 @@ ACard::ACard()
 	{
 		this->CardMesh->SetStaticMesh(CardAsset.Object);
 		this->CardMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+		this->CardMesh->SetRenderCustomDepth(true);
 	}
 }
 
@@ -41,6 +42,23 @@ void ACard::Update(const ECardSuit NewSuit, const ECardRank NewRank)
 		this->Suit = NewSuit;
 		this->Rank = NewRank;
 		this->UpdateFrontTexture();
+	}
+}
+
+bool ACard::IsGreyedOut() const
+{
+	return this->CardMesh->GetOverlayMaterial() != nullptr;
+}
+
+void ACard::SetGreyedOut(bool bShouldBeGreyedOut)
+{
+	if (bShouldBeGreyedOut)
+	{
+		this->CardMesh->SetOverlayMaterial(ACard::CardMaterialGreyedOut);
+	}
+	else
+	{
+		this->CardMesh->SetOverlayMaterial(nullptr);
 	}
 }
 
@@ -111,6 +129,13 @@ const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURE
 	return Textures;
 }();
 
+UMaterialInterface* ACard::CardMaterialGreyedOut = []() -> UMaterialInterface*
+{
+	// Fetch material that is used to grey out a card.
+	return LoadObject<UMaterialInterface>(ACard::StaticClass(),
+		TEXT("Material'/Game/Schafkopf/Cards/M_CardGreyedOut.M_CardGreyedOut'")
+	);
+}();
 
 void ACard::UpdateFrontTexture()
 {
@@ -124,7 +149,6 @@ void ACard::UpdateFrontTexture()
 	if (ensureAlwaysMsgf(!bIsNone, TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE.")))
 	{
 		// Bind the card texture based on the rank and suit enum.
-
 		CardTextureIndex = ((EnumValueSuit - 1) * 8) + EnumValueRank;
 	}
 

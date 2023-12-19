@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "CardSuit.h"
-#include "CardRank.h"
+
+#include "Cards/CardSuit.h"
+#include "Cards/CardRank.h"
 #include "Card.generated.h"
 
 /**
@@ -46,6 +47,22 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Update(const ECardSuit NewSuit, const ECardRank NewRank);
 
+	/**
+	 * Returns whether this actor is greyed out.
+	 *
+	 * @return `true` if and only if the actor is greyed out.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsGreyedOut() const;
+
+	/**
+	 * Sets whether this actor is greyed out.
+	 *
+	 * @param bShouldBeGreyedOut - `true` if and only if the actor should be greyed out.
+	 */
+	UFUNCTION(BlueprintCallable)
+	void SetGreyedOut(bool bShouldBeGreyedOut);
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -81,6 +98,8 @@ private:
 	 * The other 32 cards (from index 1 to 33) are the actual card textures.
 	 */
 	static const TStaticArray<UTexture2D*, CARD_TEXTURES_AMOUNT> CARD_TEXTURES;
+	/** The material that is used to grey out a card. */
+	static UMaterialInterface* CardMaterialGreyedOut;
 
 	/** Updates the front texture of the card. */
 	void UpdateFrontTexture();
