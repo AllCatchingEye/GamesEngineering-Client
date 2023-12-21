@@ -39,7 +39,7 @@ public:
 	bool CanRemoveCard(ACard* ToRemove) const;
 
 	/**
-	 * Removes a card.
+	 * Removes the specified card.
 	 * 
 	 * The card will be detached from this collection. The card's
 	 * collision will not be reenabled.
@@ -54,7 +54,15 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cards")
 	void RemoveCard(ACard* ToRemove);
 
-
+	/**
+	 * Removes the card specified by the suit and rank.
+	 * 
+	 * Does nothing if there is no card that matches the specified
+	 * suit and rank.
+	 * 
+	 * @param Suit - The suit of the card.
+	 * @param Rank - The rank of the card.
+	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cards")
-	void RemoveCardByRankAndSuit(ECardRank rank, ECardSuit suit);
+	void RemoveCardBySuitAndRank(ECardSuit Suit, ECardRank Rank);
 };

@@ -3,6 +3,7 @@
 
 #include "Core/SKPlayerController.h"
 
+#include "Core/SKGameInstance.h"
 #include "Core/WSMessage.h"
 #include "Core/SKCharacter.h"
 #include "Cards/Card.h"
@@ -96,7 +97,11 @@ void ASKPlayerController::OnLeftMouseButtonPressed()
 	const bool bIsCard = HitActor && HitActor->IsA(ACard::StaticClass());
 	if (HitResult.bBlockingHit && bIsCard)
 	{
-		static_cast<ACard*>(HitActor)->SetGreyedOut(true);
+		ACard* Card = static_cast<ACard*>(HitActor);
+		if (PosessedPawn->IsPlayableCard(Card))
+		{
+			static_cast<USKGameInstance*>(this->GetGameInstance())->SendCardPlay(PosessedPawn->GetPlayableCardIndex(Card));
+		}
 	}
 }
 

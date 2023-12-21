@@ -34,6 +34,10 @@ public:
 
 	virtual bool ContainsCard_Implementation(ACard* ToQuery) const final;
 
+	virtual bool ContainsCardBySuitAndRank_Implementation(ECardSuit Suit, ECardRank Rank) const final;
+
+	virtual ACard* GetCardBySuitAndRank_Implementation(ECardSuit Suit, ECardRank Rank) const final;
+
 	virtual bool CanAddCard_Implementation(ACard* ToAdd) const final;
 
 	virtual void AddCard_Implementation(ACard* ToAdd) override;

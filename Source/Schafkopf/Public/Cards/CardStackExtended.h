@@ -29,5 +29,5 @@ public:
 
 	virtual void RemoveCard_Implementation(ACard* ToRemove) override;
 
-	virtual void RemoveCardByRankAndSuit_Implementation(ECardRank rank, ECardSuit suit) override;
+	virtual void RemoveCardBySuitAndRank_Implementation(ECardSuit Suit, ECardRank Rank) override;
 };
