@@ -39,7 +39,6 @@ void ACardStack::AddCard_Implementation(ACard* ToAdd)
 {
 	verify(this->CanAddCard_Implementation(ToAdd));
 
-	ToAdd->SetActorEnableCollision(false);
 	ToAdd->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 	this->Cards.Add(ToAdd);
 }

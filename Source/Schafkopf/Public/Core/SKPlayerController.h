@@ -73,6 +73,10 @@ public:
 	
 	void ShowWidgetGameWinner(bool isWinner, int32 Points);
 
+	virtual void SetupInputComponent() override;
+
+	void OnLeftMouseButtonPressed();
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<UUserWidget> WidgetClass;

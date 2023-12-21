@@ -5,7 +5,7 @@
 
 ACard::ACard()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	this->PrimaryActorTick.bCanEverTick = false;
 
 	this->CardMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Card Mesh"));
 	this->CardMesh->SetupAttachment(this->RootComponent);

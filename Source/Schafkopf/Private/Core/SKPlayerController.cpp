@@ -5,6 +5,7 @@
 
 #include "Core/WSMessage.h"
 #include "Core/SKCharacter.h"
+#include "Cards/Card.h"
 #include "UI/GameHUD.h"
 #include "UI/GameGroupSelectWidget.h"
 #include "UI/GameTypeSelectWidget.h"
@@ -15,6 +16,10 @@
 
 ASKPlayerController::ASKPlayerController() : APlayerController()
 {
+	this->bShowMouseCursor = true;
+	this->bEnableClickEvents = true;
+	this->bEnableMouseOverEvents = true;
+
 	this->PosessedPawn = nullptr;
 
 	this->WidgetInstance = nullptr;
@@ -73,6 +78,26 @@ void ASKPlayerController::BeginPlay()
 ASKCharacter* ASKPlayerController::GetPosessedPawn()
 {
 	return this->PosessedPawn;
+}
+
+void ASKPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	this->InputComponent->BindKey(EKeys::LeftMouseButton, EInputEvent::IE_Pressed, this, &ASKPlayerController::OnLeftMouseButtonPressed);
+}
+
+void ASKPlayerController::OnLeftMouseButtonPressed()
+{
+	FHitResult HitResult;
+	this->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, HitResult);
+
+	AActor* HitActor = HitResult.GetActor();
+	const bool bIsCard = HitActor && HitActor->IsA(ACard::StaticClass());
+	if (HitResult.bBlockingHit && bIsCard)
+	{
+		static_cast<ACard*>(HitActor)->SetGreyedOut(true);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////
