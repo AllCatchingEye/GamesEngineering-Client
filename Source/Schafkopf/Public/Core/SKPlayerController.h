@@ -63,13 +63,6 @@ public:
 	 * @param Types - The available types.
 	 */
 	void ShowWidgetGameTypeSelect(const TArray<struct FWSGameTypeWithSuit> Types);
-
-	/**
-	 * Shows the CardSelect widget.
-	 *
-	 * @param Cards - The available cards.
-	 */
-	void ShowWidgetCardSelect(const TArray<struct FWSCard> Cards);
 	
 	void ShowWidgetGameWinner(bool isWinner, int32 Points);
 
@@ -94,9 +87,6 @@ protected:
 	TSubclassOf<class UGameTypeSelectWidget> WidgetClassGameTypeSelect;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
-	TSubclassOf<class UCardSelectWidget> WidgetClassCardSelect;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UGameWinnerWidget> WidgetClassGameWinner;
 	
 private:
@@ -117,9 +107,6 @@ private:
 
 	UPROPERTY()
 	class UGameTypeSelectWidget* WidgetInstanceGameTypeSelect;
-
-	UPROPERTY()
-	class UCardSelectWidget* WidgetInstanceCardSelect;
 
 	UPROPERTY()
 	class UGameWinnerWidget* WidgetInstanceGameWinner;

@@ -363,7 +363,6 @@ void USKGameInstance::OnPlayerPlayCardQuery(const FString& Message)
 
 	// Ensure that the player is not null.
 	checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
-	this->PlayerController->ShowWidgetCardSelect(Query.playable_cards);
 
 	ECardSuit CurrentCardSuit = ECardSuit::NONE;
 	ECardRank CurrentCardRank = ECardRank::NONE;
