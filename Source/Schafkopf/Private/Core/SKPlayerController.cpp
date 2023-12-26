@@ -10,7 +10,6 @@
 #include "UI/GameHUD.h"
 #include "UI/GameGroupSelectWidget.h"
 #include "UI/GameTypeSelectWidget.h"
-#include "UI/CardSelectWidget.h"
 #include "UI/GameWinnerWidget.h"
 
 #include "Blueprint/UserWidget.h"
