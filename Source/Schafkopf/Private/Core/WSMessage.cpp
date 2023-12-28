@@ -34,47 +34,6 @@ FString GetJsonMessageId(const FString& JsonString)
 	return MessageId;
 }
 
-/*template<typename T>
-FString StructToJsonString(const T& Struct)
-{
-	FString OutputString;
-	auto result = FJsonObjectConverter::UStructToJsonObjectString(Struct, OutputString, 0, 0, 0);
-	if (!result)
-	{
-		GEngine->AddOnScreenDebugMessage(
-			INDEX_NONE, 50.0f, FColor::Red,
-			TEXT("Failed to serialize struct to JSON string.")
-		);
-	}
-	return OutputString;
-}
-
-template<typename T>
-T JsonStringToStruct(const FString& JsonString)
-{
-	TSharedPtr<FJsonObject> JsonObject;
-	TSharedRef<TJsonReader<>> JsonReader = TJsonReaderFactory<>::Create(JsonString);
-	T OutputStruct;
-
-	if (FJsonSerializer::Deserialize(JsonReader, JsonObject))
-	{
-		auto result = FJsonObjectConverter::JsonObjectToUStruct(
-			JsonObject.ToSharedRef(), T::StaticStruct(),
-			&OutputStruct, 0, 0
-		);
-
-		if (!result)
-		{
-			GEngine->AddOnScreenDebugMessage(
-				INDEX_NONE, 50.0f, FColor::Red,
-				TEXT("Failed to deserialize JSON string to struct.")
-			);
-		}
-	}
-
-	return OutputStruct;
-}*/
-
 ECardSuit GetCardSuitFromString(const FString& SuitString)
 {
 	UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ECardSuit"), true);
