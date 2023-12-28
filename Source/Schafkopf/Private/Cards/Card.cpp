@@ -146,7 +146,13 @@ void ACard::UpdateFrontTexture()
 	const uint8 EnumValueRank = (uint8)this->Rank;
 
 	const bool bIsNone = this->Suit == ECardSuit::NONE && this->Rank == ECardRank::NONE;
-	if (ensureAlwaysMsgf(!bIsNone, TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE.")))
+	const bool bIsValid = this->Suit != ECardSuit::NONE && this->Rank != ECardRank::NONE;
+	ensureAlwaysMsgf(
+		!(bIsNone || bIsValid),
+		TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE.")
+	);
+
+	if (bIsValid)
 	{
 		// Bind the card texture based on the rank and suit enum.
 		CardTextureIndex = ((EnumValueSuit - 1) * 8) + EnumValueRank;

@@ -93,7 +93,7 @@ struct SCHAFKOPF_API FWSMessagePlayDecisionUpdate : public FWSMessagePlayerRelat
 public:
 	/** Determines whether the player wants to play. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	bool wants_to_play;
+	bool wants_to_play = false;
 };
 
 USTRUCT(BlueprintType)
@@ -136,7 +136,7 @@ public:
 	FString round_winner;// TODO: Rename to `player` for better unity.
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	int points;
+	int32 points = 0;
 };
 
 USTRUCT(BlueprintType)
@@ -204,7 +204,7 @@ struct SCHAFKOPF_API FWSMoney
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	int32 cent;
+	int32 cent = 0;
 };
 
 USTRUCT(BlueprintType)
@@ -247,7 +247,7 @@ struct SCHAFKOPF_API FWSMessagePlayerWantsToPlayAnswer : public FWSMessage
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	bool decision;
+	bool decision = false;
 };
 
 
@@ -281,7 +281,7 @@ struct SCHAFKOPF_API FWSMessagePlayerSelectGameTypeAnswer : public FWSMessage
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	int gametype_index;
+	int32 gametype_index = 0;
 };
 
 USTRUCT(BlueprintType)
@@ -301,7 +301,7 @@ struct SCHAFKOPF_API FWSMessagePlayerChooseGameGroupAnswer : public FWSMessage
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	int gamegroup_index;
+	int32 gamegroup_index = 0;
 };
 
 USTRUCT(BlueprintType)
@@ -321,7 +321,7 @@ struct SCHAFKOPF_API FWSMessagePlayerPlayCardAnswer : public FWSMessage
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
-	int card_index;
+	int32 card_index = 0;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
