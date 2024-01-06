@@ -214,7 +214,7 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 	}
 
 	// Initialize HUD values.
-	const FString NoGameTypeYet = FString(TEXT("Not yet selected"));
+	const FString NoGameTypeYet = FString(TEXT("Ungeklärt"));
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(NoGameTypeYet));
 	this->PlayerController->UpdateWidgetGameHUDMoney(0);
 
@@ -396,7 +396,7 @@ void USKGameInstance::OnGameTypeSelectedUpdate(const FString& Message)
 	const FWSMessageGametypeDeterminedUpdate Update = JsonStringToStruct<FWSMessageGametypeDeterminedUpdate>(Message);
 
 	FString CompleteGameType = Update.gametype;
-	FString Action = FString::Printf(TEXT("I want to play %s"), *CompleteGameType);
+	FString Action = FString::Printf(TEXT("%s"), *CompleteGameType);
 	if (!Update.suit.Equals("null"))
 	{
 		CompleteGameType.Append(TEXT(" "));
