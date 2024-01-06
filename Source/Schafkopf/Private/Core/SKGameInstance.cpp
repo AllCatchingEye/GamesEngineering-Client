@@ -239,12 +239,12 @@ void USKGameInstance::OnPlayDecisionUpdate(const FString& Message)
 	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 	if (DecisionUpdate.wants_to_play)
 	{
-		FString action = FString::Printf(TEXT("I want to play"));
+		FString action = FString::Printf(TEXT("Ich spiele"));
 		levelScriptActor->ShowAction(action, DecisionUpdate.player);
 	}
 	else
 	{
-		FString action = FString::Printf(TEXT("I don't want to play"));
+		FString action = FString::Printf(TEXT("Weiter"));
 		levelScriptActor->ShowAction(action, DecisionUpdate.player);
 	}
 }
@@ -447,7 +447,7 @@ void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
 
 		FString SuitString = Update.card.suit;
 		FString RankString = Update.card.rank;
-		FString action = FString::Printf(TEXT("I play %s %s"), *SuitString, *RankString);
+		FString action = FString::Printf(TEXT("Ich spiele %s %s"), *SuitString, *RankString);
 
 		levelScriptActor->ShowAction(action, Update.player);
 	}
