@@ -213,7 +213,6 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 		CardHand->AddCard_Implementation(CardActor);
 	}
 
-	// Initialize HUD values.
 	const FString NoGameTypeYet = FString(TEXT("Ungeklärt"));
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(NoGameTypeYet));
 	this->PlayerController->UpdateWidgetGameHUDMoney(0);

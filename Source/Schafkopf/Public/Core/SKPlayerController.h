@@ -29,7 +29,12 @@ public:
 	class ASKCharacter* GetPosessedPawn();
 
 	/** Shows the GameHUD widget. */
-	void ShowWidgetGameHUD();
+	void AddWidgetGameHUD();
+
+	/** Shows the GameHUD widget. */
+	void HideGameHUD();
+
+	void ShowGameHUD();
 
 	/**
 	 * Updates the money of the GameHUD.
@@ -88,6 +93,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UGameWinnerWidget> WidgetClassGameWinner;
+
+	UPROPERTY(blueprintreadwrite)
+	class UGameHUD* WidgetInstanceGameHUD;
 	
 private:
 	/** The pawn that the player posesses and controls. */
@@ -96,8 +104,7 @@ private:
 	UPROPERTY()
 	UUserWidget* WidgetInstance;
 
-	UPROPERTY()
-	class UGameHUD* WidgetInstanceGameHUD;
+
 
 	UPROPERTY()
 	UUserWidget* WidgetInstanceWantsToPlay;

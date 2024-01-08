@@ -21,7 +21,15 @@ public:
 
 	void UpdateGameType(const FText NewGameType);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void HideHUD();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowHUD();
+
 protected:
+
+
 	UPROPERTY(BlueprintReadOnly)
 	FText Money;
 

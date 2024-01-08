@@ -23,6 +23,7 @@ ASKPlayerController::ASKPlayerController() : APlayerController()
 	this->PosessedPawn = nullptr;
 
 	this->WidgetInstance = nullptr;
+
 	this->WidgetInstanceGameHUD = nullptr;
 	this->WidgetInstanceWantsToPlay = nullptr;
 	this->WidgetInstanceGameGroupSelect = nullptr;
@@ -50,7 +51,7 @@ void ASKPlayerController::BeginPlay()
 	if (this->WidgetClassGameHUD && !this->WidgetInstanceGameHUD)
 	{
 		this->WidgetInstanceGameHUD = Cast<UGameHUD>(CreateWidget(this, this->WidgetClassGameHUD));
-		this->ShowWidgetGameHUD();
+		//this->WidgetInstanceGameHUD->AddToViewport();
 	}
 	if (this->WidgetClassWantsToPlay && !this->WidgetInstanceWantsToPlay)
 	{
@@ -73,6 +74,16 @@ void ASKPlayerController::BeginPlay()
 ASKCharacter* ASKPlayerController::GetPosessedPawn()
 {
 	return this->PosessedPawn;
+}
+
+UFUNCTION(BlueprintCallable)
+void ASKPlayerController::AddWidgetGameHUD()
+{
+	if (this->WidgetClassGameHUD && !this->WidgetInstanceGameHUD)
+	{
+		this->WidgetInstanceGameHUD = Cast<UGameHUD>(CreateWidget(this, this->WidgetClassGameHUD));
+		this->WidgetInstanceGameHUD->AddToViewport();
+	}
 }
 
 void ASKPlayerController::SetupInputComponent()
@@ -103,14 +114,6 @@ void ASKPlayerController::OnLeftMouseButtonPressed()
 // START - Widgets																//
 //////////////////////////////////////////////////////////////////////////////////
 
-void ASKPlayerController::ShowWidgetGameHUD()
-{
-	if (this->WidgetInstanceGameHUD)
-	{
-		this->WidgetInstanceGameHUD->AddToViewport();
-	}
-}
-
 void ASKPlayerController::UpdateWidgetGameHUDMoney(int32 NewMoney)
 {
 	if (this->WidgetInstanceGameHUD)
@@ -127,7 +130,21 @@ void ASKPlayerController::UpdateWidgetGameHUDGameType(const FText NewGameType)
 	}
 }
 
+void ASKPlayerController::HideGameHUD()
+{
+	if (this->WidgetInstanceGameHUD)
+	{
+		this->WidgetInstanceGameHUD->HideHUD();
+	}
+}
 
+void ASKPlayerController::ShowGameHUD()
+{
+	if (this->WidgetInstanceGameHUD)
+	{
+		this->WidgetInstanceGameHUD->ShowHUD();
+	}
+}
 
 void ASKPlayerController::ShowWidgetWantsToPlay()
 {
