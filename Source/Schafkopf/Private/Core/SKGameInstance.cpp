@@ -315,12 +315,11 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 		points = Update.points[3];
 	}
 
-	this->PlayerController->ShowWidgetGameWinner(isWinner, points);
-
 	checkf(this->LevelScriptActor != nullptr, TEXT("The level script actor was null."));
 	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 
 	const TArray<FString>& playerIds = Update.winner;
+	levelScriptActor->ShowGameWinner(isWinner, points);
 	levelScriptActor->SetGameWinners(playerIds);
 	levelScriptActor->GameEnd();
 }

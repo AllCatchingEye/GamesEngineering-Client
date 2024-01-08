@@ -43,5 +43,8 @@ public:
 	void ShowAction(const FString& action, const FString& playerID);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void ShowGameWinner(bool isWinner, int32 Points);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
 	void StartDelay(const int32& Seconds);
 };

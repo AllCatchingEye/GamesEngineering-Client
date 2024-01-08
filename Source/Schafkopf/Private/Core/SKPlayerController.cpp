@@ -28,7 +28,6 @@ ASKPlayerController::ASKPlayerController() : APlayerController()
 	this->WidgetInstanceWantsToPlay = nullptr;
 	this->WidgetInstanceGameGroupSelect = nullptr;
 	this->WidgetInstanceGameTypeSelect = nullptr;
-	this->WidgetInstanceGameWinner = nullptr;
 }
 
 void ASKPlayerController::BeginPlay()
@@ -64,10 +63,6 @@ void ASKPlayerController::BeginPlay()
 	if (this->WidgetClassGameTypeSelect && !this->WidgetInstanceGameTypeSelect)
 	{
 		this->WidgetInstanceGameTypeSelect = Cast<UGameTypeSelectWidget>(CreateWidget(this, this->WidgetClassGameTypeSelect));
-	}
-	if (this->WidgetClassGameWinner && !this->WidgetInstanceGameWinner)
-	{
-		this->WidgetInstanceGameWinner = Cast<UGameWinnerWidget>(CreateWidget(this, this->WidgetClassGameWinner));
 	}
 }
 
@@ -169,16 +164,6 @@ void ASKPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithS
 	{
 		this->WidgetInstanceGameTypeSelect->AddToViewport();
 		this->WidgetInstanceGameTypeSelect->UpdateFields(Types);
-	}
-}
-
-void ASKPlayerController::ShowWidgetGameWinner(bool isWinner, int32 Points)
-{
-	
-	if (this->WidgetInstanceGameWinner)
-	{
-		this->WidgetInstanceGameWinner->AddToViewport();
-		this->WidgetInstanceGameWinner->UpdateFields(isWinner, Points);
 	}
 }
 

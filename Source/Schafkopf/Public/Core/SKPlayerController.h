@@ -68,8 +68,6 @@ public:
 	 * @param Types - The available types.
 	 */
 	void ShowWidgetGameTypeSelect(const TArray<struct FWSGameTypeWithSuit> Types);
-	
-	void ShowWidgetGameWinner(bool isWinner, int32 Points);
 
 	virtual void SetupInputComponent() override;
 
@@ -94,7 +92,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UGameWinnerWidget> WidgetClassGameWinner;
 
-	UPROPERTY(blueprintreadwrite)
+	UPROPERTY(Blueprintreadwrite)
 	class UGameHUD* WidgetInstanceGameHUD;
 	
 private:
@@ -115,6 +113,5 @@ private:
 	UPROPERTY()
 	class UGameTypeSelectWidget* WidgetInstanceGameTypeSelect;
 
-	UPROPERTY()
-	class UGameWinnerWidget* WidgetInstanceGameWinner;
+
 };
