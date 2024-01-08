@@ -230,7 +230,7 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 	levelScriptActor->SetPlayerIDs(playerIds);
 	levelScriptActor->AssignPlayerIDs();
 
-	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
 }
 
 void USKGameInstance::OnPlayDecisionUpdate(const FString& Message)
@@ -359,7 +359,6 @@ void USKGameInstance::OnPlayerSelectGameTypeQuery(const FString& Message)
 
 void USKGameInstance::OnPlayerPlayCardQuery(const FString& Message)
 {
-	this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
 	const FWSMessagePlayerPlayCardQuery Query = JsonStringToStruct<FWSMessagePlayerPlayCardQuery>(Message);
 
 	// Ensure that the player is not null.
@@ -377,6 +376,7 @@ void USKGameInstance::OnPlayerPlayCardQuery(const FString& Message)
 		PlayerCharacter->AddPlayableCard(CardHand->GetCardBySuitAndRank_Implementation(CurrentCardSuit, CurrentCardRank));
 	}
 
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
 	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutCards(PlayableCards);
 }
 
@@ -411,6 +411,7 @@ void USKGameInstance::OnGameTypeSelectedUpdate(const FString& Message)
 	levelScriptActor->ShowAction(Action, Update.player);
 
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(CompleteGameType));
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
 void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
@@ -468,8 +469,6 @@ void USKGameInstance::SendWantsToPlay(const bool WantsToPlay)
 
 	auto Message = StructToJsonString(PlayerWantsToPlay);
 	WebSocket->Send(Message);
-
-	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
 
@@ -501,6 +500,8 @@ void USKGameInstance::SendCardPlay(const int32 CardIndex)
 
 	auto Message = StructToJsonString(PlayerPlayCardResponse);
 	WebSocket->Send(Message);
+
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
 

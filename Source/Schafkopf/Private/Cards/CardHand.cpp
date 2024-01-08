@@ -135,4 +135,5 @@ void ACardHand::RearrangeCards()
 		Card->SetActorRelativeRotation(CardRotation);
 		Card->SetActorRelativeScale3D(FVector(0.25f, 0.25f, 0.25f));
 	}
+	this->GreyOutAllCards();
 }
