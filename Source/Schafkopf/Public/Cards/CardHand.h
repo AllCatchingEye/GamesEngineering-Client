@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void GreyOutCards(TArray<struct FWSCard>& PlayableCards);
 
+	UFUNCTION(BlueprintCallable)
+	void GreyOutAllCards();
+
 	/** Resets the gereyed out cards. */
 	UFUNCTION(BlueprintCallable)
 	void ResetGreyedOutCards();

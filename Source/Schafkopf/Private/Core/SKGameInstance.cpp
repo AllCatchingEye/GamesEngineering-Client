@@ -229,6 +229,8 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 
 	levelScriptActor->SetPlayerIDs(playerIds);
 	levelScriptActor->AssignPlayerIDs();
+
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
 void USKGameInstance::OnPlayDecisionUpdate(const FString& Message)
@@ -357,6 +359,7 @@ void USKGameInstance::OnPlayerSelectGameTypeQuery(const FString& Message)
 
 void USKGameInstance::OnPlayerPlayCardQuery(const FString& Message)
 {
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
 	const FWSMessagePlayerPlayCardQuery Query = JsonStringToStruct<FWSMessagePlayerPlayCardQuery>(Message);
 
 	// Ensure that the player is not null.
@@ -465,6 +468,8 @@ void USKGameInstance::SendWantsToPlay(const bool WantsToPlay)
 
 	auto Message = StructToJsonString(PlayerWantsToPlay);
 	WebSocket->Send(Message);
+
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
 
