@@ -119,7 +119,7 @@ void ASKPlayerController::UpdateWidgetGameHUDMoney(int32 NewMoney)
 	}
 }
 
-void ASKPlayerController::UpdateWidgetGameHUDGameType(FText NewGameType)
+void ASKPlayerController::UpdateWidgetGameHUDGameType(const FText NewGameType)
 {
 	if (this->WidgetInstanceGameHUD)
 	{

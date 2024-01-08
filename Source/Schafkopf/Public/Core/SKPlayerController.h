@@ -43,7 +43,7 @@ public:
 	 *
 	 * @param NewGameType - The new game type.
 	 */
-	void UpdateWidgetGameHUDGameType(FText NewGameType);
+	void UpdateWidgetGameHUDGameType(const FText NewGameType);
 
 
 

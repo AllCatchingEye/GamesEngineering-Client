@@ -13,7 +13,7 @@ void UGameHUD::UpdateMoney(int32 NewMoney)
 	this->Money = FText::FromString(FormattedString);
 }
 
-void UGameHUD::UpdateGameType(FText NewGameType)
+void UGameHUD::UpdateGameType(const FText NewGameType)
 {
 	this->GameType = NewGameType;
 }
