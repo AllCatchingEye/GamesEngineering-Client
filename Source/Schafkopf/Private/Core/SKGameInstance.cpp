@@ -501,6 +501,7 @@ void USKGameInstance::SendCardPlay(const int32 CardIndex)
 	auto Message = StructToJsonString(PlayerPlayCardResponse);
 	WebSocket->Send(Message);
 
+	this->PlayerController->GetPosessedPawn()->ResetPlayableCards();
 	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
