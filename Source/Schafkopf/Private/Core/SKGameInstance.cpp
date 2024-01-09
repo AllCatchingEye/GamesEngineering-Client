@@ -225,8 +225,6 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 
 	TArray<FString> playerIds = GameStartUpdate.play_order;
-	playerIds.Remove(this->PlayerId);
-
 	levelScriptActor->SetPlayerIDs(playerIds);
 	levelScriptActor->AssignPlayerIDs();
 
@@ -254,6 +252,16 @@ void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
 {
 	// TODO: Implement functionality.
 	const FWSMessagePlayOrderUpdate Update = JsonStringToStruct<FWSMessagePlayOrderUpdate>(Message);
+	TArray<FString> play_order = Update.order;
+	TMap<FString, int32> orderMap;
+
+	for (int32 i = 0; i < play_order.Num(); i++)
+	{
+		orderMap.Add(play_order[i], i+1);
+	}
+
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+	levelScriptActor->SetOrder(orderMap);
 }
 
 void USKGameInstance::OnGameMoneyUpdate(const FString& Message)
@@ -453,6 +461,10 @@ void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
 
 		levelScriptActor->ShowAction(action, Update.player);
 	}
+
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+	FText Card = FText::FromString(FString::Printf(TEXT("%s %s"), *Update.card.suit, *Update.card.rank));
+	levelScriptActor->SetCard(Update.player, Card);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

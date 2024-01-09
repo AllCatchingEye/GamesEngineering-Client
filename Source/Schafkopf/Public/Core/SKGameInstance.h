@@ -45,7 +45,7 @@ private:
 	const wchar_t* LEVEL_NAME_INGAME = TEXT("GameLevel");
 
 	/** The default address of the WebSocket. */
-	FString WEB_SOCKET_ADDRESS = TEXT("ws://schafkopfen.duckdns.org:8765");
+	FString WEB_SOCKET_ADDRESS = TEXT("ws://localhost:8765");
 	/** The default protocol of the WebSocket. */
 	const wchar_t* WEB_SOCKET_PROTOCOL = TEXT("ws");
 

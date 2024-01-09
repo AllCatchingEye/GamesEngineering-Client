@@ -47,4 +47,13 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
 	void StartDelay(const int32& Seconds);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void SetOrder(const TMap<FString, int32>& Orders) ;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void SetCard(const FString& Ref, const FText& Card);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void SetTurn(const FString& Ref);
 };
