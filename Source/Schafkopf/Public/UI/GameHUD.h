@@ -19,9 +19,17 @@ class SCHAFKOPF_API UGameHUD : public UUserWidget
 public:
 	void UpdateMoney(int32 NewMoney);
 
-	void UpdateGameType(FText NewGameType);
+	void UpdateGameType(const FText NewGameType);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void HideHUD();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowHUD();
 
 protected:
+
+
 	UPROPERTY(BlueprintReadOnly)
 	FText Money;
 

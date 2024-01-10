@@ -68,6 +68,29 @@ public:
 	bool ContainsCard(ACard* ToQuery) const;
 
 	/**
+	 * Returns whether the collection contains the card.
+	 * 
+	 * @param Suit - The suit of the card to check for.
+	 * @param Rank - The rank of the card to check for.
+	 * @return `true` if and only if the collection contains the card.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cards")
+	bool ContainsCardBySuitAndRank(ECardSuit Suit, ECardRank Rank) const;
+
+	/**
+	 * Returns the card specified by the suit and rank.
+	 * 
+	 * Returns `nullptr` if there is no card that matches the specified
+	 * suit and rank.
+	 *
+	 * @param Suit - The suit of the card to get.
+	 * @param Rank - The rank of the card to get.
+	 * @return The card specified by the suit and rank or `nullptr`.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cards")
+	ACard* GetCardBySuitAndRank(ECardSuit Suit, ECardRank Rank);
+
+	/**
 	 * Returns whether a new card can be added.
 	 * 
 	 * A card can be added if all of the following are true:

@@ -70,6 +70,14 @@ void ACardHand::GreyOutCards(TArray<FWSCard>& PlayableCards)
 	}
 }
 
+void ACardHand::GreyOutAllCards()
+{
+	for (int32 i = 0; i < this->GetCardCount_Implementation(); i++)
+	{
+		this->Cards[i]->SetGreyedOut(true);
+	}
+}
+
 void ACardHand::ResetGreyedOutCards()
 {
 	// Reset the grey out overlay of all cards.
@@ -127,4 +135,5 @@ void ACardHand::RearrangeCards()
 		Card->SetActorRelativeRotation(CardRotation);
 		Card->SetActorRelativeScale3D(FVector(0.25f, 0.25f, 0.25f));
 	}
+	this->GreyOutAllCards();
 }

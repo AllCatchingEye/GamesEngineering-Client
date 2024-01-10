@@ -5,7 +5,7 @@
 
 ACard::ACard()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	this->PrimaryActorTick.bCanEverTick = false;
 
 	this->CardMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Card Mesh"));
 	this->CardMesh->SetupAttachment(this->RootComponent);
@@ -20,6 +20,80 @@ ACard::ACard()
 		this->CardMesh->SetStaticMesh(CardAsset.Object);
 		this->CardMesh->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 		this->CardMesh->SetRenderCustomDepth(true);
+	}
+
+	{
+		// Absolutely dirty fix part 2:
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTextureBack(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardBack.T_CardBack'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture01(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_0.T_CardFront_0_0'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture02(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_1.T_CardFront_0_1'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture03(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_2.T_CardFront_0_2'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture04(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_3.T_CardFront_0_3'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture05(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_4.T_CardFront_0_4'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture06(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_5.T_CardFront_0_5'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture07(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_6.T_CardFront_0_6'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture08(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_0_7.T_CardFront_0_7'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture09(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_0.T_CardFront_1_0'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture10(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_1.T_CardFront_1_1'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture11(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_2.T_CardFront_1_2'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture12(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_3.T_CardFront_1_3'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture13(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_4.T_CardFront_1_4'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture14(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_5.T_CardFront_1_5'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture15(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_6.T_CardFront_1_6'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture16(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_1_7.T_CardFront_1_7'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture17(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_0.T_CardFront_2_0'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture18(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_1.T_CardFront_2_1'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture19(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_2.T_CardFront_2_2'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture20(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_3.T_CardFront_2_3'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture21(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_4.T_CardFront_2_4'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture22(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_5.T_CardFront_2_5'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture23(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_6.T_CardFront_2_6'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture24(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_2_7.T_CardFront_2_7'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture25(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_0.T_CardFront_3_0'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture26(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_1.T_CardFront_3_1'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture27(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_2.T_CardFront_3_2'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture28(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_3.T_CardFront_3_3'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture29(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_4.T_CardFront_3_4'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture30(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_5.T_CardFront_3_5'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture31(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_6.T_CardFront_3_6'"));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> CardTexture32(TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardFront_3_7.T_CardFront_3_7'"));
+
+		ACard::CARD_TEXTURES[ 0] = CardTextureBack.Object;
+		ACard::CARD_TEXTURES[ 1] = CardTexture01.Object;
+		ACard::CARD_TEXTURES[ 2] = CardTexture02.Object;
+		ACard::CARD_TEXTURES[ 3] = CardTexture03.Object;
+		ACard::CARD_TEXTURES[ 4] = CardTexture04.Object;
+		ACard::CARD_TEXTURES[ 5] = CardTexture05.Object;
+		ACard::CARD_TEXTURES[ 6] = CardTexture06.Object;
+		ACard::CARD_TEXTURES[ 7] = CardTexture07.Object;
+		ACard::CARD_TEXTURES[ 8] = CardTexture08.Object;
+		ACard::CARD_TEXTURES[ 9] = CardTexture09.Object;
+		ACard::CARD_TEXTURES[10] = CardTexture10.Object;
+		ACard::CARD_TEXTURES[11] = CardTexture11.Object;
+		ACard::CARD_TEXTURES[12] = CardTexture12.Object;
+		ACard::CARD_TEXTURES[13] = CardTexture13.Object;
+		ACard::CARD_TEXTURES[14] = CardTexture14.Object;
+		ACard::CARD_TEXTURES[15] = CardTexture15.Object;
+		ACard::CARD_TEXTURES[16] = CardTexture16.Object;
+		ACard::CARD_TEXTURES[17] = CardTexture17.Object;
+		ACard::CARD_TEXTURES[18] = CardTexture18.Object;
+		ACard::CARD_TEXTURES[19] = CardTexture19.Object;
+		ACard::CARD_TEXTURES[20] = CardTexture20.Object;
+		ACard::CARD_TEXTURES[21] = CardTexture21.Object;
+		ACard::CARD_TEXTURES[22] = CardTexture22.Object;
+		ACard::CARD_TEXTURES[23] = CardTexture23.Object;
+		ACard::CARD_TEXTURES[24] = CardTexture24.Object;
+		ACard::CARD_TEXTURES[25] = CardTexture25.Object;
+		ACard::CARD_TEXTURES[26] = CardTexture26.Object;
+		ACard::CARD_TEXTURES[27] = CardTexture27.Object;
+		ACard::CARD_TEXTURES[28] = CardTexture28.Object;
+		ACard::CARD_TEXTURES[29] = CardTexture29.Object;
+		ACard::CARD_TEXTURES[30] = CardTexture30.Object;
+		ACard::CARD_TEXTURES[31] = CardTexture31.Object;
+		ACard::CARD_TEXTURES[32] = CardTexture32.Object;
+
+		static ConstructorHelpers::FObjectFinder<UMaterialInterface> CardGreyedOut(TEXT("Material'/Game/Schafkopf/Cards/M_CardGreyedOut.M_CardGreyedOut'"));
+		ACard::CardMaterialGreyedOut = CardGreyedOut.Object;
 	}
 }
 
@@ -81,61 +155,9 @@ void ACard::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-const TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURES = []() -> TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT>
-{
-	TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> Textures;
-
-	// Fetch the base card texture.
-	// This texture is used for unknown cards.
-	Textures[0] = LoadObject<UTexture2D>(ACard::StaticClass(), TEXT("Texture2D'/Game/Schafkopf/Cards/T_CardBack.T_CardBack'"));
-
-	// Fetch all actual card textures.
-	// The texture location string has the following form:
-	// "Texture2D'/Game/GAME_NAME/FOLDER/SUB_FOLDER/.../TEXTURE_NAME.TEXTURE_NAME'"
-	const FString CardTextureLocationStart = TEXT("Texture2D'/Game/Schafkopf/Cards/");
-	const FString CardTextureLocationConcatenator = TEXT(".");
-	const FString CardTextureLocationEnd = TEXT("'");
-	const FString CardTextureNameBase = TEXT("T_CardFront_");
-	const FString CardTextureNameSeparator = TEXT("_");
-	FString CardTextureNameFull;
-	FString CardTextureLocationFull;
-	uint8 EnumValueSuit;
-	uint8 EnumValueRank;
-	for (ECardSuit CardSuit : TEnumRange<ECardSuit>())
-	{
-		EnumValueSuit = (uint8)CardSuit;
-
-		for (ECardRank CardRank : TEnumRange<ECardRank>())
-		{
-			// Construct the card texture name.
-			EnumValueRank = (uint8)CardRank;
-			CardTextureNameFull = CardTextureNameBase;
-			CardTextureNameFull += FString::FromInt(EnumValueSuit - 1);
-			CardTextureNameFull += CardTextureNameSeparator;
-			CardTextureNameFull += FString::FromInt(EnumValueRank - 1);
-
-			// Construct the card texture location.
-			CardTextureLocationFull = CardTextureLocationStart;
-			CardTextureLocationFull += CardTextureNameFull;
-			CardTextureLocationFull += CardTextureLocationConcatenator;
-			CardTextureLocationFull += CardTextureNameFull;
-			CardTextureLocationFull += CardTextureLocationEnd;
-
-			// Fetch the card texture.
-			Textures[((EnumValueSuit - 1) * 8) + EnumValueRank] = LoadObject<UTexture2D>(ACard::StaticClass(), *CardTextureLocationFull);
-		}
-	}
-
-	return Textures;
-}();
-
-UMaterialInterface* ACard::CardMaterialGreyedOut = []() -> UMaterialInterface*
-{
-	// Fetch material that is used to grey out a card.
-	return LoadObject<UMaterialInterface>(ACard::StaticClass(),
-		TEXT("Material'/Game/Schafkopf/Cards/M_CardGreyedOut.M_CardGreyedOut'")
-	);
-}();
+// Absolutely dirty fix part 1:
+TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT> ACard::CARD_TEXTURES = TStaticArray<UTexture2D*, ACard::CARD_TEXTURES_AMOUNT>();
+UMaterialInterface* ACard::CardMaterialGreyedOut = nullptr;
 
 void ACard::UpdateFrontTexture()
 {
@@ -146,14 +168,20 @@ void ACard::UpdateFrontTexture()
 	const uint8 EnumValueRank = (uint8)this->Rank;
 
 	const bool bIsNone = this->Suit == ECardSuit::NONE && this->Rank == ECardRank::NONE;
-	if (ensureAlwaysMsgf(!bIsNone, TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE.")))
+	const bool bIsValid = this->Suit != ECardSuit::NONE && this->Rank != ECardRank::NONE;
+	ensureAlwaysMsgf(
+		(bIsNone || bIsValid),
+		TEXT("Parameters `NewSuit` and `NewRank` must either both be NONE or none NONE.")
+	);
+
+	if (bIsValid)
 	{
 		// Bind the card texture based on the rank and suit enum.
 		CardTextureIndex = ((EnumValueSuit - 1) * 8) + EnumValueRank;
 	}
 
 	UTexture2D* CardTexture = ACard::CARD_TEXTURES[CardTextureIndex];
-	checkf(CardTexture != nullptr, TEXT("Card texture [ %d ] was null."), EnumValueSuit, EnumValueRank)
+	//checkf(CardTexture != nullptr, TEXT("Card texture [ %d ] was null."), EnumValueSuit, EnumValueRank)
 
 	this->CardMaterialFrontDynamic->SetTextureParameterValue(TEXT("Texture"), CardTexture);
 }

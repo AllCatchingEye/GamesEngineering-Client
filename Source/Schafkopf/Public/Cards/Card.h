@@ -97,7 +97,7 @@ private:
 	 * 
 	 * The other 32 cards (from index 1 to 33) are the actual card textures.
 	 */
-	static const TStaticArray<UTexture2D*, CARD_TEXTURES_AMOUNT> CARD_TEXTURES;
+	static TStaticArray<UTexture2D*, CARD_TEXTURES_AMOUNT> CARD_TEXTURES;
 	/** The material that is used to grey out a card. */
 	static UMaterialInterface* CardMaterialGreyedOut;
 

@@ -29,7 +29,12 @@ public:
 	class ASKCharacter* GetPosessedPawn();
 
 	/** Shows the GameHUD widget. */
-	void ShowWidgetGameHUD();
+	void AddWidgetGameHUD();
+
+	/** Shows the GameHUD widget. */
+	void HideGameHUD();
+
+	void ShowGameHUD();
 
 	/**
 	 * Updates the money of the GameHUD.
@@ -43,7 +48,7 @@ public:
 	 *
 	 * @param NewGameType - The new game type.
 	 */
-	void UpdateWidgetGameHUDGameType(FText NewGameType);
+	void UpdateWidgetGameHUDGameType(const FText NewGameType);
 
 
 
@@ -64,14 +69,9 @@ public:
 	 */
 	void ShowWidgetGameTypeSelect(const TArray<struct FWSGameTypeWithSuit> Types);
 
-	/**
-	 * Shows the CardSelect widget.
-	 *
-	 * @param Cards - The available cards.
-	 */
-	void ShowWidgetCardSelect(const TArray<struct FWSCard> Cards);
-	
-	void ShowWidgetGameWinner(bool isWinner, int32 Points);
+	virtual void SetupInputComponent() override;
+
+	void OnLeftMouseButtonPressed();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
@@ -90,10 +90,10 @@ protected:
 	TSubclassOf<class UGameTypeSelectWidget> WidgetClassGameTypeSelect;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
-	TSubclassOf<class UCardSelectWidget> WidgetClassCardSelect;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Schafkopf|UI")
 	TSubclassOf<class UGameWinnerWidget> WidgetClassGameWinner;
+
+	UPROPERTY(Blueprintreadwrite)
+	class UGameHUD* WidgetInstanceGameHUD;
 	
 private:
 	/** The pawn that the player posesses and controls. */
@@ -102,8 +102,7 @@ private:
 	UPROPERTY()
 	UUserWidget* WidgetInstance;
 
-	UPROPERTY()
-	class UGameHUD* WidgetInstanceGameHUD;
+
 
 	UPROPERTY()
 	UUserWidget* WidgetInstanceWantsToPlay;
@@ -114,9 +113,5 @@ private:
 	UPROPERTY()
 	class UGameTypeSelectWidget* WidgetInstanceGameTypeSelect;
 
-	UPROPERTY()
-	class UCardSelectWidget* WidgetInstanceCardSelect;
 
-	UPROPERTY()
-	class UGameWinnerWidget* WidgetInstanceGameWinner;
 };

@@ -21,7 +21,7 @@ void ACardStackExtended::RemoveCard_Implementation(ACard* ToRemove)
 	this->Cards.Remove(ToRemove);
 }
 
-void ACardStackExtended::RemoveCardByRankAndSuit_Implementation(ECardRank Rank, ECardSuit Suit)
+void ACardStackExtended::RemoveCardBySuitAndRank_Implementation(ECardSuit Suit, ECardRank Rank)
 {
 	ACard* card = nullptr;
 

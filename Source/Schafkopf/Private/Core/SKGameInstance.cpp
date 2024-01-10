@@ -213,8 +213,7 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 		CardHand->AddCard_Implementation(CardActor);
 	}
 
-	// Initialize HUD values.
-	const FString NoGameTypeYet = FString(TEXT("Not yet selected"));
+	const FString NoGameTypeYet = FString(TEXT("Ungeklärt"));
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(NoGameTypeYet));
 	this->PlayerController->UpdateWidgetGameHUDMoney(0);
 
@@ -226,10 +225,10 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 
 	TArray<FString> playerIds = GameStartUpdate.play_order;
-	playerIds.Remove(this->PlayerId);
-
 	levelScriptActor->SetPlayerIDs(playerIds);
 	levelScriptActor->AssignPlayerIDs();
+
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
 }
 
 void USKGameInstance::OnPlayDecisionUpdate(const FString& Message)
@@ -239,13 +238,13 @@ void USKGameInstance::OnPlayDecisionUpdate(const FString& Message)
 	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 	if (DecisionUpdate.wants_to_play)
 	{
-		FString action = FString::Printf(TEXT("I want to play"));
-		levelScriptActor->ShowAction(action, DecisionUpdate.player);
+		FString action = FString::Printf(TEXT("Spielt"));
+		levelScriptActor->ShowPlayDecision(action, DecisionUpdate.player);
 	}
 	else
 	{
-		FString action = FString::Printf(TEXT("I don't want to play"));
-		levelScriptActor->ShowAction(action, DecisionUpdate.player);
+		FString action = FString::Printf(TEXT("Weiter"));
+		levelScriptActor->ShowPlayDecision(action, DecisionUpdate.player);
 	}
 }
 
@@ -253,6 +252,16 @@ void USKGameInstance::OnPlayOrderUpdate(const FString& Message)
 {
 	// TODO: Implement functionality.
 	const FWSMessagePlayOrderUpdate Update = JsonStringToStruct<FWSMessagePlayOrderUpdate>(Message);
+	TArray<FString> play_order = Update.order;
+	TMap<FString, int32> orderMap;
+
+	for (int32 i = 0; i < play_order.Num(); i++)
+	{
+		orderMap.Add(play_order[i], i+1);
+	}
+
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+	levelScriptActor->SetOrder(orderMap);
 }
 
 void USKGameInstance::OnGameMoneyUpdate(const FString& Message)
@@ -316,14 +325,13 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 		points = Update.points[3];
 	}
 
-	this->PlayerController->ShowWidgetGameWinner(isWinner, points);
-
 	checkf(this->LevelScriptActor != nullptr, TEXT("The level script actor was null."));
 	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 
 	const TArray<FString>& playerIds = Update.winner;
+	levelScriptActor->ShowGameWinner(isWinner, points);
 	levelScriptActor->SetGameWinners(playerIds);
-	levelScriptActor->GameEnd();
+	levelScriptActor->GameEnd(playerIds);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -363,9 +371,20 @@ void USKGameInstance::OnPlayerPlayCardQuery(const FString& Message)
 
 	// Ensure that the player is not null.
 	checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
-	this->PlayerController->ShowWidgetCardSelect(Query.playable_cards);
 
+	ECardSuit CurrentCardSuit = ECardSuit::NONE;
+	ECardRank CurrentCardRank = ECardRank::NONE;
 	TArray<FWSCard> PlayableCards = Query.playable_cards;
+	ASKCharacter* PlayerCharacter = this->PlayerController->GetPosessedPawn();
+	ACardHand* CardHand = PlayerCharacter->GetCardHand();
+	for (int32 i = 0; i < PlayableCards.Num(); i++)
+	{
+		CurrentCardSuit = GetCardSuitFromString(PlayableCards[i].suit);
+		CurrentCardRank = GetCardRankFromString(PlayableCards[i].rank);
+		PlayerCharacter->AddPlayableCard(CardHand->GetCardBySuitAndRank_Implementation(CurrentCardSuit, CurrentCardRank));
+	}
+
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
 	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutCards(PlayableCards);
 }
 
@@ -386,7 +405,7 @@ void USKGameInstance::OnGameTypeSelectedUpdate(const FString& Message)
 	const FWSMessageGametypeDeterminedUpdate Update = JsonStringToStruct<FWSMessageGametypeDeterminedUpdate>(Message);
 
 	FString CompleteGameType = Update.gametype;
-	FString Action = FString::Printf(TEXT("I want to play %s"), *CompleteGameType);
+	FString Action = FString::Printf(TEXT("%s"), *CompleteGameType);
 	if (!Update.suit.Equals("null"))
 	{
 		CompleteGameType.Append(TEXT(" "));
@@ -400,6 +419,7 @@ void USKGameInstance::OnGameTypeSelectedUpdate(const FString& Message)
 	levelScriptActor->ShowAction(Action, Update.player);
 
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(CompleteGameType));
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
 void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
@@ -425,19 +445,26 @@ void USKGameInstance::OnCardPlayedUpdate(const FString& Message)
 	{
 		// Ensure that the player is not null.
 		checkf(this->PlayerController != nullptr, TEXT("The player controller was null."));
-		this->PlayerController->GetPosessedPawn()->GetCardHand()->RemoveCardByRankAndSuit_Implementation(rank, suit);
+		ASKCharacter* PlayerCharacter = this->PlayerController->GetPosessedPawn();
+		ACardHand* CardHand = PlayerCharacter->GetCardHand();
 
-		this->PlayerController->GetPosessedPawn()->GetCardHand()->ResetGreyedOutCards();
+		PlayerCharacter->ResetPlayableCards();
+		CardHand->ResetGreyedOutCards();
+		CardHand->RemoveCardBySuitAndRank_Implementation(suit, rank);
 	}
 	else {
 		AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 
 		FString SuitString = Update.card.suit;
 		FString RankString = Update.card.rank;
-		FString action = FString::Printf(TEXT("I play %s %s"), *SuitString, *RankString);
+		FString action = FString::Printf(TEXT("Ich spiele %s %s"), *SuitString, *RankString);
 
 		levelScriptActor->ShowAction(action, Update.player);
 	}
+
+	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
+	FText Card = FText::FromString(FString::Printf(TEXT("%s %s"), *Update.card.suit, *Update.card.rank));
+	levelScriptActor->SetCard(Update.player, Card);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -485,6 +512,9 @@ void USKGameInstance::SendCardPlay(const int32 CardIndex)
 
 	auto Message = StructToJsonString(PlayerPlayCardResponse);
 	WebSocket->Send(Message);
+
+	this->PlayerController->GetPosessedPawn()->ResetPlayableCards();
+	this->PlayerController->GetPosessedPawn()->GetCardHand()->GreyOutAllCards();
 }
 
 
