@@ -37,10 +37,13 @@ public:
 	void RoundEnd();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
-	void GameEnd();
+	void GameEnd(const TArray<FString>& Winner);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
 	void ShowAction(const FString& action, const FString& playerID);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void ShowPlayDecision(const FString& decision, const FString& playerID);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
 	void ShowGameWinner(bool isWinner, int32 Points);

@@ -238,13 +238,13 @@ void USKGameInstance::OnPlayDecisionUpdate(const FString& Message)
 	AGameLevelScript* levelScriptActor = Cast<AGameLevelScript>(this->LevelScriptActor);
 	if (DecisionUpdate.wants_to_play)
 	{
-		FString action = FString::Printf(TEXT("Ich spiele"));
-		levelScriptActor->ShowAction(action, DecisionUpdate.player);
+		FString action = FString::Printf(TEXT("Spielt"));
+		levelScriptActor->ShowPlayDecision(action, DecisionUpdate.player);
 	}
 	else
 	{
 		FString action = FString::Printf(TEXT("Weiter"));
-		levelScriptActor->ShowAction(action, DecisionUpdate.player);
+		levelScriptActor->ShowPlayDecision(action, DecisionUpdate.player);
 	}
 }
 
@@ -331,7 +331,7 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 	const TArray<FString>& playerIds = Update.winner;
 	levelScriptActor->ShowGameWinner(isWinner, points);
 	levelScriptActor->SetGameWinners(playerIds);
-	levelScriptActor->GameEnd();
+	levelScriptActor->GameEnd(playerIds);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
