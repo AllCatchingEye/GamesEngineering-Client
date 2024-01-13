@@ -324,6 +324,46 @@ public:
 	int32 card_index = 0;
 };
 
+USTRUCT(BlueprintType)
+struct SCHAFKOPF_API FWSMessageCreateLobbyRequest : public FWSMessage
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct SCHAFKOPF_API FWSMessageJoinLobbyRequest : public FWSMessage
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	FString lobby_id;
+};
+
+USTRUCT(BlueprintType)
+struct SCHAFKOPF_API FWSMessageStartLobbyRequest : public FWSMessage
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	FString lobby_id;
+};
+
+// LobbyInformationUpdate
+USTRUCT(BlueprintType)
+struct SCHAFKOPF_API FWSMessageLobbyInformationUpdate : public FWSMessage
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	FString lobby_id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	int32 size;
+};
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // END - Ingame																					//
 //																								//
