@@ -534,8 +534,9 @@ void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
 	this->LobbyId = Update.lobby_id;
 
 	// TODO: Update the widget?
-	AMainMenuLevel* levelScriptActor = Cast<AMainMenuLevel>(this->LevelScriptActor);
-	//levelScriptActor->SetLink(this->LobbyId);
+	AMainMenuLevel* levelScriptActor = Cast<AMainMenuLevel>(GetWorld()->GetLevelScriptActor());
+	checkf(levelScriptActor != nullptr, TEXT("The level was null."));
+	levelScriptActor->SetLink(Update.lobby_id);
 }
 
 void USKGameInstance::StartLobby()
