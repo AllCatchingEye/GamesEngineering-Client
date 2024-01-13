@@ -147,7 +147,7 @@ void USKGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	else if (MessageId == TEXT("CardPlayedUpdate")) { this->OnCardPlayedUpdate(Message); }
 
 	// Lobby
-	else if (MessageId == TEXT("LobbyInformationUpdate") { this->OnLobbyInformationUpdate(Message);}
+	else if (MessageId == TEXT("LobbyInformationUpdate")) { this->OnLobbyInformationUpdate(Message);}
 
 	else
 	{
