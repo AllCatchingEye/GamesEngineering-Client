@@ -236,7 +236,7 @@ public:
 	void CreateLobby();
 
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
-	void StartLobby();
+	void StartLobby(const TArray<FString>& bot_list);
 
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
 	void JoinLobby(const FString& lobbyId);

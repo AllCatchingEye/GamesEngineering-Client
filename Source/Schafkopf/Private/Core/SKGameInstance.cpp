@@ -537,25 +537,21 @@ void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
 	checkf(levelScriptActor != nullptr, TEXT("The level was null."));
 	levelScriptActor->SetLink(Update.lobby_id);
 
-	// TODO: communicate available bots / reduce slots to select bots for
-	levelScriptActor->SetBots(Update.available_bots);
-
 	levelScriptActor->SetHumans(Update.size);
 
-	
+	// TODO: communicate available bots / reduce slots to select bots for
+	levelScriptActor->SetBots(Update.available_bots);
 }
 
-void USKGameInstance::StartLobby()
+void USKGameInstance::StartLobby(const TArray<FString>& bot_list)
 {
 	auto LobbyHost = FWSMessageStartLobbyRequest();
 	LobbyHost.id = TEXT("StartLobbyRequest");
 	LobbyHost.lobby_id = this->LobbyId;
 
-	// TODO: add bots
-	LobbyHost.bots = {};
+	LobbyHost.bots = bot_list;
 	auto Message = StructToJsonString(LobbyHost);
 	this->WebSocket->Send(Message);
-	
 }
 
 void USKGameInstance::JoinLobby(const FString& lobbyId)
