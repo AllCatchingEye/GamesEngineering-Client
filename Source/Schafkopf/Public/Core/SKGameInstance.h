@@ -30,11 +30,11 @@ public:
 	// Called upon shutdown of the game. Handle final cleanup here.
 	virtual void Shutdown() override;
 
-	/* Start a singleplayer level */
-	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
-	virtual void StartSingleplayer();
-
 	class ASKPlayerController* GetController();
+
+	UPROPERTY(BlueprintReadOnly)
+	/** The ID of the player. */
+	FString PlayerId;
 
 private:
 	/** The name of the WebSocket module. */
@@ -45,7 +45,7 @@ private:
 	const wchar_t* LEVEL_NAME_INGAME = TEXT("GameLevel");
 
 	/** The default address of the WebSocket. */
-	FString WEB_SOCKET_ADDRESS = TEXT("ws://schafkopfen.duckdns.org:8765");
+	FString WEB_SOCKET_ADDRESS = TEXT("ws://localhost:8765");
 	/** The default protocol of the WebSocket. */
 	const wchar_t* WEB_SOCKET_PROTOCOL = TEXT("ws");
 
@@ -56,8 +56,6 @@ private:
 	/** The pointer to the WebSocket. */
 	TSharedPtr<class IWebSocket> WebSocket = nullptr;
 
-	/** The ID of the player. */
-	FString PlayerId;
 	/** The local player. There is only one player. */
 	class ASKPlayerController* PlayerController;
 	/** The current card trick. */
@@ -242,6 +240,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
 	void JoinLobby(const FString& lobbyId);
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void CopyLinkToClipboard(const FString& lobbyId);
 
 private:
 	FString LobbyId;

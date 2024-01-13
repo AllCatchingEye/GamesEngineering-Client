@@ -21,6 +21,9 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void SetLink(const FString& Link);
+
 protected:
 
 private:

@@ -14,3 +14,5 @@ void AMainMenuLevel::BeginPlay()
 
 	this->GameInstance = Cast<USKGameInstance>(GetGameInstance());
 }
+
+

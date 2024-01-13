@@ -9,6 +9,7 @@
 #include "Cards/CardHand.h"
 #include "Cards/CardTrick.h"
 #include "Maps/GameLevelScript.h"
+#include "Maps/MainMenuLevel.h"
 
 #include "IWebSocket.h"
 #include "IWebSocketsManager.h"
@@ -18,6 +19,7 @@
 #include "valarray"
 #include "Containers/Array.h"
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // START - GameInstance																			//
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,21 +27,6 @@
 void USKGameInstance::Init()
 {
 
-}
-
-void USKGameInstance::StartSingleplayer()
-{
-	this->WebSocketConnect();
-
-	// First we create the lobby type
-	auto LobbyHost = FWSLobbyHost();
-	LobbyHost.id = TEXT("lobby_host");
-	LobbyHost.lobby_type = TEXT("single");
-	auto Message = StructToJsonString(LobbyHost);
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Green, Message);
-	this->WebSocket->Send(Message);
-
-	this->hasConnected = true;
 }
 
 void USKGameInstance::Shutdown()
@@ -533,9 +520,10 @@ void USKGameInstance::CreateLobby()
 	auto LobbyHost = FWSMessageCreateLobbyRequest();
 	LobbyHost.id = TEXT("CreateLobbyRequest");
 	auto Message = StructToJsonString(LobbyHost);
-	this->WebSocket->Send(Message);
 
-	// this->hasConnected = true;
+	this->WebSocketConnect();
+	this->WebSocket->Send(Message);
+	this->hasConnected = true;
 }
 
 void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
@@ -546,6 +534,8 @@ void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
 	this->LobbyId = Update.lobby_id;
 
 	// TODO: Update the widget?
+	AMainMenuLevel* levelScriptActor = Cast<AMainMenuLevel>(this->LevelScriptActor);
+	//levelScriptActor->SetLink(this->LobbyId);
 }
 
 void USKGameInstance::StartLobby()
@@ -553,8 +543,10 @@ void USKGameInstance::StartLobby()
 	auto LobbyHost = FWSMessageStartLobbyRequest();
 	LobbyHost.id = TEXT("StartLobbyRequest");
 	LobbyHost.lobby_id = this->LobbyId;
+	LobbyHost.bots = {};
 	auto Message = StructToJsonString(LobbyHost);
 	this->WebSocket->Send(Message);
+	
 }
 
 void USKGameInstance::JoinLobby(const FString& lobbyId)
@@ -565,5 +557,12 @@ void USKGameInstance::JoinLobby(const FString& lobbyId)
 	LobbyHost.id = TEXT("JoinLobbyRequest");
 	LobbyHost.lobby_id = lobbyId;
 	auto Message = StructToJsonString(LobbyHost);
+
+	this->WebSocketConnect();
 	this->WebSocket->Send(Message);
+	this->hasConnected = true;
+}
+
+void USKGameInstance::CopyLinkToClipboard(const FString& lobbyId)
+{
 }

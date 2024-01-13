@@ -348,6 +348,9 @@ struct SCHAFKOPF_API FWSMessageStartLobbyRequest : public FWSMessage
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	FString lobby_id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<FString> bots;
 };
 
 // LobbyInformationUpdate
