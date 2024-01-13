@@ -146,6 +146,9 @@ void USKGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	else if (MessageId == TEXT("GametypeDeterminedUpdate")) { this->OnGameTypeSelectedUpdate(Message); }
 	else if (MessageId == TEXT("CardPlayedUpdate")) { this->OnCardPlayedUpdate(Message); }
 
+	// Lobby
+	else if (MessageId == TEXT("LobbyInformationUpdate") { this->OnLobbyInformationUpdate(Message);}
+
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(
@@ -523,3 +526,44 @@ void USKGameInstance::SendCardPlay(const int32 CardIndex)
 // END - Ingame - Notify server																	//
 // END - Ingame																					//
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void USKGameInstance::CreateLobby()
+{
+	// First we create the lobby type
+	auto LobbyHost = FWSMessageCreateLobbyRequest();
+	LobbyHost.id = TEXT("CreateLobbyRequest");
+	auto Message = StructToJsonString(LobbyHost);
+	this->WebSocket->Send(Message);
+
+	// this->hasConnected = true;
+}
+
+void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
+{
+	const FWSMessageLobbyInformationUpdate Update = JsonStringToStruct<FWSMessageLobbyInformationUpdate>(Message);
+
+	// set the lobby_id 
+	this->LobbyId = Update.lobby_id;
+
+	// TODO: Update the widget?
+}
+
+void USKGameInstance::StartLobby()
+{
+	auto LobbyHost = FWSMessageStartLobbyRequest();
+	LobbyHost.id = TEXT("StartLobbyRequest");
+	LobbyHost.lobby_id = this->LobbyId;
+	auto Message = StructToJsonString(LobbyHost);
+	this->WebSocket->Send(Message);
+}
+
+void USKGameInstance::JoinLobby(const FString& lobbyId)
+{
+	this->LobbyId = lobbyId;
+
+	auto LobbyHost = FWSMessageJoinLobbyRequest();
+	LobbyHost.id = TEXT("JoinLobbyRequest");
+	LobbyHost.lobby_id = lobbyId;
+	auto Message = StructToJsonString(LobbyHost);
+	this->WebSocket->Send(Message);
+}

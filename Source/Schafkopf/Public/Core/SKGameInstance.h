@@ -233,4 +233,19 @@ public:
 	// END - Ingame - Notify server																//
 	// END - Ingame																				//
 	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void CreateLobby();
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void StartLobby();
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void JoinLobby(const FString& lobbyId);
+
+private:
+	FString LobbyId;
+
+	void OnLobbyInformationUpdate(const FString& Message);
+
 };
