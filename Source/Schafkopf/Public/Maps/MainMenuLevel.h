@@ -24,6 +24,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
 	void SetLink(const FString& Link);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void SetBots(const TArray<FString>& BotList);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Schafkopf")
+	void SetHumans(int32 HumanCount);
+
 protected:
 
 private:

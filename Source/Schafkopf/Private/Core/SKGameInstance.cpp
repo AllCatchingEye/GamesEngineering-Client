@@ -533,12 +533,16 @@ void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
 	// set the lobby_id 
 	this->LobbyId = Update.lobby_id;
 
-	// TODO: Update the widget?
 	AMainMenuLevel* levelScriptActor = Cast<AMainMenuLevel>(GetWorld()->GetLevelScriptActor());
 	checkf(levelScriptActor != nullptr, TEXT("The level was null."));
 	levelScriptActor->SetLink(Update.lobby_id);
 
 	// TODO: communicate available bots / reduce slots to select bots for
+	levelScriptActor->SetBots(Update.available_bots);
+
+	levelScriptActor->SetHumans(Update.size);
+
+	
 }
 
 void USKGameInstance::StartLobby()
