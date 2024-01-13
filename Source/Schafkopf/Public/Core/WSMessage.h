@@ -365,6 +365,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
 	int32 size;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Schafkopf")
+	TArray<FString> available_bots;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

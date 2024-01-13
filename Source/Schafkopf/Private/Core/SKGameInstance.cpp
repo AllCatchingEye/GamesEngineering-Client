@@ -536,6 +536,8 @@ void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
 	// TODO: Update the widget?
 	AMainMenuLevel* levelScriptActor = Cast<AMainMenuLevel>(this->LevelScriptActor);
 	//levelScriptActor->SetLink(this->LobbyId);
+
+	// TODO: communicate available bots / reduce slots to select bots for
 }
 
 void USKGameInstance::StartLobby()
@@ -543,6 +545,8 @@ void USKGameInstance::StartLobby()
 	auto LobbyHost = FWSMessageStartLobbyRequest();
 	LobbyHost.id = TEXT("StartLobbyRequest");
 	LobbyHost.lobby_id = this->LobbyId;
+
+	// TODO: add bots
 	LobbyHost.bots = {};
 	auto Message = StructToJsonString(LobbyHost);
 	this->WebSocket->Send(Message);
