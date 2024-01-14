@@ -176,6 +176,8 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 
 	// Fetch the player's card hand and ensure that it is not null.
 	ACardHand* CardHand = this->PlayerController->GetPosessedPawn()->GetCardHand();
+	CardHand->SetActorRelativeLocation(FVector(-11.0f, -1.0f, 3.0f));
+	CardHand->SetActorRelativeScale3D(FVector(1.4f, 1.4f, 1.4f));
 	checkf(this->PlayerController != nullptr, TEXT("The player's card hand was null."));
 
 	// Initialize the hand cards.
