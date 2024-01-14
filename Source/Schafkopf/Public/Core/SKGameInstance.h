@@ -141,6 +141,8 @@ private:
 	/** Called upon the start of the game. */
 	void OnGameStartUpdate(const FString& Message);
 
+	bool initilizedMoney = false;
+
 	void OnPlayDecisionUpdate(const FString& Message);
 
 	/** Called upon the start of a round. */

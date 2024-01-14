@@ -205,7 +205,11 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 
 	const FString NoGameTypeYet = FString(TEXT("Ungeklärt"));
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(NoGameTypeYet));
-	this->PlayerController->UpdateWidgetGameHUDMoney(0);
+
+	if (this->initilizedMoney == false) {
+		this->PlayerController->UpdateWidgetGameHUDMoney(0);
+		this->initilizedMoney = true;
+	}
 
 	// Spawn the initial card trick.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass(), FVector(-52.543781, 319.838132, 3.843386), FRotator(0, 0, 0));
