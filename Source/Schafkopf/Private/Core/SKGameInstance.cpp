@@ -534,13 +534,16 @@ void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
 	this->LobbyId = Update.lobby_id;
 
 	AMainMenuLevel* levelScriptActor = Cast<AMainMenuLevel>(GetWorld()->GetLevelScriptActor());
-	checkf(levelScriptActor != nullptr, TEXT("The level was null."));
-	levelScriptActor->SetLink(Update.lobby_id);
 
-	levelScriptActor->SetHumans(Update.size);
+	//checkf(levelScriptActor != nullptr, TEXT("The level was null."));
+	if (IsValid(levelScriptActor)) {
+		levelScriptActor->SetLink(Update.lobby_id);
 
-	// TODO: communicate available bots / reduce slots to select bots for
-	levelScriptActor->SetBots(Update.available_bots);
+		levelScriptActor->SetHumans(Update.size);
+
+		// TODO: communicate available bots / reduce slots to select bots for
+		levelScriptActor->SetBots(Update.available_bots);
+	}
 }
 
 void USKGameInstance::StartLobby(const TArray<FString>& bot_list)
