@@ -328,6 +328,9 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 	levelScriptActor->ShowGameWinner(isWinner, points);
 	levelScriptActor->SetGameWinners(playerIds);
 	levelScriptActor->GameEnd(playerIds);
+
+	this->PlayerController->ClearGameGroupSelect();
+	this->PlayerController->ClearGameTypeSelect();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

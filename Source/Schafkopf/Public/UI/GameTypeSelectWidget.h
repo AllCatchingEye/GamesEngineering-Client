@@ -18,4 +18,7 @@ class SCHAFKOPF_API UGameTypeSelectWidget : public UUserWidget
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateFields(const TArray<struct FWSGameTypeWithSuit>& Groups);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ClearFields();
 };
