@@ -30,11 +30,11 @@ public:
 	// Called upon shutdown of the game. Handle final cleanup here.
 	virtual void Shutdown() override;
 
-	/* Start a singleplayer level */
-	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
-	virtual void StartSingleplayer();
-
 	class ASKPlayerController* GetController();
+
+	UPROPERTY(BlueprintReadOnly)
+	/** The ID of the player. */
+	FString PlayerId;
 
 private:
 	/** The name of the WebSocket module. */
@@ -56,8 +56,6 @@ private:
 	/** The pointer to the WebSocket. */
 	TSharedPtr<class IWebSocket> WebSocket = nullptr;
 
-	/** The ID of the player. */
-	FString PlayerId;
 	/** The local player. There is only one player. */
 	class ASKPlayerController* PlayerController;
 	/** The current card trick. */
@@ -142,6 +140,8 @@ private:
 private:
 	/** Called upon the start of the game. */
 	void OnGameStartUpdate(const FString& Message);
+
+	bool initilizedMoney = false;
 
 	void OnPlayDecisionUpdate(const FString& Message);
 
@@ -233,4 +233,22 @@ public:
 	// END - Ingame - Notify server																//
 	// END - Ingame																				//
 	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void CreateLobby();
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void StartLobby(const TArray<FString>& bot_list);
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void JoinLobby(const FString& lobbyId);
+
+	UFUNCTION(BlueprintCallable, Category = "Schafkopf")
+	void CopyLinkToClipboard(const FString& lobbyId);
+
+private:
+	FString LobbyId;
+
+	void OnLobbyInformationUpdate(const FString& Message);
+
 };

@@ -23,6 +23,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateFields(const TArray<FString>& Groups);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ClearFields();
+
+
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UVerticalBox* VerticalBox;

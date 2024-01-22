@@ -62,6 +62,10 @@ public:
 	 */
 	void ShowWidgetGameGroupSelect(const TArray<FString> Groups);
 
+	void ClearGameTypeSelect();
+
+	void ClearGameGroupSelect();
+
 	/**
 	 * Shows the GameTypeSelect widget.
 	 *

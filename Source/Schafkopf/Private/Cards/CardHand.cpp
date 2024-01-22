@@ -13,7 +13,7 @@ ACardHand::ACardHand() : ACardStackExtended()
 
 	this->CardSpline = CreateDefaultSubobject<USplineComponent>(TEXT("Card Spline"));
 	this->CardSpline->SetupAttachment(this->RootComponent);
-	this->CardSpline->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f));
+	this->CardSpline->SetRelativeLocation(FVector(0.0f - 11.0f, 0.0f - 1.0f, 50.0f + 3.0f));
 	this->CardSpline->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 	this->CardSpline->bDrawDebug = true;
 
@@ -21,7 +21,7 @@ ACardHand::ACardHand() : ACardStackExtended()
 	this->CardSpline->AddPoint(FSplinePoint(0.0f, FVector(0.0f, -15.0f, 0.0f), ESplinePointType::CurveClamped));
 	this->CardSpline->AddPoint(FSplinePoint(1.0f, FVector(5.0f, 0.0f, 5.0f), ESplinePointType::CurveClamped));
 	this->CardSpline->AddPoint(FSplinePoint(2.0f, FVector(10.0f, 15.0f, 0.0f), ESplinePointType::CurveClamped));
-	this->CardSpline->SetWorldScale3D(FVector(0.25f, 0.25f, 0.25f));
+	this->CardSpline->SetWorldScale3D(FVector(0.25f * 1.4, 0.25f * 1.4, 0.25f * 1.4));
 	this->CardSpline->UpdateSpline();
 }
 

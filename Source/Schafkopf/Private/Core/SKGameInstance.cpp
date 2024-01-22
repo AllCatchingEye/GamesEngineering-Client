@@ -9,6 +9,7 @@
 #include "Cards/CardHand.h"
 #include "Cards/CardTrick.h"
 #include "Maps/GameLevelScript.h"
+#include "Maps/MainMenuLevel.h"
 
 #include "IWebSocket.h"
 #include "IWebSocketsManager.h"
@@ -18,6 +19,7 @@
 #include "valarray"
 #include "Containers/Array.h"
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // START - GameInstance																			//
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,21 +27,6 @@
 void USKGameInstance::Init()
 {
 
-}
-
-void USKGameInstance::StartSingleplayer()
-{
-	this->WebSocketConnect();
-
-	// First we create the lobby type
-	auto LobbyHost = FWSLobbyHost();
-	LobbyHost.id = TEXT("lobby_host");
-	LobbyHost.lobby_type = TEXT("single");
-	auto Message = StructToJsonString(LobbyHost);
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 5.0f, FColor::Green, Message);
-	this->WebSocket->Send(Message);
-
-	this->hasConnected = true;
 }
 
 void USKGameInstance::Shutdown()
@@ -146,6 +133,9 @@ void USKGameInstance::OnWebSocketMessageReceived(const FString& Message)
 	else if (MessageId == TEXT("GametypeDeterminedUpdate")) { this->OnGameTypeSelectedUpdate(Message); }
 	else if (MessageId == TEXT("CardPlayedUpdate")) { this->OnCardPlayedUpdate(Message); }
 
+	// Lobby
+	else if (MessageId == TEXT("LobbyInformationUpdate")) { this->OnLobbyInformationUpdate(Message);}
+
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(
@@ -186,6 +176,8 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 
 	// Fetch the player's card hand and ensure that it is not null.
 	ACardHand* CardHand = this->PlayerController->GetPosessedPawn()->GetCardHand();
+	CardHand->SetActorRelativeLocation(FVector(-11.0f, -1.0f, 3.0f));
+	CardHand->SetActorRelativeScale3D(FVector(1.4f, 1.4f, 1.4f));
 	checkf(this->PlayerController != nullptr, TEXT("The player's card hand was null."));
 
 	// Initialize the hand cards.
@@ -215,7 +207,11 @@ void USKGameInstance::OnGameStartUpdate(const FString& Message)
 
 	const FString NoGameTypeYet = FString(TEXT("Ungeklärt"));
 	this->PlayerController->UpdateWidgetGameHUDGameType(FText::FromString(NoGameTypeYet));
-	this->PlayerController->UpdateWidgetGameHUDMoney(0);
+
+	if (this->initilizedMoney == false) {
+		this->PlayerController->UpdateWidgetGameHUDMoney(0);
+		this->initilizedMoney = true;
+	}
 
 	// Spawn the initial card trick.
 	this->CardTrick = GetWorld()->SpawnActor<ACardTrick>(ACardTrick::StaticClass(), FVector(-52.543781, 319.838132, 3.843386), FRotator(0, 0, 0));
@@ -332,6 +328,9 @@ void USKGameInstance::OnGameEndUpdate(const FString& Message)
 	levelScriptActor->ShowGameWinner(isWinner, points);
 	levelScriptActor->SetGameWinners(playerIds);
 	levelScriptActor->GameEnd(playerIds);
+
+	this->PlayerController->ClearGameGroupSelect();
+	this->PlayerController->ClearGameTypeSelect();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -523,3 +522,64 @@ void USKGameInstance::SendCardPlay(const int32 CardIndex)
 // END - Ingame - Notify server																	//
 // END - Ingame																					//
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void USKGameInstance::CreateLobby()
+{
+	// First we create the lobby type
+	auto LobbyHost = FWSMessageCreateLobbyRequest();
+	LobbyHost.id = TEXT("CreateLobbyRequest");
+	auto Message = StructToJsonString(LobbyHost);
+
+	this->WebSocketConnect();
+	this->WebSocket->Send(Message);
+	this->hasConnected = true;
+}
+
+void USKGameInstance::OnLobbyInformationUpdate(const FString& Message)
+{
+	const FWSMessageLobbyInformationUpdate Update = JsonStringToStruct<FWSMessageLobbyInformationUpdate>(Message);
+
+	// set the lobby_id 
+	this->LobbyId = Update.lobby_id;
+
+	AMainMenuLevel* levelScriptActor = Cast<AMainMenuLevel>(GetWorld()->GetLevelScriptActor());
+
+	//checkf(levelScriptActor != nullptr, TEXT("The level was null."));
+	if (IsValid(levelScriptActor)) {
+		levelScriptActor->SetLink(Update.lobby_id);
+
+		levelScriptActor->SetHumans(Update.size);
+
+		// TODO: communicate available bots / reduce slots to select bots for
+		levelScriptActor->SetBots(Update.available_bots);
+	}
+}
+
+void USKGameInstance::StartLobby(const TArray<FString>& bot_list)
+{
+	auto LobbyHost = FWSMessageStartLobbyRequest();
+	LobbyHost.id = TEXT("StartLobbyRequest");
+	LobbyHost.lobby_id = this->LobbyId;
+
+	LobbyHost.bots = bot_list;
+	auto Message = StructToJsonString(LobbyHost);
+	this->WebSocket->Send(Message);
+}
+
+void USKGameInstance::JoinLobby(const FString& lobbyId)
+{
+	this->LobbyId = lobbyId;
+
+	auto LobbyHost = FWSMessageJoinLobbyRequest();
+	LobbyHost.id = TEXT("JoinLobbyRequest");
+	LobbyHost.lobby_id = lobbyId;
+	auto Message = StructToJsonString(LobbyHost);
+
+	this->WebSocketConnect();
+	this->WebSocket->Send(Message);
+	this->hasConnected = true;
+}
+
+void USKGameInstance::CopyLinkToClipboard(const FString& lobbyId)
+{
+}

@@ -158,12 +158,28 @@ void ASKPlayerController::ShowWidgetGameGroupSelect(const TArray<FString> Groups
 	}
 }
 
+void ASKPlayerController::ClearGameGroupSelect()
+{
+	if (this->WidgetInstanceGameGroupSelect)
+	{
+		this->WidgetInstanceGameGroupSelect->ClearFields();
+	}
+}
+
 void ASKPlayerController::ShowWidgetGameTypeSelect(const TArray<FWSGameTypeWithSuit> Types)
 {
 	if (this->WidgetInstanceGameTypeSelect)
 	{
 		this->WidgetInstanceGameTypeSelect->AddToViewport();
 		this->WidgetInstanceGameTypeSelect->UpdateFields(Types);
+	}
+}
+
+void ASKPlayerController::ClearGameTypeSelect()
+{
+	if (this->WidgetInstanceGameTypeSelect)
+	{
+		this->WidgetInstanceGameTypeSelect->ClearFields();
 	}
 }
 
